@@ -1,0 +1,24 @@
+Quake Rogue Like
+Entry from 7drl
+http://7drl.org/
+
+Developed with Seed Framework
+http://www.seedframework.org/
+http://www.github.com/fungos/seed
+
+Developers
+
+Danny Angelo Carminati Grein (fungos)
+Marlus Cadanus da Costa
+Murilo Cadanus da Costa
+
+Windows Installation
+
+Simple unzip the files and double click on quakerl.exe, have fun!
+
+In case que game complains about OpenAL DLLs, please run oalinst.exe (included in Windows package)
+
+Linux (Ubuntu 64bits)
+
+Simple unzip the files and execute quakerl.linux.bin64, have fun!
+

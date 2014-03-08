@@ -1,0 +1,67 @@
+<rml>
+	<head>
+		<title>game</title>
+		<link type="text/template" href="gameplay.rml" />
+	</head>
+	<body id="game_window">
+		<game id="game">
+			<div id="score_div">
+				<p>
+					<div id="displayPlayerName">
+						<strong id="playerName">Player</strong>
+					</div>
+				</p>
+				<p id="avatar">
+					<h1><div id="avatar_a" class="avatar_optimist_off"/></h1>
+					<h1><div id="avatar_b" class="avatar_realist_off"/></h1>
+					<h1><div id="avatar_c" class="avatar_pessimist_off"/></h1>
+				</p>
+				<p id="levelxp">
+					<h1>Level:</h1>
+					<span id="level">1</span>
+					<h1>XP:</h1>
+					<span id="xp">100/100</span>
+				</p>
+				<p id="contains_icon">
+					<h1><div id="attack_div"><icon/></div></h1>
+					<span id="attackPower">15</span>
+					<h1><div id="defense_div"><icon/></div></h1>
+					<span id="defensePower">15</span>
+				</p>
+				<p id="contains_icon">
+					<h1><div id="life_div"><icon/></div></h1>
+					<span id="life">10</span>
+					<h1><div id="stam_div"><icon/></div></h1>
+					<span id="stamina">10</span>
+				</p>
+				<p>
+					<h1><div id="gold_div"><icon/></div></h1>
+					<span id="gold">100</span>
+				</p>
+				<p>
+					<div id="displayEnemyName" class="hide">
+						<strong id="enemyName">Enemy Name</strong>
+					</div>
+				</p>
+				<p id="avatar">
+					<h1><div id="enemy_div" class="avatar_optimist_off"/></h1>
+				</p>
+				<p id="levelxp_enemy">
+					<h1>Level:</h1>
+					<span id="enemy_level">5</span>
+					<h1>HP:</h1>
+					<span id="enemy_life">100/100</span>
+				</p>
+				<p id="dialog_title"><!--Description--></p>
+				<p id="dialog">
+					<!--div id="dialog">
+						<Dialog box with description or comments whatever random junk our current here is thinking or talking.<br/>
+						Dialog box with description or comments whatever random junk our current here is thinking or talking.<br/>
+						Dialog box with description or comments whatever random junk our current here is thinking or talking.<br/>
+						Dialog box with description or comments whatever random junk our current here is thinking or talking.<br/>
+					</div-->
+				</p>
+			</div>
+		</game>
+	</body>
+</rml>

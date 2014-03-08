@@ -1,0 +1,34 @@
+# Compiled Object files
+*.slo
+*.lo
+*.o
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+
+# Compiled Static libraries
+*.lai
+*.la
+*.a
+
+# Mac os x control file
+*.pro.user
+.DS_Store
+project/vs2012/ggj13/Debug/
+/project/vs2012/ggj13/ggj13.opensdf
+/project/vs2012/ggj13/ggj13.sdf
+/project/vs2012/ggj13/ggj13.v11.suo
+/project/vs2012/ggj13/ggj13.vcxproj.user
+/project/vs2012/ggj13/Release/
+*.obj
+*.log
+*.sdf
+*.idb
+*.pdb
+*.tlog
+*.suo
+*.exe
+*.exp
+*.ilk
+*.lib

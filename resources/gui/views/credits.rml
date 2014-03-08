@@ -1,0 +1,37 @@
+<rml>
+	<head>
+		<title></title>
+		<link type="text/template" href="window.rml" />
+		<style>
+			body
+			{
+				width: 400px;
+				height: 400px;
+				margin: auto;
+			}
+			p
+			{
+				text-align: center;
+			}
+
+			div#title_bar div#icon
+			{
+				display: none;
+			}
+
+			div#content
+			{
+				font-size: 20;
+				text-align: center;
+			}
+		</style>
+	</head>
+	<body template="window"><br/><br/>
+		<p>
+			Danny Angelo Carminati Grein<br/><br />
+			Marlus Cadanus da Costa<br/><br />
+			Murilo Cadanus da Costa<br /><br />
+		</p><br /><br /><br /><br /><br />
+		<button onClick="goto menu">Back</button>
+	</body>
+</rml>

@@ -1,0 +1,346 @@
+body
+{
+	top: -1px;
+	padding: 0px;
+	margin: 0px;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+}
+
+game
+{
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+
+.hide
+{
+	visibility:hidden;
+}
+
+div
+{
+	height: 0px;
+	padding: 0px 0px 0px 0px;
+	margin: 0px 0px;
+	font-size: 20;
+}
+
+div#score_div
+{
+	float: right;
+	width: 240px;
+	font-size: 30;
+	padding-right: 3px;
+
+	outline-font-effect: outline;
+	outline-width: 2px;
+	outline-color: black;
+	background:black;
+
+	background-decorator: tiled-box;
+	background-top-left-image: /textures/rocket_invader.png 0px 0px 133px 140px;
+	background-top-right-image: /textures/rocket_invader.png 136px 0px 146px 140px;
+	background-top-image: /textures/rocket_invader.png stretch 134px 0px 135px 140px;
+	background-bottom-left-image: /textures/rocket_invader.png 0px 140px 11px 151px;
+	background-bottom-right-image: /textures/rocket_invader.png 136px 140px 146px 151px;
+	background-bottom-image: /textures/rocket_invader.png stretch 11px 140px 12px 151px;
+	background-left-image: /textures/rocket_invader.png stretch 0px 139px 10px 140px;
+	background-center-image: /textures/rocket_invader.png stretch 11px 139px 12px 140px;
+
+	z-index: 2;
+	height: 100%;
+	//overflow: hidden auto;
+	text-align: center;
+}
+
+p#levelxp, p#levelxp_enemy
+{
+	text-align: left;
+	margin: 0px;
+	padding: 0px;
+}
+
+p#dialog_title
+{
+	text-align: center;
+	margin: 0px;
+	padding: 0px;
+	padding-top: 5px;
+	font-size: 25;
+}
+
+div#dialog
+{
+	height: 220px;
+	text-align: center;
+	margin: 5px;
+	padding: 0px;
+	padding-top: 5px;
+	font-size: 15;
+	display: block;
+	overflow-y: auto;
+}
+
+p#contains_icon span
+{
+	padding-top: 5px;
+}
+
+p#avatar
+{
+	text-align: left;
+	margin: 0px;
+	padding: 0px;
+}
+
+div#enemy_div
+{
+	width: 80px;
+	height: 80px;
+	margin-left: 70px;
+}
+
+.avatar_optimist_on
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 177px 323px 265px 403px;
+}
+
+.avatar_realist_on
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 7px 323px 87px 403px;
+}
+
+.avatar_pessimist_on
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 88px 323px 176px 403px;
+}
+
+.avatar_optimist_off
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 177px 403px 265px 483px;
+}
+
+.avatar_realist_off
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 7px 403px 87px 483px;
+}
+
+.avatar_pessimist_off
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 88px 403px 176px 483px;
+}
+
+.enemy_1_optimist
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 177px 483px 265px 563px;
+}
+
+.enemy_2_optimist
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 177px 563px 265px 643px;
+}
+
+.enemy_3_optimist
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 177px 643px 265px 723px;
+}
+
+.enemy_4_optimist
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 177px 723px 265px 803px;
+}
+
+.enemy_1_pessimist
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 88px 483px 176px 563px;
+}
+
+.enemy_2_pessimist
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 88px 563px 176px 643px;
+}
+
+.enemy_3_pessimist
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 88px 643px 176px 723px;
+}
+
+.enemy_4_pessimist
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 88px 723px 176px 803px;
+}
+
+.enemy_1_realist
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 7px 483px 87px 563px;
+}
+
+.enemy_2_realist
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 7px 563px 87px 643px;
+}
+
+.enemy_3_realist
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 7px 643px 87px 723px;
+}
+
+.enemy_4_realist
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 7px 723px 87px 803px;
+}
+
+
+div#avatar_a
+{
+	width: 80px;
+	height: 80px;
+	margin-left: -5px;
+}
+
+div#avatar_b
+{
+	width: 80px;
+	height: 80px;
+	margin-left: 17px;
+}
+
+div#avatar_c
+{
+	width: 80px;
+	height: 80px;
+	margin-left: 40px;
+}
+
+div#score_div h1
+{
+	float: left;
+	width: 50px;
+	font-size: 18;
+
+	outline-font-effect: outline;
+	outline-width: 2px;
+	outline-color: black;
+}
+
+div#displayPlayerName
+{
+	font-size: 28;
+	outline-font-effect: outline;
+	outline-width: 2px;
+	outline-color: black;
+	text-align: center;
+	margin: 10px 10px;
+	padding-top: 10px;
+	padding-bottom: 20px;
+}
+
+div#displayEnemyName
+{
+	font-size: 28;
+	outline-font-effect: outline;
+	outline-width: 2px;
+	outline-color: black;
+	text-align: center;
+	margin-top: 5px;
+	padding-bottom: 20px;
+}
+
+div#score_div span
+{
+	float: left;
+	width: 60px;
+	font-size: 16;
+	text-align: right;
+
+	outline-font-effect: outline;
+	outline-width: 2px;
+	outline-color: black;
+}
+
+icon
+{
+	display: block;
+	position: absolute;
+}
+
+div#attack_div icon
+{
+	float: left;
+	left: 0px;
+	top: 0px;
+	width: 45px;
+	height: 40px;
+
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 135px 153px 175px 193px;
+}
+
+div#defense_div icon
+{
+	float: left;
+	left: 0px;
+	top: 0px;
+	width: 45px;
+	height: 40px;
+
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 182px 118px 227px 158px;
+}
+
+div#gold_div icon
+{
+	float: left;
+	left: 0px;
+	top: 0px;
+	width: 45px;
+	height: 40px;
+
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 185px 153px 230px 193px;
+}
+
+div#life_div icon
+{
+	float: left;
+	left: 0px;
+	top: 0px;
+	width: 45px;
+	height: 40px;
+
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 230px 153px 275px 193px;
+}
+
+div#stam_div icon
+{
+	float: left;
+	left: 0px;
+	top: 0px;
+	width: 45px;
+	height: 40px;
+
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 283px 153px 323px 193px;
+}

@@ -1,0 +1,18 @@
+{
+	sType: SceneNode
+	sName: MainScene
+	aObjects: [
+		{
+			sType: Image
+			sName: TitleImage
+			sResource: textures/menu_background.png
+			cPosition: {z: 1000}
+		}
+		{
+			sType: Camera
+			sName: MainCamera
+			sProjection: Orthogonal
+			cPosition: {x: -512, y: -384}
+		}
+	]
+}

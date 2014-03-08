@@ -1,0 +1,518 @@
+{
+	sType: SceneNode
+	sName: GameScene
+	aObjects:
+	[
+		{
+			sName: Sprites
+			sType: SceneNode
+			aObjects:
+			[
+				{
+					cScale: {x: 1, y: 1, z: 1}
+					cPosition: {z: 100}
+					sType: Sprite
+					sBlending: none
+					sName: OptimistPlayer
+					cColor: {r: 255, g: 255, b: 255, a: 255}
+					bVisible: false
+					aAnimations:
+					[
+						{
+							sName: "Idle"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/optimist_player_idle_frame1.png
+								}
+							]
+						}
+						{
+							sName: "Run"
+							bAnimated: true
+							bLoop: true
+							iFps: 6
+							aFrames:
+							[
+								{
+									sResource: textures/optimist_player_run_frame1.png
+								}
+								{
+									sResource: textures/optimist_player_run_frame2.png
+								}
+							]
+						}
+					]
+				}
+				{
+					cScale: {x: 1, y: 1, z: 1}
+					cPosition: {z: 100}
+					sType: Sprite
+					sBlending: none
+					sName: RealistPlayer
+					cColor: {r: 255, g: 255, b: 255, a: 255}
+					bVisible: false
+					aAnimations:
+					[
+						{
+							sName: "Idle"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/realist_player_idle_frame1.png
+								}
+							]
+						}
+						{
+							sName: "Run"
+							bAnimated: true
+							bLoop: true
+							iFps: 6
+							aFrames:
+							[
+								{
+									sResource: textures/realist_player_run_frame1.png
+								}
+								{
+									sResource: textures/realist_player_run_frame2.png
+								}
+							]
+						}
+					]
+				}
+				{
+					cScale: {x: 1, y: 1, z: 1}
+					cPosition: {z: 100}
+					sType: Sprite
+					sBlending: none
+					sName: PessimistPlayer
+					cColor: {r: 255, g: 255, b: 255, a: 255}
+					bVisible: false
+					aAnimations:
+					[
+						{
+							sName: "Idle"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/pessimist_player_idle_frame1.png
+								}
+							]
+						}
+						{
+							sName: "Run"
+							bAnimated: true
+							bLoop: true
+							iFps: 6
+							aFrames:
+							[
+								{
+									sResource: textures/pessimist_player_run_frame1.png
+								}
+								{
+									sResource: textures/pessimist_player_run_frame2.png
+								}
+							]
+						}
+					]
+				}
+				{
+					cScale: {x: 1, y: 1, z: 1}
+					cPosition: {z: 300}
+					sType: Sprite
+					sBlending: none
+					sName: Enemy
+					cColor: {r: 255, g: 255, b: 255, a: 255}
+					bVisible: false
+					aAnimations:
+					[
+						{
+							sName: "OptimistEnemy"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/optimist_enemy_tileset.png
+									cBoundary: {iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "OptimistEnemy1"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/optimist_enemy_tileset.png
+									cBoundary: {iX: 0, iY: 40, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "OptimistEnemy2"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/optimist_enemy_tileset.png
+									cBoundary: {iX: 0, iY: 80, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "OptimistEnemy3"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/optimist_enemy_tileset.png
+									cBoundary: {iX: 0, iY: 120, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "RealistEnemy"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/realist_enemy_tileset.png
+									cBoundary: {iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "RealistEnemy1"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/realist_enemy_tileset.png
+									cBoundary: {iX: 0, iY: 40, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "RealistEnemy2"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/realist_enemy_tileset.png
+									cBoundary: {iX: 0, iY: 80, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "RealistEnemy3"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/realist_enemy_tileset.png
+									cBoundary: {iX: 0, iY: 120, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "PessimistEnemy"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/pessimist_enemy_tileset.png
+									cBoundary: {iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "PessimistEnemy1"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/pessimist_enemy_tileset.png
+									cBoundary: {iX: 0, iY: 40, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "PessimistEnemy2"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/pessimist_enemy_tileset.png
+									cBoundary: {iX: 0, iY: 80, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "PessimistEnemy3"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/pessimist_enemy_tileset.png
+									cBoundary: {iX: 0, iY: 120, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+					]
+				}
+				{
+					cScale: {x: 1, y: 1, z: 1}
+					cPosition: {z: 100}
+					sType: Sprite
+					sBlending: none
+					sName: HealthPotion
+					cColor: {r: 255, g: 255, b: 255, a: 255}
+					bVisible: false
+					aAnimations:
+					[
+						{
+							sName: "Idle"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/health_potion.png
+								}
+							]
+						}
+					]
+				}
+				{
+					cScale: {x: 1, y: 1, z: 1}
+					cPosition: {z: 100}
+					sType: Sprite
+					sBlending: none
+					sName: StaminaPotion
+					cColor: {r: 255, g: 255, b: 255, a: 255}
+					bVisible: false
+					aAnimations:
+					[
+						{
+							sName: "Idle"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/stamina_potion.png
+								}
+							]
+						}
+					]
+				}
+				{
+					cScale: {x: 1, y: 1, z: 1}
+					cPosition: {z: 100}
+					sType: Sprite
+					sBlending: none
+					sName: Gold
+					cColor: {r: 255, g: 255, b: 255, a: 255}
+					bVisible: false
+					aAnimations:
+					[
+						{
+							sName: "Idle"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/gold.png
+								}
+							]
+						}
+					]
+				}
+				{
+					cScale: {x: 1, y: 1, z: 1}
+					cPosition: {z: 100}
+					sType: Sprite
+					sBlending: none
+					sName: BallonOptimist
+					cColor: {r: 255, g: 255, b: 255, a: 255}
+					bVisible: false
+					aAnimations:
+					[
+						{
+							sName: "Idle"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/ballon_optimist.png
+								}
+							]
+						}
+					]
+				}
+				{
+					cScale: {x: 1, y: 1, z: 1}
+					cPosition: {z: 100}
+					sType: Sprite
+					sBlending: none
+					sName: BallonRealist
+					cColor: {r: 255, g: 255, b: 255, a: 255}
+					bVisible: false
+					aAnimations:
+					[
+						{
+							sName: "Idle"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/ballon_realist.png
+								}
+							]
+						}
+					]
+				}
+				{
+					cScale: {x: 1, y: 1, z: 1}
+					cPosition: {z: 100}
+					sType: Sprite
+					sBlending: none
+					sName: BallonPessimist
+					cColor: {r: 255, g: 255, b: 255, a: 255}
+					bVisible: false
+					aAnimations:
+					[
+						{
+							sName: "Idle"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/ballon_pessimist.png
+								}
+							]
+						}
+					]
+				}
+			]
+		}
+		{
+			sName: Sounds
+			sType: SceneNode
+			bVisible: false
+			aObjects:
+			[
+				{
+					sType: SoundSource
+					sName: HostageKill
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/Pickup_Coin3.ogg
+				}
+				{
+					sType: SoundSource
+					sName: Powerup
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/powerup.ogg
+				}
+				{
+					sType: SoundSource
+					sName: Damage
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/damage.ogg
+				}
+				{
+					sType: SoundSource
+					sName: Wakeup
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/wakeup.ogg
+				}
+				{
+					sType: SoundSource
+					sName: Jump
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/jump.ogg
+				}
+				{
+					sType: SoundSource
+					sName: Teleport
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/teleport.ogg
+				}
+			]
+		}
+		{
+			sType: GameMap
+			sName: Map
+			sResource: dungeon3.json
+			cPosition: {z: 200}
+		}
+		{
+			sType: Image
+			sName: GameOverImage
+			sResource: textures/background_gameover.png
+			cPosition: {z: 2000}
+			bVisible: false
+		}
+	]
+}
