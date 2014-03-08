@@ -278,9 +278,7 @@ void PlayerEntity::OnInputPointerRelease(const EventInputPointer *ev)
 			dir *= fVelocity;
 			dir *= distance;
 
-			pBody->GetPosition().Set(dir.x, dir.y);
-
-			//pBody->SetLinearVelocity(dir);
+			pBody->SetLinearVelocity(dir);
 		}
 	}
 }
