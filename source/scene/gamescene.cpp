@@ -92,6 +92,8 @@ bool GameScene::Initialize()
 	};
 
 	String f{"scenes/"};
+
+	// TODO - Change the filename of created map
 	pJobManager->Add(sdNew(FileLoader(f + sSceneFile, cb)));
 
 	RocketEventManager::AddListener(this);
@@ -278,6 +280,10 @@ void GameScene::Resume()
 
 void GameScene::OnJobCompleted(FileLoader *job)
 {
+	// Test to generate map
+	String mapName = clWorldManager.GenerateProceduralMap();
+	Log("Name of map generated: %s", mapName.c_str());
+
 	Reader r(job->pFile);
 	cScene.Load(r);
 	Log("Scene Name: %s len %d", cScene.sName.c_str(), cScene.Size());

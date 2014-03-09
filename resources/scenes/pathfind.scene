@@ -264,7 +264,7 @@
 		{
 			sType: GameMap
 			sName: Map
-			sResource: pathfind.json
+			sResource: proceduralmap.json
 			cPosition: {z: 200}
 		}
 		{
