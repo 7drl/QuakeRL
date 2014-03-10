@@ -11,8 +11,6 @@
 #include "../states/game/run_state.h"
 #include "../entity/playerentity.h"
 #include "../entity/optimistplayerentity.h"
-#include "../entity/realistplayerentity.h"
-#include "../entity/pessimistplayerentity.h"
 #include "../controller/cameracontroller.h"
 #include "../manager/soundmanager.h"
 
@@ -61,15 +59,12 @@ class GameScene : public IEventInputKeyboardListener,
 		virtual void LoadMapColliders();
 
 		void RemoveLife();
-		void ChangePlayer(const String currentPlayer);
 		void ChangeLevel();
 
 		void UseKey(u32 key);
 
 	private:
 		PlayerEntity	 *pPlayer;
-		PlayerEntity	 *pPlayerRealist;
-		PlayerEntity	 *pPlayerPessimist;
 		PlayerEntity	 *pPlayerOptimist;
 		Camera			 *pCamera;
 		CameraController clCamera;
@@ -86,8 +81,6 @@ class GameScene : public IEventInputKeyboardListener,
 		bool			bPaused;
 		bool			bInitialized;
 		Texture			*pTilesetOptimist;
-		Texture			*pTilesetPessimist;
-		Texture			*pTilesetRealist;
 
 		WorldManager	clWorldManager;
 		PhysicsManager	clPhysicsManager;

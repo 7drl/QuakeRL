@@ -26,7 +26,7 @@
 							aFrames:
 							[
 								{
-									sResource: textures/optimist_player_idle_frame1.png
+									sResource: textures/ranger_idle_frame1.png
 								}
 							]
 						}
@@ -34,92 +34,11 @@
 							sName: "Run"
 							bAnimated: true
 							bLoop: true
-							iFps: 6
+							iFps: 4
 							aFrames:
 							[
 								{
-									sResource: textures/optimist_player_run_frame1.png
-								}
-								{
-									sResource: textures/optimist_player_run_frame2.png
-								}
-							]
-						}
-					]
-				}
-				{
-					cScale: {x: 1, y: 1, z: 1}
-					cPosition: {z: 100}
-					sType: Sprite
-					sBlending: none
-					sName: RealistPlayer
-					cColor: {r: 255, g: 255, b: 255, a: 255}
-					bVisible: false
-					aAnimations:
-					[
-						{
-							sName: "Idle"
-							bAnimated: true
-							bLoop: true
-							iFps: 1
-							aFrames:
-							[
-								{
-									sResource: textures/realist_player_idle_frame1.png
-								}
-							]
-						}
-						{
-							sName: "Run"
-							bAnimated: true
-							bLoop: true
-							iFps: 6
-							aFrames:
-							[
-								{
-									sResource: textures/realist_player_run_frame1.png
-								}
-								{
-									sResource: textures/realist_player_run_frame2.png
-								}
-							]
-						}
-					]
-				}
-				{
-					cScale: {x: 1, y: 1, z: 1}
-					cPosition: {z: 100}
-					sType: Sprite
-					sBlending: none
-					sName: PessimistPlayer
-					cColor: {r: 255, g: 255, b: 255, a: 255}
-					bVisible: false
-					aAnimations:
-					[
-						{
-							sName: "Idle"
-							bAnimated: true
-							bLoop: true
-							iFps: 1
-							aFrames:
-							[
-								{
-									sResource: textures/pessimist_player_idle_frame1.png
-								}
-							]
-						}
-						{
-							sName: "Run"
-							bAnimated: true
-							bLoop: true
-							iFps: 6
-							aFrames:
-							[
-								{
-									sResource: textures/pessimist_player_run_frame1.png
-								}
-								{
-									sResource: textures/pessimist_player_run_frame2.png
+									sResource: textures/ranger_idle_frame1.png
 								}
 							]
 						}

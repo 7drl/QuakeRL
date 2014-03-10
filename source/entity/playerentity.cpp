@@ -11,7 +11,6 @@ ENTITY_CREATOR("Player", PlayerEntity)
 PlayerEntity::PlayerEntity()
 	: SpriteEntity("Player", "Player")
 	, pBody(nullptr)
-	, pText(nullptr)
 	, vPlayerVectorDirection()
 	, eItem(ItemTypes::None)
 	, iPreviousState(Idle)
@@ -28,7 +27,6 @@ PlayerEntity::PlayerEntity()
 PlayerEntity::PlayerEntity(const char *className, const char *spriteName, bool bIsActive)
 	: SpriteEntity(className, spriteName)
 	, pBody(nullptr)
-	, pText(nullptr)
 	, vPlayerVectorDirection()
 	, eItem(ItemTypes::None)
 	, iPreviousState(Idle)
@@ -44,9 +42,6 @@ PlayerEntity::PlayerEntity(const char *className, const char *spriteName, bool b
 
 PlayerEntity::~PlayerEntity()
 {
-	gScene->Remove(pText);
-	sdDelete(pText);
-
 	pInput->RemovePointerListener(this);
 	pInput->RemoveKeyboardListener(this);
 	gPhysics->DestroyBody(pBody);
@@ -57,17 +52,6 @@ void PlayerEntity::Load(MetadataObject &metadata, SceneNode *sprites)
 {
 	SpriteEntity::Load(metadata, sprites);
 	pSprite->SetZ(-10);
-
-	if (this->GetClassName() == "OptimistPlayer")
-		pText = sdNew(Sprite(*static_cast<Sprite *>(sprites->GetChildByName("BallonOptimist"))));
-	else if (this->GetClassName() == "RealistPlayer")
-		pText = sdNew(Sprite(*static_cast<Sprite *>(sprites->GetChildByName("BallonRealist"))));
-	else
-		pText = sdNew(Sprite(*static_cast<Sprite *>(sprites->GetChildByName("BallonPessimist"))));
-
-	pText->SetPosition(0, 0);
-	pText->SetVisible(false);
-	gScene->Add(pText);
 
 	b2Vec2 customSize(32, 32);
 
@@ -107,22 +91,8 @@ void PlayerEntity::Teleport(const b2Vec2 &position)
 	gSoundManager->Play(SND_TELEPORT);
 }
 
-void PlayerEntity::Talk()
-{
-	if (pText)
-		pText->SetVisible(true);
-}
-
-void PlayerEntity::Mute()
-{
-	if (pText)
-		pText->SetVisible(false);
-}
-
 void PlayerEntity::Update(f32 dt)
 {
-	pText->SetPosition(pSprite->GetPosition() + Vector3f(0, -40, 0));
-
 	b2Vec2 vel = pBody->GetLinearVelocity();
 
 	if (fInvicibleTime > 0)
@@ -139,7 +109,6 @@ void PlayerEntity::Update(f32 dt)
 				this->bIsInputEnabled = true;
 				this->StopPlayerMovement();
 				SetState(Idle);
-				pText->SetVisible(false);
 			}
 		}
 	}
@@ -243,12 +212,6 @@ bool PlayerEntity::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 			fUpDownMove = 0;
 		}
 
-		if (k == eKey::Space)
-		{
-			gGameScene->ChangePlayer(this->GetClassName());
-			return false;
-		}
-
 		if (fUpDownMove == 0 && fMove == 0)
 		{
 			SetState(Idle);
@@ -286,7 +249,6 @@ void PlayerEntity::OnInputPointerRelease(const EventInputPointer *ev)
 void PlayerEntity::SetItem(ItemTypes::Enum item)
 {
 	eItem = item;
-	pText->SetVisible(eItem == ItemTypes::Text);
 }
 
 ItemTypes::Enum PlayerEntity::GetItem() const

@@ -84,7 +84,7 @@ String WorldManager::GenerateProceduralMap()
 {
 	// Build the map
 	ProceduralManager proceduralManager{};
-	proceduralManager.BuildWorld(30, 30, 10);
+	proceduralManager.BuildWorld(30, 30, 30);
 
 	// Generate the json file
 	String mapFileName(pFileSystem->GetWorkDirectory());
@@ -176,50 +176,6 @@ String WorldManager::GenerateProceduralMap()
 			//Open array Objects
 			jsonWriter.OpenArray("objects");
 
-				// Open node PessimistPlayer
-				jsonWriter.OpenNode();
-
-					jsonWriter.WriteString(	"name",		"PessimistPlayer");
-					jsonWriter.WriteString(	"type",		"");
-					jsonWriter.WriteU32(	"height",	0);
-					jsonWriter.WriteU32(	"width",	0);
-					jsonWriter.WriteU32(	"x",		657);
-					jsonWriter.WriteU32(	"y",		552);
-					jsonWriter.WriteBool(	"visible",	true);
-
-					// Open node Properties
-					jsonWriter.OpenNode("properties");
-
-						jsonWriter.WriteString(	"Class", "PessimistPlayer");
-
-					// Close node Properties
-					jsonWriter.CloseNode();
-
-				// Close node PessimistPlayer
-				jsonWriter.CloseNode();
-
-				// Open node RealistPlayer
-				jsonWriter.OpenNode();
-
-					jsonWriter.WriteString(	"name",		"RealistPlayer");
-					jsonWriter.WriteString(	"type",		"");
-					jsonWriter.WriteU32(	"height",	0);
-					jsonWriter.WriteU32(	"width",	0);
-					jsonWriter.WriteU32(	"x",		657);
-					jsonWriter.WriteU32(	"y",		592);
-					jsonWriter.WriteBool(	"visible",	true);
-
-					// Open node Properties
-					jsonWriter.OpenNode("properties");
-
-						jsonWriter.WriteString(	"Class", "RealistPlayer");
-
-					// Close node Properties
-					jsonWriter.CloseNode();
-
-				// Close node RealistPlayer
-				jsonWriter.CloseNode();
-
 				// Open node OptimistPlayer
 				jsonWriter.OpenNode();
 
@@ -260,7 +216,7 @@ String WorldManager::GenerateProceduralMap()
 			jsonWriter.WriteString("name"		,"ground_tileset");
 			jsonWriter.WriteString("image"		, "textures/quakerl_tileset.png");
 			jsonWriter.WriteU32("firstgid"		, 1);
-			jsonWriter.WriteU32("imageheight"	, 320);
+			jsonWriter.WriteU32("imageheight"	, 400);
 			jsonWriter.WriteU32("imagewidth"	, 40);
 			jsonWriter.WriteU32("margin"		, 0);
 			jsonWriter.WriteU32("spacing"		, 0);

@@ -96,12 +96,6 @@ void EnemyEntity::Update(f32 dt)
 	if (pTarget == nullptr || (pTarget != nullptr && !pTarget->GetIsActive()))
 		pTarget = static_cast<OptimistPlayerEntity *>(gWorldManager->FindEntityByClassName("OptimistPlayer"));
 
-	if (pTarget == nullptr || (pTarget != nullptr &&!pTarget->GetIsActive()))
-		pTarget = static_cast<RealistPlayerEntity *>(gWorldManager->FindEntityByClassName("RealistPlayer"));
-
-	if (pTarget == nullptr || (pTarget != nullptr && !pTarget->GetIsActive()))
-		pTarget = static_cast<PessimistPlayerEntity *>(gWorldManager->FindEntityByClassName("PessimistPlayer"));
-
 	if (pTarget != nullptr && pTarget->GetIsActive())
 	{
 		// Change enemy sprites
@@ -115,17 +109,6 @@ void EnemyEntity::Update(f32 dt)
 				pSprite->SetAnimation("OptimistEnemy2");
 			else
 				pSprite->SetAnimation("OptimistEnemy3");
-		}
-		else if (pTarget->GetClassName() == "RealistPlayer")
-		{
-			if (sEnemy.iEnemyId == 0)
-				pSprite->SetAnimation("RealistEnemy");
-			else if (sEnemy.iEnemyId == 1)
-				pSprite->SetAnimation("RealistEnemy1");
-			else if (sEnemy.iEnemyId == 2)
-				pSprite->SetAnimation("RealistEnemy2");
-			else
-				pSprite->SetAnimation("RealistEnemy3");
 		}
 		else
 		{
@@ -145,7 +128,6 @@ void EnemyEntity::Update(f32 dt)
 
 		if (distance <= 1.0f && !bPlayerLock)
 		{
-			pTarget->Talk();
 			bPlayerLock = true;
 			this->SetDisplayName(this->GetDisplayName());
 			this->SetLevel(this->GetLevel());
@@ -154,7 +136,6 @@ void EnemyEntity::Update(f32 dt)
 		}
 		else if (bPlayerLock && distance >= 1.0f)
 		{
-			pTarget->Mute();
 			bPlayerLock = false;
 			gGui->SelectEnemy();
 		}
@@ -168,9 +149,7 @@ void EnemyEntity::OnCollision(const CollisionEvent &event)
 		Log("ENEMY colidiu");
 
 		Entity *other = event.GetOtherEntity();
-		if ((other != nullptr && other->GetClassName() == "OptimistPlayer") ||
-			(other != nullptr && other->GetClassName() == "RealistPlayer") ||
-			(other != nullptr && other->GetClassName() == "PessimistPlayer"))
+		if (other != nullptr && other->GetClassName() == "OptimistPlayer")
 		{
 			PlayerEntity *player = static_cast<PlayerEntity *>(other);
 

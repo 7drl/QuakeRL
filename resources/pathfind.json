@@ -80,32 +80,6 @@
          "objects":[
                 {
                  "height":0,
-                 "name":"PessimistPlayer",
-                 "properties":
-                    {
-                     "Class":"PessimistPlayer"
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":657,
-                 "y":552
-                },
-                {
-                 "height":0,
-                 "name":"RealistPlayer",
-                 "properties":
-                    {
-                     "Class":"RealistPlayer"
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":657,
-                 "y":592
-                },
-                {
-                 "height":0,
                  "name":"OptimistPlayer",
                  "properties":
                     {

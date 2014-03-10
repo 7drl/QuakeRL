@@ -158,6 +158,65 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 			}
 		}
 	}
+
+	// Sprinkle out the bonusstuff (stairs, chests etc.) over the map
+	int newx = 0;
+	int newy = 0;
+	int ways = 0; // From how many directions we can reach the random spot from
+	int state = 0; // The state the loop is in, start with the stairs
+	while (state != 10)
+	{
+		for (int testing = 0; testing < 1000; testing++)
+		{
+			newx = GetRand(1, iXSize-1);
+			newy = GetRand(1, iYSize-2); //cheap bugfix, pulls down newy to 0<y<24, from 0<y<25
+
+			ways = 4; //the lower the better
+
+			//check if we can reach the spot
+			if (GetTile(newx, newy+1) == tileGrassFloor || GetTile(newx, newy+1) == tileCorridor){
+			//north
+				if (GetTile(newx, newy+1) != tileDoor)
+				ways--;
+			}
+			if (GetTile(newx-1, newy) == tileGrassFloor || GetTile(newx-1, newy) == tileCorridor){
+			//east
+				if (GetTile(newx-1, newy) != tileDoor)
+				ways--;
+			}
+			if (GetTile(newx, newy-1) == tileGrassFloor || GetTile(newx, newy-1) == tileCorridor){
+			//south
+				if (GetTile(newx, newy-1) != tileDoor)
+				ways--;
+			}
+			if (GetTile(newx+1, newy) == tileGrassFloor || GetTile(newx+1, newy) == tileCorridor){
+			//west
+				if (GetTile(newx+1, newy) != tileDoor)
+				ways--;
+			}
+
+			if (state == 0)
+			{
+				if (ways == 0)
+				{
+					// We're in state 0, let's place a "upstairs" thing
+					SetTile(newx, newy, tileUpStairs);
+					state = 1;
+					break;
+				}
+			}
+			else if (state == 1)
+			{
+				if (ways == 0)
+				{
+					// State 1, place a "downstairs"
+					SetTile(newx, newy, tileDownStairs);
+					state = 10;
+					break;
+				}
+			}
+		}
+	}
 }
 
 void ProceduralManager::SetTile(int x, int y, int tileType)

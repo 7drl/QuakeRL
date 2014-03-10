@@ -91,8 +91,6 @@ class PlayerEntity: public SpriteEntity,
 		void SetStaminaTotal(u32);
 		void RemoveStaminaTotal();
 
-		void Talk();
-		void Mute();
 		u32 GiveKey();
 		void ReceiveKey(u32 key);
 
@@ -117,7 +115,6 @@ class PlayerEntity: public SpriteEntity,
 
 	protected:
 		b2Body *pBody;
-		Sprite *pText;
 		Vector3f vPlayerVectorDirection;
 
 		ItemTypes::Enum eItem;

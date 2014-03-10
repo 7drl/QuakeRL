@@ -26,8 +26,6 @@ SOURCES += source/main.cpp \
 	source/util/triggercounter.cpp \
 	source/util/collisionsensor.cpp \
 	source/entity/optimistplayerentity.cpp \
-	source/entity/pessimistplayerentity.cpp \
-	source/entity/realistplayerentity.cpp \
 	source/entity/enemyentity.cpp \
 	source/entity/healthpotionentity.cpp \
 	source/entity/staminapotionentity.cpp \
@@ -64,8 +62,6 @@ HEADERS += \
 	source/util/triggercounter.h \
 	source/util/collisionsensor.h \
 	source/entity/optimistplayerentity.h \
-	source/entity/pessimistplayerentity.h \
-	source/entity/realistplayerentity.h \
 	source/entity/enemyentity.h \
 	source/entity/healthpotionentity.h \
 	source/entity/staminapotionentity.h \
@@ -122,7 +118,8 @@ OTHER_FILES_TEXTURE = \
 	resources/textures/pessimist_enemy_tileset.png \
 	resources/textures/realist_enemy_tileset.png \
 	resources/textures/optimist_enemy_tileset.png \
-	resources/textures/quakerl_tileset.png
+	resources/textures/quakerl_tileset.png \
+	resources/textures/ranger_idle_frame1.png
 
 #Gui
 OTHER_FILES_GUI_STYLE = \
