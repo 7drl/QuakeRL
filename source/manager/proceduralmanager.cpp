@@ -17,7 +17,7 @@ ProceduralManager::ProceduralManager()
 
 ProceduralManager::~ProceduralManager()
 {
-
+	sdDelete(pWorldMap);
 }
 
 void ProceduralManager::BuildWorld(const int width, const int height, int dungeonObjects)
