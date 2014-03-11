@@ -20,7 +20,7 @@ void MainMenuState::OnStart(void *data)
 
 	gGui->LoadGUI("gui/views/mainmenu.rml");
 
-	musTheme.Load("sounds/scottwills_time.ogg");
+	musTheme.Load("sounds/track002.ogg");
 	musTheme.SetVolume(1.0f);
 
 	if (gGameData && gGameData->IsBgmEnabled() == true)

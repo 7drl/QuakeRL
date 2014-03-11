@@ -275,7 +275,7 @@ void GameScene::OnJobCompleted(FileLoader *job)
 
 	if (gGameData->IsBgmEnabled() == true)
 	{
-		musTheme.Load("sounds/optimist_theme.ogg");
+		musTheme.Load("sounds/track003.ogg");
 		musTheme.SetVolume(1.0f);
 	}
 

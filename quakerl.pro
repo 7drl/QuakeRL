@@ -145,15 +145,13 @@ OTHER_FILES_GUI_VIEW = \
 
 OTHER_FILES_SOUND = \
 #Sounds
-	resources/sounds/optimist_theme.ogg \
-	resources/sounds/pessimist_theme.ogg \
-	resources/sounds/realist_theme.ogg \
+	resources/sounds/track003.ogg \
+	resources/sounds/track002.ogg \
 	resources/sounds/sfx.ogg \
 	resources/sounds/wakeup.ogg \
 	resources/sounds/powerup.ogg \
 	resources/sounds/Pickup_Coin3.ogg \
 	resources/sounds/damage.ogg \
-	resources/sounds/scottwills_time.ogg \
 	resources/sounds/metal_game_over.ogg \
 	resources/sounds/jump.ogg \
 	resources/sounds/teleport.ogg
