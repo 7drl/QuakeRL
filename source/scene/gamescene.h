@@ -70,9 +70,7 @@ class GameScene : public IEventInputKeyboardListener,
 		CameraController clCamera;
 		SceneNode		*pParentScene;
 		SceneNode		cScene;
-		Music			musThemeRealist;
-		Music			musThemePessimist;
-		Music			musThemeOptimist;
+		Music			musTheme;
 		Music			*musCur;
 		GameMap			*pGameMap;
 		GameMap			*pFogMap;
@@ -80,7 +78,7 @@ class GameScene : public IEventInputKeyboardListener,
 		u32				iTileSize;
 		bool			bPaused;
 		bool			bInitialized;
-		Texture			*pTilesetOptimist;
+		Texture			*pMapTileset;
 
 		WorldManager	clWorldManager;
 		PhysicsManager	clPhysicsManager;
@@ -124,7 +122,6 @@ class GameScene : public IEventInputKeyboardListener,
 		f32			fElapsed;
 		bool		bRequiredKeys[3];
 		bool		bMoveCamera;
-
 };
 
 #endif // _GAMEFLOW_H_

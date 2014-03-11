@@ -147,7 +147,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 	{
 		Key k = ev->GetKey();
 
-		b2Vec2 vel = pBody->GetLinearVelocity();
+		//b2Vec2 vel = pBody->GetLinearVelocity();
 
 		if ((k == eKey::Up || k == eKey::W) && iCurrentState != Jump)
 		{
