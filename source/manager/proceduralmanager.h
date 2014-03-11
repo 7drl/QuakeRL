@@ -14,12 +14,6 @@ class ProceduralManager
 		virtual int GetXSize();
 		virtual int GetYSize();
 
-	private:
-
-		virtual int GetRand(int min, int max);
-		virtual bool MakeRoom(int x, int y, int xlength, int ylength, int direction);
-		virtual bool MakeCorridor(int x, int y, int lenght, int direction);
-
 		enum
 		{
 			tileUnused = 0,
@@ -33,6 +27,12 @@ class ProceduralManager
 			tileDownStairs,
 			tileChest
 		};
+
+	private:
+
+		virtual int GetRand(int min, int max);
+		virtual bool MakeRoom(int x, int y, int xlength, int ylength, int direction);
+		virtual bool MakeCorridor(int x, int y, int lenght, int direction);
 
 		int *pWorldMap;
 

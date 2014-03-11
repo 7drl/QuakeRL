@@ -155,6 +155,29 @@ String WorldManager::GenerateProceduralMap()
 			//Open array Objects
 			jsonWriter.OpenArray("objects");
 
+			for (int y = 0; y < proceduralManager.GetYSize(); y++)
+			{
+				for (int x = 0; x < proceduralManager.GetXSize(); x++)
+				{
+					if (proceduralManager.GetTile(x, y) == ProceduralManager::tileStoneWall)
+					{
+						// Open node Collider
+						jsonWriter.OpenNode();
+
+							jsonWriter.WriteString("name"	, "");
+							jsonWriter.WriteString("type"	, "");
+							jsonWriter.WriteU32("height"	, 40);
+							jsonWriter.WriteU32("width"		, 40);
+							jsonWriter.WriteU32("x"			, (x > 0) ? x * 40 : x);
+							jsonWriter.WriteU32("y"			, (y > 0) ? y * 40 : y);
+							jsonWriter.WriteBool("visible"	, true);
+
+						// Close node Collider
+						jsonWriter.CloseNode();
+					}
+				}
+			}
+
 			//Close array Objects
 			jsonWriter.CloseArray();
 

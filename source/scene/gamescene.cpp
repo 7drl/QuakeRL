@@ -32,7 +32,6 @@ GameScene::GameScene(SceneNode *parent, Camera *mainCamera, const String &sceneF
 	, fElapsed(0.0f)
 	, bMoveCamera(false)
 	, iNextLevelCounter(0)
-	, pTilesetOptimist(nullptr)
 {
 	gScene = &cScene;
 	gPhysics = &clPhysicsManager;
@@ -44,7 +43,6 @@ GameScene::GameScene(SceneNode *parent, Camera *mainCamera, const String &sceneF
 
 GameScene::~GameScene()
 {
-	pTilesetOptimist->Release();
 	gScene = nullptr;
 }
 

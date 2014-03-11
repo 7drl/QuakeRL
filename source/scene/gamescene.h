@@ -80,7 +80,6 @@ class GameScene : public IEventInputKeyboardListener,
 		u32				iTileSize;
 		bool			bPaused;
 		bool			bInitialized;
-		Texture			*pTilesetOptimist;
 
 		WorldManager	clWorldManager;
 		PhysicsManager	clPhysicsManager;
