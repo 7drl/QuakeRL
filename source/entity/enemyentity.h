@@ -42,10 +42,9 @@ class EnemyEntity: public SpriteEntity
 		PlayerEntity *pTarget;
 		b2Body *pBody;
 		CollisionSensor clSensor;
+		f32 fInvicibleTime;
 		bool bPlayerLock;
 		bool bIsDead;
-
-		f32 fInvicibleTime;
 };
 
 #endif

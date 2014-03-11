@@ -9,9 +9,9 @@ ENTITY_CREATOR("Enemy", EnemyEntity)
 
 EnemyEntity::EnemyEntity()
 	: SpriteEntity("Enemy", "Enemy")
+	, pTarget(nullptr)
 	, pBody(nullptr)
 	, fInvicibleTime(0.0f)
-	, pTarget(nullptr)
 	, bPlayerLock(false)
 	, bIsDead(false)
 {

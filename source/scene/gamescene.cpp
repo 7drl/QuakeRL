@@ -22,8 +22,10 @@ GameScene::GameScene(SceneNode *parent, Camera *mainCamera, const String &sceneF
 	, iTileSize(40) // READ FROM MAP - USED FOR FOG PIXEL TO TILE CONVERSION
 	, bPaused(false)
 	, bInitialized(false)
+	, pMapTileset(nullptr)
 	, sSceneFile(sceneFile)
 	, fTimeToNextLevel(0.0f)
+	, iNextLevelCounter(0)
 	, bChangeLevel(false)
 	, pGameOverImg(nullptr)
 	, vCameraFrom(0.0f, 0.0f, 0.0f)
@@ -31,7 +33,6 @@ GameScene::GameScene(SceneNode *parent, Camera *mainCamera, const String &sceneF
 	, vCameraTo(0.0f, 0.0f, 0.0f)
 	, fElapsed(0.0f)
 	, bMoveCamera(false)
-	, iNextLevelCounter(0)
 {
 	gScene = &cScene;
 	gPhysics = &clPhysicsManager;
@@ -43,6 +44,8 @@ GameScene::GameScene(SceneNode *parent, Camera *mainCamera, const String &sceneF
 
 GameScene::~GameScene()
 {
+	if (pMapTileset)
+		pMapTileset->Release();
 	gScene = nullptr;
 }
 
@@ -279,8 +282,8 @@ void GameScene::OnJobCompleted(FileLoader *job)
 
 	if (gGameData->IsBgmEnabled() == true)
 	{
-		musThemeOptimist.Load("sounds/optimist_theme.ogg");
-		musThemeOptimist.SetVolume(1.0f);
+		musTheme.Load("sounds/optimist_theme.ogg");
+		musTheme.SetVolume(1.0f);
 	}
 
 	SceneNode *sounds = (SceneNode *)cScene.GetChildByName("Sounds");
@@ -312,7 +315,7 @@ void GameScene::OnJobCompleted(FileLoader *job)
 	if (pPlayer == nullptr)
 	{
 		pPlayer = pPlayerOptimist;
-		musCur = &musThemeOptimist;
+		musCur = &musTheme;
 		gGui->SelectHero("Optimist");
 		gGui->SelectEnemy();
 		pSoundSystem->PlayMusic(musCur);
