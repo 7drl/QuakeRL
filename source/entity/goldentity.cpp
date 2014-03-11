@@ -16,9 +16,7 @@ void GoldEntity::OnCollision(const CollisionEvent &event)
 		Log("On collided with health potion");
 
 		Entity *other = event.GetOtherEntity();
-		if ((other != nullptr && other->GetClassName() == "OptimistPlayer") ||
-			(other != nullptr && other->GetClassName() == "RealistPlayer") ||
-			(other != nullptr && other->GetClassName() == "PessimistPlayer"))
+		if (other != nullptr && other->GetClassName() == "OptimistPlayer")
 		{
 			PlayerEntity *player = static_cast<PlayerEntity *>(other);
 

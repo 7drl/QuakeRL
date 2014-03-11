@@ -55,50 +55,6 @@ Sprite *DeathEntity::GetSprite() const
 void DeathEntity::Update(f32 dt)
 {
 	UNUSED(dt);
-	/*
-	if (fSleep > 0)
-	{
-		fSleep -= dt;
-		if (fSleep < 0)
-		{
-			this->Activate();
-		}
-	}
-	else
-	{
-		if (pTarget == NULL)
-			pTarget = static_cast<OptimistPlayerEntity *>(gWorldManager->FindEntityByClassName("OptimistPlayer"));
-
-		if (pTarget == NULL)
-			pTarget = static_cast<RealistPlayerEntity *>(gWorldManager->FindEntityByClassName("RealistPlayerEntity"));
-
-		if (pTarget == NULL)
-			pTarget = static_cast<PessimistPlayerEntity *>(gWorldManager->FindEntityByClassName("PessimistPlayerEntity"));
-
-		if (pTarget == NULL)
-			Log("No player to track");
-
-		b2Vec2 dir = pTarget->GetBodyPosition() - clSensor.GetBodyPosition();
-
-		f32 distance = dir.Normalize();
-		if (distance > 0.03f)
-		{
-			//Go faster down to help player jump
-			dir *= dt;
-			dir.y /= 2;
-
-			distance = distance / 1.5f;
-			if (distance < 1)
-				distance = 1;
-
-			dir *= distance;
-			dir *= fSpeedFactor;
-			dir += clSensor.GetBodyPosition();
-
-			clSensor.SetBodyPosition(dir);
-		}
-	}
-	*/
 }
 
 void DeathEntity::Activate()

@@ -26,13 +26,12 @@ SOURCES += source/main.cpp \
 	source/util/triggercounter.cpp \
 	source/util/collisionsensor.cpp \
 	source/entity/optimistplayerentity.cpp \
-	source/entity/pessimistplayerentity.cpp \
-	source/entity/realistplayerentity.cpp \
 	source/entity/enemyentity.cpp \
 	source/entity/healthpotionentity.cpp \
 	source/entity/staminapotionentity.cpp \
 	source/entity/goldentity.cpp \
-	source/manager/pathfindermanager.cpp
+	source/manager/pathfindermanager.cpp \
+	source/manager/proceduralmanager.cpp
 
 HEADERS += \
 	source/defines.h \
@@ -64,13 +63,12 @@ HEADERS += \
 	source/util/triggercounter.h \
 	source/util/collisionsensor.h \
 	source/entity/optimistplayerentity.h \
-	source/entity/pessimistplayerentity.h \
-	source/entity/realistplayerentity.h \
 	source/entity/enemyentity.h \
 	source/entity/healthpotionentity.h \
 	source/entity/staminapotionentity.h \
 	source/entity/goldentity.h \
-	source/manager/pathfindermanager.h
+	source/manager/pathfindermanager.h \
+	source/manager/proceduralmanager.h
 
 OTHER_FILES_CONFIG = \
 #Configs
@@ -122,6 +120,8 @@ OTHER_FILES_TEXTURE = \
 	resources/textures/pessimist_enemy_tileset.png \
 	resources/textures/realist_enemy_tileset.png \
 	resources/textures/optimist_enemy_tileset.png \
+	resources/textures/quakerl_tileset.png \
+	resources/textures/ranger_idle_frame1.png
 
 #Gui
 OTHER_FILES_GUI_STYLE = \
@@ -135,6 +135,7 @@ OTHER_FILES_GUI_VIEW = \
 	#Views
 	resources/gui/views/mainmenu.rml \
 	resources/gui/views/window.rml \
+	resources/gui/views/window2.rml \
 	resources/gui/views/gameplay.rml \
 	resources/gui/views/credits.rml \
 	resources/gui/views/options.rml \

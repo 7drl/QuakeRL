@@ -2,6 +2,7 @@
 #define _WORLD_MANAGER_H
 
 #include "../defines.h"
+#include <map/GameMap.h>
 
 class Entity;
 typedef std::vector<Entity *> EntitiesVector;
@@ -12,6 +13,7 @@ class WorldManager
 		virtual ~WorldManager();
 
 		Entity *BuildEntity(MetadataObject &metadata, SceneNode *sprites);
+		String GenerateProceduralMap();
 
 		void Clear();
 		void Update(f32 dt);

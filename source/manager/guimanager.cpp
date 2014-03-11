@@ -329,18 +329,6 @@ void GuiManager::SelectHero(const String &name)
 		pHeroPicture[1]->SetClassNames("avatar_optimist_on");
 		pHeroPicture[2]->SetClassNames("avatar_realist_off");
 	}
-	if (name == "Realist")
-	{
-		pHeroPicture[0]->SetClassNames("avatar_optimist_off");
-		pHeroPicture[1]->SetClassNames("avatar_realist_on");
-		pHeroPicture[2]->SetClassNames("avatar_pessimist_off");
-	}
-	if (name == "Pessimist")
-	{
-		pHeroPicture[0]->SetClassNames("avatar_realist_off");
-		pHeroPicture[1]->SetClassNames("avatar_pessimist_on");
-		pHeroPicture[2]->SetClassNames("avatar_optimist_off");
-	}
 }
 
 void GuiManager::SelectEnemy(const String &hero, u32 enemyId)
@@ -352,38 +340,6 @@ void GuiManager::SelectEnemy(const String &hero, u32 enemyId)
 			case 1: pEnemyPicture->SetClassNames("enemy_2_optimist"); break;
 			case 2: pEnemyPicture->SetClassNames("enemy_3_optimist"); break;
 			case 3: pEnemyPicture->SetClassNames("enemy_4_optimist"); break;
-			default: break;
-		}
-
-		pElementEnemyName->SetClassNames("");
-		pDialog->SetClassNames("");
-		pElementLevelXPBox->SetClassNames("");
-		pElementDialogTitle->SetClassNames("");
-	}
-	else if (hero == "Realist")
-	{
-		switch (enemyId)
-		{
-			case 0: pEnemyPicture->SetClassNames("enemy_1_realist"); break;
-			case 1: pEnemyPicture->SetClassNames("enemy_2_realist"); break;
-			case 2: pEnemyPicture->SetClassNames("enemy_3_realist"); break;
-			case 3: pEnemyPicture->SetClassNames("enemy_4_realist"); break;
-			default: break;
-		}
-
-		pElementEnemyName->SetClassNames("");
-		pDialog->SetClassNames("");
-		pElementLevelXPBox->SetClassNames("");
-		pElementDialogTitle->SetClassNames("");
-	}
-	else if (hero == "Pessimist")
-	{
-		switch (enemyId)
-		{
-			case 0: pEnemyPicture->SetClassNames("enemy_1_pessimist"); break;
-			case 1: pEnemyPicture->SetClassNames("enemy_2_pessimist"); break;
-			case 2: pEnemyPicture->SetClassNames("enemy_3_pessimist"); break;
-			case 3: pEnemyPicture->SetClassNames("enemy_4_pessimist"); break;
 			default: break;
 		}
 

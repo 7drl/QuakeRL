@@ -11,8 +11,6 @@
 #include "../states/game/run_state.h"
 #include "../entity/playerentity.h"
 #include "../entity/optimistplayerentity.h"
-#include "../entity/realistplayerentity.h"
-#include "../entity/pessimistplayerentity.h"
 #include "../entity/enemyentity.h"
 #include "../controller/cameracontroller.h"
 #include "../manager/soundmanager.h"
@@ -60,25 +58,21 @@ class GameScene : public IEventInputKeyboardListener,
 		virtual void LoadMapColliders();
 
 		void RemoveLife();
-		void ChangePlayer(const String currentPlayer);
 		void ChangeLevel();
 
 		void UseKey(u32 key);
 		GameMap& GetGameMap();
 
 	private:
-		PlayerEntity	*pPlayer;
-		PlayerEntity	*pPlayerRealist;
-		PlayerEntity	*pPlayerPessimist;
-		PlayerEntity	*pPlayerOptimist;
+		PlayerEntity	 *pPlayer;
+		PlayerEntity	 *pPlayerOptimist;
 		EnemyEntity		*pEnemyEntity;
+
 		Camera			 *pCamera;
 		CameraController clCamera;
 		SceneNode		*pParentScene;
 		SceneNode		cScene;
-		Music			musThemeRealist;
-		Music			musThemePessimist;
-		Music			musThemeOptimist;
+		Music			musTheme;
 		Music			*musCur;
 		GameMap			*pGameMap;
 		GameMap			*pFogMap;
@@ -86,9 +80,7 @@ class GameScene : public IEventInputKeyboardListener,
 		u32				iTileSize;
 		bool			bPaused;
 		bool			bInitialized;
-		Texture			*pTilesetOptimist;
-		Texture			*pTilesetPessimist;
-		Texture			*pTilesetRealist;
+		Texture			*pMapTileset;
 
 		WorldManager		clWorldManager;
 		PhysicsManager		clPhysicsManager;
@@ -133,7 +125,6 @@ class GameScene : public IEventInputKeyboardListener,
 		f32			fElapsed;
 		bool		bRequiredKeys[3];
 		bool		bMoveCamera;
-
 };
 
 #endif // _GAMEFLOW_H_

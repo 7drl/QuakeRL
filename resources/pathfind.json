@@ -10,7 +10,7 @@
          "width":30,
          "x":0,
          "y":0
-        }, 
+        },
         {
          "height":30,
          "name":"Colliders",
@@ -27,7 +27,7 @@
                  "width":1200,
                  "x":0,
                  "y":0
-                }, 
+                },
                 {
                  "height":1160,
                  "name":"",
@@ -40,7 +40,7 @@
                  "width":40,
                  "x":0,
                  "y":40
-                }, 
+                },
                 {
                  "height":40,
                  "name":"",
@@ -53,7 +53,7 @@
                  "width":1160,
                  "x":40,
                  "y":1160
-                }, 
+                },
                 {
                  "height":1120,
                  "name":"",
@@ -86,37 +86,11 @@
          "width":30,
          "x":0,
          "y":0
-        }, 
+        },
         {
          "height":30,
          "name":"Game",
          "objects":[
-                {
-                 "height":0,
-                 "name":"PessimistPlayer",
-                 "properties":
-                    {
-                     "Class":"PessimistPlayer"
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":657,
-                 "y":552
-                }, 
-                {
-                 "height":0,
-                 "name":"RealistPlayer",
-                 "properties":
-                    {
-                     "Class":"RealistPlayer"
-                    },
-                 "type":"",
-                 "visible":true,
-                 "width":0,
-                 "x":657,
-                 "y":592
-                }, 
                 {
                  "height":0,
                  "name":"OptimistPlayer",

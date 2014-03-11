@@ -23,8 +23,10 @@ GameScene::GameScene(SceneNode *parent, Camera *mainCamera, const String &sceneF
 	, iTileSize(40) // READ FROM MAP - USED FOR FOG PIXEL TO TILE CONVERSION
 	, bPaused(false)
 	, bInitialized(false)
+	, pMapTileset(nullptr)
 	, sSceneFile(sceneFile)
 	, fTimeToNextLevel(0.0f)
+	, iNextLevelCounter(0)
 	, bChangeLevel(false)
 	, pGameOverImg(nullptr)
 	, vCameraFrom(0.0f, 0.0f, 0.0f)
@@ -32,10 +34,6 @@ GameScene::GameScene(SceneNode *parent, Camera *mainCamera, const String &sceneF
 	, vCameraTo(0.0f, 0.0f, 0.0f)
 	, fElapsed(0.0f)
 	, bMoveCamera(false)
-	, iNextLevelCounter(0)
-	, pTilesetOptimist(nullptr)
-	, pTilesetPessimist(nullptr)
-	, pTilesetRealist(nullptr)
 {
 	gScene = &cScene;
 	gPhysics = &clPhysicsManager;
@@ -48,9 +46,8 @@ GameScene::GameScene(SceneNode *parent, Camera *mainCamera, const String &sceneF
 
 GameScene::~GameScene()
 {
-	pTilesetOptimist->Release();
-	pTilesetRealist->Release();
-	pTilesetPessimist->Release();
+	if (pMapTileset)
+		pMapTileset->Release();
 	gScene = nullptr;
 }
 
@@ -78,10 +75,6 @@ bool GameScene::Initialize()
 	{
 		auto job = static_cast<FileLoader *>(self);
 
-		pTilesetOptimist = static_cast<Texture *>(pResourceManager->Get("textures/realist_ground_tileset.png", ITexture::GetTypeId()));
-		pTilesetRealist = static_cast<Texture *>(pResourceManager->Get("textures/pessimist_ground_tileset.png", ITexture::GetTypeId()));
-		pTilesetPessimist = static_cast<Texture *>(pResourceManager->Get("textures/optimist_ground_tileset.png", ITexture::GetTypeId()));
-
 		if(job->GetState() == eJobState::Completed)
 		{
 			OnJobCompleted(job);
@@ -94,6 +87,8 @@ bool GameScene::Initialize()
 	};
 
 	String f{"scenes/"};
+
+	// TODO - Change the filename of created map
 	pJobManager->Add(sdNew(FileLoader(f + sSceneFile, cb)));
 
 	RocketEventManager::AddListener(this);
@@ -176,8 +171,6 @@ bool GameScene::Update(f32 dt)
 		clPhysicsManager.Update(dt);
 		clWorldManager.Update(dt);
 		clCamera.LookAt(pPlayer->GetPosition());
-		this->FogReveal(pPlayerRealist->GetPosition(), 2);
-		this->FogReveal(pPlayerPessimist->GetPosition(), 1);
 		this->FogReveal(pPlayerOptimist->GetPosition(), 3);
 	}
 
@@ -195,7 +188,6 @@ bool GameScene::Update(f32 dt)
 		pGameOverImg->SetVisible(true);
 		pGameOverImg->SetPosition(pCamera->GetPosition() - Vector3f(-512.0f, -384.0f, 0.0f));
 
-		pPlayer->Mute();
 		pPlayer->GetSprite()->SetVisible(false);
 		cFlow.OnEvent(&cOnGameOver, this);
 		pFog->SetVisible(false);
@@ -271,6 +263,10 @@ void GameScene::Resume()
 
 void GameScene::OnJobCompleted(FileLoader *job)
 {
+	// Test to generate map
+	String mapName = clWorldManager.GenerateProceduralMap();
+	Log("Name of map generated: %s", mapName.c_str());
+
 	Reader r(job->pFile);
 	cScene.Load(r);
 	Log("Scene Name: %s len %d", cScene.sName.c_str(), cScene.Size());
@@ -279,12 +275,8 @@ void GameScene::OnJobCompleted(FileLoader *job)
 
 	if (gGameData->IsBgmEnabled() == true)
 	{
-		musThemeOptimist.Load("sounds/optimist_theme.ogg");
-		musThemeOptimist.SetVolume(1.0f);
-		musThemeRealist.Load("sounds/realist_theme.ogg");
-		musThemeRealist.SetVolume(1.0f);
-		musThemePessimist.Load("sounds/pessimist_theme.ogg");
-		musThemePessimist.SetVolume(1.0f);
+		musTheme.Load("sounds/optimist_theme.ogg");
+		musTheme.SetVolume(1.0f);
 	}
 
 	SceneNode *sounds = (SceneNode *)cScene.GetChildByName("Sounds");
@@ -306,14 +298,6 @@ void GameScene::OnJobCompleted(FileLoader *job)
 		{
 			Entity* entity = clWorldManager.BuildEntity(*placeHolder, sprites);
 			//Log("%s", entity->GetName().c_str());
-			if (entity->GetClassName() == "RealistPlayer")
-			{
-				pPlayerRealist = static_cast<RealistPlayerEntity*>(entity);
-			}
-			if (entity->GetClassName() == "PessimistPlayer")
-			{
-				pPlayerPessimist = static_cast<PessimistPlayerEntity*>(entity);
-			}
 			if (entity->GetClassName() == "OptimistPlayer")
 			{
 				pPlayerOptimist = static_cast<OptimistPlayerEntity*>(entity);
@@ -329,7 +313,7 @@ void GameScene::OnJobCompleted(FileLoader *job)
 	if (pPlayer == nullptr)
 	{
 		pPlayer = pPlayerOptimist;
-		musCur = &musThemeOptimist;
+		musCur = &musTheme;
 		gGui->SelectHero("Optimist");
 		gGui->SelectEnemy();
 		pSoundSystem->PlayMusic(musCur);
@@ -373,100 +357,6 @@ void GameScene::OnJobCompleted(FileLoader *job)
 	}*/
 
 	bInitialized = true;
-}
-
-void GameScene::ChangePlayer(const String currentPlayer)
-{
-	pEnemyEntity->FindPathToPlayer();
-
-	pSoundSystem->StopMusic(10.0f);
-	bMoveCamera = true;
-
-	OptimistPlayerEntity *optimistPlayer = static_cast<OptimistPlayerEntity *>(gWorldManager->FindEntityByClassName("OptimistPlayer"));
-	RealistPlayerEntity *realistPlayer = static_cast<RealistPlayerEntity *>(gWorldManager->FindEntityByClassName("RealistPlayer"));
-	PessimistPlayerEntity *pessimistPlayer = static_cast<PessimistPlayerEntity *>(gWorldManager->FindEntityByClassName("PessimistPlayer"));
-
-	Log("Current player: %s", currentPlayer.c_str());
-
-	// otim -> real -> pess
-	if (pPlayer == optimistPlayer)
-	{
-		optimistPlayer->SetIsActive(false);
-		optimistPlayer->SetIsInputEnabled(false);
-		realistPlayer->SetIsActive(true);
-		realistPlayer->SetIsInputEnabled(true);
-		pessimistPlayer->SetIsActive(false);
-		pessimistPlayer->SetIsInputEnabled(false);
-		gGui->SelectHero("Realist");
-
-		// Change the terrain tileset
-		auto tiles = pGameMap->GetLayerByName("Background")->AsTiled();
-		auto set = tiles->GetTileSet();
-		set->SetTexture(pTilesetOptimist);
-
-		//Lerp camera
-		vCameraFrom = optimistPlayer->GetSprite()->GetPosition();
-		vCameraTo = realistPlayer->GetSprite()->GetPosition();
-		fElapsed = 0.0f;
-
-		pPlayer = realistPlayer;
-		musCur = &musThemeRealist;
-	}
-	else if (pPlayer == realistPlayer)
-	{
-		optimistPlayer->SetIsActive(false);
-		optimistPlayer->SetIsInputEnabled(false);
-		realistPlayer->SetIsActive(false);
-		realistPlayer->SetIsInputEnabled(false);
-		pessimistPlayer->SetIsActive(true);
-		pessimistPlayer->SetIsInputEnabled(true);
-		gGui->SelectHero("Pessimist");
-
-		// Change the terrain tileset
-		auto tiles = pGameMap->GetLayerByName("Background")->AsTiled();
-		auto set = tiles->GetTileSet();
-		set->SetTexture(pTilesetRealist);
-
-		//Lerp camera
-		vCameraFrom = realistPlayer->GetSprite()->GetPosition();
-		vCameraTo = pessimistPlayer->GetSprite()->GetPosition();
-		fElapsed = 0.0f;
-
-		pPlayer = pessimistPlayer;
-		musCur = &musThemePessimist;
-	}
-	else if (pPlayer == pessimistPlayer)
-	{
-		optimistPlayer->SetIsActive(true);
-		optimistPlayer->SetIsInputEnabled(true);
-		realistPlayer->SetIsActive(false);
-		realistPlayer->SetIsInputEnabled(false);
-		pessimistPlayer->SetIsActive(false);
-		pessimistPlayer->SetIsInputEnabled(false);
-		gGui->SelectHero("Optimist");
-
-		// Change the terrain tileset
-		auto tiles = pGameMap->GetLayerByName("Background")->AsTiled();
-		auto set = tiles->GetTileSet();
-		set->SetTexture(pTilesetPessimist);
-
-		//Lerp camera
-		vCameraFrom = pessimistPlayer->GetSprite()->GetPosition();
-		vCameraTo = optimistPlayer->GetSprite()->GetPosition();
-		fElapsed = 0.0f;
-
-		pPlayer = optimistPlayer;
-		musCur = &musThemeOptimist;
-	}
-
-	// Set the name of the player to UI
-	gGui->SetPlayerName(pPlayer->GetDisplayName());
-	gGui->SetLevel(pPlayer->GetLevel());
-	gGui->SetXP(pPlayer->GetXP());
-	gGui->SetLife(pPlayer->GetLife(), pPlayer->GetLifeTotal());
-	gGui->SetStamina(pPlayer->GetStamina(), pPlayer->GetStaminaTotal());
-
-	pSoundSystem->PlayMusic(musCur, 10.0f);
 }
 
 void GameScene::OnJobAborted()
