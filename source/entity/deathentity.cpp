@@ -10,7 +10,6 @@ ENTITY_CREATOR("Death", DeathEntity)
 
 DeathEntity::DeathEntity()
 	: SpriteEntity("Death", "Death")
-	, pTarget(NULL)
 	, fSleepConfig(SLEEP_TIME)
 	, fSleep(SLEEP_TIME)
 	, fSpeedFactor(1.0f)

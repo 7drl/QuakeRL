@@ -10,8 +10,7 @@ include("../seed/platform.pri")
 
 unix:!macx {
 		DEFINES += LINUX PHYSFS_NO_CDROM_SUPPORT
-		LIBS += -lseed -lseedcontrib -lGL -lopenal -lX11 -lm -ldl -lpthread -lrt -lc++abi
-		QMAKE_CXXFLAGS += -std=c++11
+		LIBS += -lseed -lseedcontrib -lGL -lopenal -ldl -lpthread
 
 		#Configs
 		APP_CONFIG_FILES.files = $$files($${PWD}/resources/configs/*.*)

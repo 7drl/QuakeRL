@@ -83,13 +83,6 @@ class GameFlow : public IGameApp,
 		StateMachineTransition cGameToLoad;
 		StateMachineTransition cLoadToGame;
 
-		// GUI Elements
-		Rocket::Core::Element	*pElementLife;
-		Rocket::Core::Element	*pElementTime;
-		Rocket::Core::Element	*pElementHostage;
-		Rocket::Core::Element	*pElementSfx;
-		Rocket::Core::Element	*pElementBgm;
-
 		String sSceneFile;
 
 		Vector3f vCameraPos;

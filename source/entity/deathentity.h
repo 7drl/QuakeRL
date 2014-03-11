@@ -22,7 +22,6 @@ class DeathEntity: public SpriteEntity
 		virtual void Activate();
 
 	private:
-		PlayerEntity *pTarget;
 		CollisionSensor clSensor;
 		f32 fSleepConfig;
 		f32 fSleep;

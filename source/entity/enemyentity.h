@@ -42,13 +42,13 @@ class EnemyEntity: public SpriteEntity
 		void FindPathToPlayer();
 
 	private:
-		Path cPath;
 		PlayerEntity *pTarget;
 		b2Body *pBody;
 		CollisionSensor clSensor;
 		f32 fInvicibleTime;
 		bool bPlayerLock;
 		bool bIsDead;
+		Path cPath;
 };
 
 #endif
