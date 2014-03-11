@@ -13,8 +13,10 @@
 #include "../entity/optimistplayerentity.h"
 #include "../entity/realistplayerentity.h"
 #include "../entity/pessimistplayerentity.h"
+#include "../entity/enemyentity.h"
 #include "../controller/cameracontroller.h"
 #include "../manager/soundmanager.h"
+#include "../manager/pathfindermanager.h"
 
 using namespace Seed::RocketGui;
 
@@ -25,9 +27,9 @@ extern PhysicsManager *gPhysics;
 extern SoundManager *gSoundManager;
 extern WorldManager *gWorldManager;
 extern GameScene *gGameScene;
+extern PathfinderManager *gPathfinderManager;
 
 class GameScene : public IEventInputKeyboardListener,
-				  public IEventInputPointerListener,
 				  public IRocketEventListener
 {
 	SEED_DISABLE_COPY(GameScene)
@@ -51,9 +53,6 @@ class GameScene : public IEventInputKeyboardListener,
 		// IEventInputKeyboardListener
 		virtual bool OnInputKeyboardRelease(const EventInputKeyboard *ev) override;
 
-		// IEventInputPointerListener
-		virtual void OnInputPointerMove(const EventInputPointer *ev) override;
-
 		// IRocketEventListener
 		virtual void OnGuiEvent(Rocket::Core::Event &ev, const Rocket::Core::String &script) override;
 
@@ -65,12 +64,14 @@ class GameScene : public IEventInputKeyboardListener,
 		void ChangeLevel();
 
 		void UseKey(u32 key);
+		GameMap& GetGameMap();
 
 	private:
-		PlayerEntity	 *pPlayer;
-		PlayerEntity	 *pPlayerRealist;
-		PlayerEntity	 *pPlayerPessimist;
-		PlayerEntity	 *pPlayerOptimist;
+		PlayerEntity	*pPlayer;
+		PlayerEntity	*pPlayerRealist;
+		PlayerEntity	*pPlayerPessimist;
+		PlayerEntity	*pPlayerOptimist;
+		EnemyEntity		*pEnemyEntity;
 		Camera			 *pCamera;
 		CameraController clCamera;
 		SceneNode		*pParentScene;
@@ -89,9 +90,10 @@ class GameScene : public IEventInputKeyboardListener,
 		Texture			*pTilesetPessimist;
 		Texture			*pTilesetRealist;
 
-		WorldManager	clWorldManager;
-		PhysicsManager	clPhysicsManager;
-		SoundManager	clSoundManager;
+		WorldManager		clWorldManager;
+		PhysicsManager		clPhysicsManager;
+		SoundManager		clSoundManager;
+		PathfinderManager	clPathfinderManager;
 
 		// State Machine
 		StateMachine		cFlow;

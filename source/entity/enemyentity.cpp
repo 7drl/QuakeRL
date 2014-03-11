@@ -14,6 +14,7 @@ EnemyEntity::EnemyEntity()
 	, pTarget(nullptr)
 	, bPlayerLock(false)
 	, bIsDead(false)
+	, cPath()
 {
 	sEnemy.displayName = "Enemy";
 }
@@ -286,4 +287,11 @@ void EnemyEntity::SetLife(u32 life)
 {
 	sEnemy.iLife = life;
 	gGui->SetEnemyLife(life, this->sEnemy.iLifeTotal);
+}
+
+void EnemyEntity::FindPathToPlayer()
+{
+	// Find path to the player
+	MapLayerTiled *gameMap = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
+	gPathfinderManager->Findpath(pSprite->GetPosition(), pTarget->GetSprite()->GetPosition(), *gameMap, cPath);
 }

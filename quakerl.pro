@@ -31,7 +31,8 @@ SOURCES += source/main.cpp \
 	source/entity/enemyentity.cpp \
 	source/entity/healthpotionentity.cpp \
 	source/entity/staminapotionentity.cpp \
-	source/entity/goldentity.cpp
+	source/entity/goldentity.cpp \
+	source/manager/pathfindermanager.cpp
 
 HEADERS += \
 	source/defines.h \
@@ -68,7 +69,8 @@ HEADERS += \
 	source/entity/enemyentity.h \
 	source/entity/healthpotionentity.h \
 	source/entity/staminapotionentity.h \
-	source/entity/goldentity.h
+	source/entity/goldentity.h \
+	source/manager/pathfindermanager.h
 
 OTHER_FILES_CONFIG = \
 #Configs

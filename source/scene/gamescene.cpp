@@ -5,9 +5,10 @@
 
 SceneNode *gScene = nullptr;
 PhysicsManager *gPhysics = nullptr;
-SoundManager *gSoundManager =nullptr;
+SoundManager *gSoundManager = nullptr;
 WorldManager *gWorldManager = nullptr;
 GameScene *gGameScene = nullptr;
+PathfinderManager *gPathfinderManager = nullptr;
 
 GameScene::GameScene(SceneNode *parent, Camera *mainCamera, const String &sceneFile)
 	: pPlayer(nullptr)
@@ -41,6 +42,7 @@ GameScene::GameScene(SceneNode *parent, Camera *mainCamera, const String &sceneF
 	gSoundManager = &clSoundManager;
 	gWorldManager = &clWorldManager;
 	gGameScene = this;
+	gPathfinderManager = &clPathfinderManager;
 	memset(&bRequiredKeys, 0x00, sizeof(bRequiredKeys));
 }
 
@@ -96,7 +98,6 @@ bool GameScene::Initialize()
 
 	RocketEventManager::AddListener(this);
 	pInput->AddKeyboardListener(this);
-	pInput->AddPointerListener(this);
 
 	// Get the initial value from game data
 	gGui->SetPlayerName("Optimist");
@@ -219,7 +220,6 @@ bool GameScene::Shutdown()
 	cScene.Unload();
 	pParentScene = nullptr;
 
-	pInput->RemovePointerListener(this);
 	pInput->RemoveKeyboardListener(this);
 	RocketEventManager::RemoveListener(this);
 
@@ -243,13 +243,6 @@ bool GameScene::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 	}
 
 	return true;
-}
-
-void GameScene::OnInputPointerMove(const EventInputPointer *ev)
-{
-	u32 x = ev->GetX();
-	u32 y = ev->GetY();
-	Log("x: %d y: %d", x, y);
 }
 
 void GameScene::OnGuiEvent(Rocket::Core::Event &ev, const Rocket::Core::String &script)
@@ -304,6 +297,7 @@ void GameScene::OnJobCompleted(FileLoader *job)
 
 	MapLayerMetadata *game = pGameMap->GetLayerByName("Game")->AsMetadata();
 	game->SetVisible(false);
+
 	for (unsigned i = 0, len = game->Size(); i < len; ++i)
 	{
 		MetadataObject *placeHolder = static_cast<MetadataObject *>(game->GetChildAt(i));
@@ -323,6 +317,10 @@ void GameScene::OnJobCompleted(FileLoader *job)
 			if (entity->GetClassName() == "OptimistPlayer")
 			{
 				pPlayerOptimist = static_cast<OptimistPlayerEntity*>(entity);
+			}
+			if (entity->GetClassName() == "Enemy")
+			{
+				pEnemyEntity = static_cast<EnemyEntity*>(entity);
 			}
 		}
 	}
@@ -353,8 +351,8 @@ void GameScene::OnJobCompleted(FileLoader *job)
 	pGameOverImg = (Image *)cScene.GetChildByName("GameOverImage");
 	pGameOverImg->SetVisible(false);
 
-	{
-		/*pFogMap = sdNew(GameMap);
+	/*{
+		pFogMap = sdNew(GameMap);
 		pFogMap->sName = "Fog";
 		pFogMap->bMarkForDeletion = true;
 		pFogMap->SetPosition(pGameMap->GetPosition());
@@ -371,14 +369,16 @@ void GameScene::OnJobCompleted(FileLoader *job)
 		set->SetTexture(tex);
 		pFog->SetTileSet(set); // Trigger mesh rebuild
 
-		cScene.Add(pFogMap);*/
-	}
+		cScene.Add(pFogMap);
+	}*/
 
 	bInitialized = true;
 }
 
 void GameScene::ChangePlayer(const String currentPlayer)
 {
+	pEnemyEntity->FindPathToPlayer();
+
 	pSoundSystem->StopMusic(10.0f);
 	bMoveCamera = true;
 
@@ -492,4 +492,9 @@ void GameScene::ChangeLevel()
 
 void GameScene::RemoveLife()
 {
+}
+
+GameMap& GameScene::GetGameMap()
+{
+	return *pGameMap;
 }

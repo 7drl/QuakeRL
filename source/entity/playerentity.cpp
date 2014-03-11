@@ -47,7 +47,6 @@ PlayerEntity::~PlayerEntity()
 	gScene->Remove(pText);
 	sdDelete(pText);
 
-	pInput->RemovePointerListener(this);
 	pInput->RemoveKeyboardListener(this);
 	gPhysics->DestroyBody(pBody);
 	pBody = nullptr;
@@ -76,7 +75,6 @@ void PlayerEntity::Load(MetadataObject &metadata, SceneNode *sprites)
 	pBody->GetFixtureList()->SetUserData(this);
 
 	pInput->AddKeyboardListener(this);
-	pInput->AddPointerListener(this);
 	//fVelocity = 2.0f;
 	vPlayerVectorDirection = VECTOR_ZERO;
 }
@@ -256,31 +254,6 @@ bool PlayerEntity::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 	}
 
 	return true;
-}
-
-void PlayerEntity::OnInputPointerRelease(const EventInputPointer *ev)
-{
-	if (this->bIsActive && this->bIsInputEnabled)
-	{
-		if (ev->GetReleased() == eInputButton::MouseLeft)
-		{
-			b2Vec2 pos = pBody->GetPosition();
-
-			b2Vec2 clickPos;
-			clickPos.x = ev->GetX();
-			clickPos.y = ev->GetY();
-
-			b2Vec2 dir = clickPos - pos;
-
-			f32 distance = dir.Normalize();
-
-			dir *= dir.Normalize();
-			dir *= fVelocity;
-			dir *= distance;
-
-			pBody->SetLinearVelocity(dir);
-		}
-	}
 }
 
 void PlayerEntity::SetItem(ItemTypes::Enum item)

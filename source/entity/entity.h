@@ -26,7 +26,7 @@ class Entity
 		void DoActivateAll();
 
 	private:
-		SEED_DISABLE_COPY(Entity);
+		SEED_DISABLE_COPY(Entity)
 
 		String strClassName;
 		String strName;

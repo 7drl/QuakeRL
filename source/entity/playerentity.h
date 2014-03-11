@@ -18,8 +18,7 @@ namespace ItemTypes
 }
 
 class PlayerEntity: public SpriteEntity,
-					public IEventInputKeyboardListener,
-					public IEventInputPointerListener
+					public IEventInputKeyboardListener
 {
 	public:
 		PlayerEntity();
@@ -35,9 +34,6 @@ class PlayerEntity: public SpriteEntity,
 
 		// IEventInputKeyboardListener
 		bool OnInputKeyboardRelease(const EventInputKeyboard *ev) override;
-
-		// IEventInputPointerListener
-		void OnInputPointerRelease(const EventInputPointer *ev) override;
 
 		void OnCollision(const CollisionEvent &event);
 

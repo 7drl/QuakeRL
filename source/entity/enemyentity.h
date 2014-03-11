@@ -4,6 +4,7 @@
 #include "spriteentity.h"
 #include "../util/collisionsensor.h"
 #include "playerentity.h"
+#include "map/pathfind/Path.h"
 
 class EnemyEntity: public SpriteEntity
 {
@@ -38,7 +39,10 @@ class EnemyEntity: public SpriteEntity
 		u32 GetLife() const;
 		void SetLife(u32 life);
 
+		void FindPathToPlayer();
+
 	private:
+		Path cPath;
 		PlayerEntity *pTarget;
 		b2Body *pBody;
 		CollisionSensor clSensor;
