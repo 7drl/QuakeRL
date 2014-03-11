@@ -90,6 +90,10 @@ String WorldManager::GenerateProceduralMap()
 	String mapFileName(pFileSystem->GetWorkDirectory());
 	mapFileName.append("proceduralmap.json");
 
+	// Upstairs posistion
+	int upStairsX = 0;
+	int upStairsY = 0;
+
 	JsonWriter jsonWriter;
 
 	// Open node Root
@@ -132,6 +136,12 @@ String WorldManager::GenerateProceduralMap()
 				for (int x = 0; x < proceduralManager.GetXSize(); x++)
 				{
 					jsonWriter.WriteU32(proceduralManager.GetTile(x, y));
+
+					if (proceduralManager.GetTile(x, y) == ProceduralManager::tileUpStairs)
+					{
+						upStairsX = x;
+						upStairsY = y;
+					}
 				}
 			}
 			// Close array Data
@@ -206,8 +216,8 @@ String WorldManager::GenerateProceduralMap()
 					jsonWriter.WriteString("type"	, "");
 					jsonWriter.WriteU32("height"	, 0);
 					jsonWriter.WriteU32("width"		, 0);
-					jsonWriter.WriteU32("x"			, 657);
-					jsonWriter.WriteU32("y"			, 632);
+					jsonWriter.WriteU32("x"			, upStairsX * 40 + 20);
+					jsonWriter.WriteU32("y"			, upStairsY * 40 + 20);
 					jsonWriter.WriteBool("visible"	, true);
 
 					// Open node Properties
