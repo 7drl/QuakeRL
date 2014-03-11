@@ -3,6 +3,7 @@
 
 ProceduralManager::ProceduralManager()
 	: pWorldMap(nullptr)
+	, pObjectsMap(nullptr)
 	, iXMax(30)
 	, iYMax(30)
 	, iXSize(0)
@@ -18,6 +19,7 @@ ProceduralManager::ProceduralManager()
 ProceduralManager::~ProceduralManager()
 {
 	sdDelete(pWorldMap);
+	sdDelete(pObjectsMap);
 }
 
 void ProceduralManager::BuildWorld(const int width, const int height, int dungeonObjects)
@@ -42,8 +44,11 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 	else
 		iYSize = height;
 
-	// Creates the array map
+	// Creates the array world map
 	pWorldMap = sdNew(int[iXSize * iYSize]);
+
+	// Creates the array objects map
+	pObjectsMap = sdNew(int[iXSize * iYSize]);
 
 	// Create the borders and fill the midle with dirt
 	for (int y = 0; y < iYSize; y++)
@@ -63,8 +68,12 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 			else
 				SetTile(x, y, tileBrickFloor);
 				//SetTile(x, y, tileUnused);
+
+			// Initialize the objects
+			SetObject(x, y, objectNull);
 		}
 	}
+
 
 	// Create the ramdom rooms
 	// Start with making a room in the middle
@@ -94,24 +103,29 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 			newx = GetRand(1, iXSize-1);
 			newy = GetRand(1, iYSize-1);
 			validTile = -1;
-			if (GetTile(newx, newy) == tileStoneWall || GetTile(newx, newy) == tileCorridor){
+			if (GetTile(newx, newy) == tileStoneWall || GetTile(newx, newy) == tileCorridor)
+			{
 				//check if we can reach the place
-				if (GetTile(newx, newy+1) == tileGrassFloor || GetTile(newx, newy+1) == tileCorridor){
+				if (GetTile(newx, newy+1) == tileGrassFloor || GetTile(newx, newy+1) == tileCorridor)
+				{
 					validTile = 0; //
 					xmod = 0;
 					ymod = -1;
 				}
-				else if (GetTile(newx-1, newy) == tileGrassFloor || GetTile(newx-1, newy) == tileCorridor){
+				else if (GetTile(newx-1, newy) == tileGrassFloor || GetTile(newx-1, newy) == tileCorridor)
+				{
 					validTile = 1; //
 					xmod = +1;
 					ymod = 0;
 				}
-				else if (GetTile(newx, newy-1) == tileGrassFloor || GetTile(newx, newy-1) == tileCorridor){
+				else if (GetTile(newx, newy-1) == tileGrassFloor || GetTile(newx, newy-1) == tileCorridor)
+				{
 					validTile = 2; //
 					xmod = 0;
 					ymod = +1;
 				}
-				else if (GetTile(newx+1, newy) == tileGrassFloor || GetTile(newx+1, newy) == tileCorridor){
+				else if (GetTile(newx+1, newy) == tileGrassFloor || GetTile(newx+1, newy) == tileCorridor)
+				{
 					validTile = 3; //
 					xmod = -1;
 					ymod = 0;
@@ -119,7 +133,8 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 
 				//check that we haven't got another door nearby, so we won't get alot of openings besides
 				//each other
-				if (validTile > -1){
+				if (validTile > -1)
+				{
 					if (GetTile(newx, newy+1) == tileDoor) //north
 						validTile = -1;
 					else if (GetTile(newx-1, newy) == tileDoor)//east
@@ -134,11 +149,13 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 				if (validTile > -1) break;
 			}
 		}
-		if (validTile > -1){
+		if (validTile > -1)
+		{
 			//choose what to build now at our newly found place, and at what direction
 			int feature = GetRand(0, 100);
 			if (feature <= iChanceRoom){ //a new room
-				if (MakeRoom((newx+xmod), (newy+ymod), 8, 6, validTile)){
+				if (MakeRoom((newx+xmod), (newy+ymod), 8, 6, validTile))
+				{
 					currentFeatures++; //add to our quota
 
 					//then we mark the wall opening with a door
@@ -149,7 +166,8 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 				}
 			}
 			else if (feature >= iChanceRoom){ //new corridor
-				if (MakeCorridor((newx+xmod), (newy+ymod), 6, validTile)){
+				if (MakeCorridor((newx+xmod), (newy+ymod), 6, validTile))
+				{
 					//same thing here, add to the quota and a door
 					currentFeatures++;
 
@@ -174,25 +192,29 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 			ways = 4; //the lower the better
 
 			//check if we can reach the spot
-			if (GetTile(newx, newy+1) == tileGrassFloor || GetTile(newx, newy+1) == tileCorridor){
-			//north
+			if (GetTile(newx, newy+1) == tileGrassFloor || GetTile(newx, newy+1) == tileCorridor)
+			{
+				//north
 				if (GetTile(newx, newy+1) != tileDoor)
-				ways--;
+					ways--;
 			}
-			if (GetTile(newx-1, newy) == tileGrassFloor || GetTile(newx-1, newy) == tileCorridor){
-			//east
+			if (GetTile(newx-1, newy) == tileGrassFloor || GetTile(newx-1, newy) == tileCorridor)
+			{
+				//east
 				if (GetTile(newx-1, newy) != tileDoor)
-				ways--;
+					ways--;
 			}
-			if (GetTile(newx, newy-1) == tileGrassFloor || GetTile(newx, newy-1) == tileCorridor){
-			//south
+			if (GetTile(newx, newy-1) == tileGrassFloor || GetTile(newx, newy-1) == tileCorridor)
+			{
+				//south
 				if (GetTile(newx, newy-1) != tileDoor)
-				ways--;
+					ways--;
 			}
-			if (GetTile(newx+1, newy) == tileGrassFloor || GetTile(newx+1, newy) == tileCorridor){
-			//west
+			if (GetTile(newx+1, newy) == tileGrassFloor || GetTile(newx+1, newy) == tileCorridor)
+			{
+				//west
 				if (GetTile(newx+1, newy) != tileDoor)
-				ways--;
+					ways--;
 			}
 
 			if (state == 0)
@@ -217,6 +239,33 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 			}
 		}
 	}
+
+	// Sprinkle out the objects on the map (enemies, weapons, ammo boxes)
+	int quantityEnemies = GetRand(10, 20);
+	int xObjPlace = 0;
+	int yObjPlace = 0;
+	int tileToVerify = 0;
+	int objectToVerify = 0;
+
+	while (quantityEnemies > 0)
+	{
+		xObjPlace = GetRand(0, iXSize);
+		yObjPlace = GetRand(0, iYSize);
+		tileToVerify = GetTile(xObjPlace, yObjPlace);
+		objectToVerify = GetObject(xObjPlace, yObjPlace);
+
+		// We need to verify if is not a wall or a door and there is empty
+		if (	tileToVerify != tileUpStairs &&
+				tileToVerify != tileDoor &&
+				tileToVerify != tileStoneWall &&
+				objectToVerify == objectNull)
+		{
+			SetObject(xObjPlace, yObjPlace, GetRand(objectEnemyGrunt, objectEnemyKnight));
+			quantityEnemies--;
+		}
+
+	}
+
 }
 
 void ProceduralManager::SetTile(int x, int y, int tileType)
@@ -227,6 +276,16 @@ void ProceduralManager::SetTile(int x, int y, int tileType)
 int ProceduralManager::GetTile(int x, int y)
 {
 	return pWorldMap[x + iXSize * y];
+}
+
+void ProceduralManager::SetObject(int x, int y, int objectType)
+{
+	pObjectsMap[x + iXSize * y] = objectType;
+}
+
+int ProceduralManager::GetObject(int x, int y)
+{
+	return pObjectsMap[x + iXSize * y];
 }
 
 int ProceduralManager::GetXSize()

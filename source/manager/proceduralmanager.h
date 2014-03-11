@@ -11,10 +11,12 @@ class ProceduralManager
 		virtual void BuildWorld(const int width, const int height, int dungeonObjects);
 		virtual void SetTile(int x, int y, int tileType);
 		virtual int GetTile(int x, int y);
+		virtual void SetObject(int x, int y, int objectType);
+		virtual int GetObject(int x, int y);
 		virtual int GetXSize();
 		virtual int GetYSize();
 
-		enum
+		enum Tiles
 		{
 			tileUnused = 0,
 			tileBrickFloor,
@@ -28,6 +30,14 @@ class ProceduralManager
 			tileChest
 		};
 
+		enum Objects
+		{
+			objectNull,
+			objectEnemyGrunt ,
+			objectEnemyOgre,
+			objectEnemyKnight
+		};
+
 	private:
 
 		virtual int GetRand(int min, int max);
@@ -35,6 +45,7 @@ class ProceduralManager
 		virtual bool MakeCorridor(int x, int y, int lenght, int direction);
 
 		int *pWorldMap;
+		int *pObjectsMap;
 
 		int iXMax;
 		int iYMax;

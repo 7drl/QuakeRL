@@ -137,7 +137,7 @@ String WorldManager::GenerateProceduralMap()
 				{
 					jsonWriter.WriteU32(proceduralManager.GetTile(x, y));
 
-					if (proceduralManager.GetTile(x, y) == ProceduralManager::tileUpStairs)
+					if (proceduralManager.GetTile(x, y) == ProceduralManager::Tiles::tileUpStairs)
 					{
 						upStairsX = x;
 						upStairsY = y;
@@ -169,7 +169,7 @@ String WorldManager::GenerateProceduralMap()
 			{
 				for (int x = 0; x < proceduralManager.GetXSize(); x++)
 				{
-					if (proceduralManager.GetTile(x, y) == ProceduralManager::tileStoneWall)
+					if (proceduralManager.GetTile(x, y) == ProceduralManager::Tiles::tileStoneWall)
 					{
 						// Open node Collider
 						jsonWriter.OpenNode();
@@ -230,6 +230,99 @@ String WorldManager::GenerateProceduralMap()
 
 				// Close node OptimistPlayer
 				jsonWriter.CloseNode();
+
+				// Here we will open a lot of nodes to create enemies
+				for (int y = 0; y < proceduralManager.GetYSize(); y++)
+				{
+					for (int x = 0; x < proceduralManager.GetXSize(); x++)
+					{
+						if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectEnemyGrunt)
+						{
+							// Open node Enemies
+							jsonWriter.OpenNode();
+
+								jsonWriter.WriteString("name"	, "EnemyGrunt");
+								jsonWriter.WriteString("type"	, "");
+								jsonWriter.WriteU32("height"	, 0);
+								jsonWriter.WriteU32("width"		, 0);
+								jsonWriter.WriteU32("x"			, x * 40 + 20);
+								jsonWriter.WriteU32("y"			, y * 40 + 20);
+								jsonWriter.WriteBool("visible"	, true);
+
+								// Open node Properties
+								jsonWriter.OpenNode("properties");
+
+									jsonWriter.WriteString(	"Class", "Enemy");
+									jsonWriter.WriteString(	"AttackPower", "2");
+									jsonWriter.WriteString(	"DefensePower", "3y");
+									jsonWriter.WriteString(	"EnemyId", "1");
+									jsonWriter.WriteString(	"Level", "1");
+
+								// Close node Properties
+								jsonWriter.CloseNode();
+
+							// Close node Enemies
+							jsonWriter.CloseNode();
+						}
+						else if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectEnemyOgre)
+						{
+							// Open node Enemies
+							jsonWriter.OpenNode();
+
+								jsonWriter.WriteString("name"	, "EnemyOgre");
+								jsonWriter.WriteString("type"	, "");
+								jsonWriter.WriteU32("height"	, 0);
+								jsonWriter.WriteU32("width"		, 0);
+								jsonWriter.WriteU32("x"			, x * 40 + 20);
+								jsonWriter.WriteU32("y"			, y * 40 + 20);
+								jsonWriter.WriteBool("visible"	, true);
+
+								// Open node Properties
+								jsonWriter.OpenNode("properties");
+
+									jsonWriter.WriteString(	"Class", "Enemy");
+									jsonWriter.WriteString(	"AttackPower", "2");
+									jsonWriter.WriteString(	"DefensePower", "3y");
+									jsonWriter.WriteString(	"EnemyId", "2");
+									jsonWriter.WriteString(	"Level", "1");
+
+								// Close node Properties
+								jsonWriter.CloseNode();
+
+							// Close node Enemies
+							jsonWriter.CloseNode();
+						}
+						else if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectEnemyKnight)
+						{
+							// Open node Enemies
+							jsonWriter.OpenNode();
+
+								jsonWriter.WriteString("name"	, "EnemyKnight");
+								jsonWriter.WriteString("type"	, "");
+								jsonWriter.WriteU32("height"	, 0);
+								jsonWriter.WriteU32("width"		, 0);
+								jsonWriter.WriteU32("x"			, x * 40 + 20);
+								jsonWriter.WriteU32("y"			, y * 40 + 20);
+								jsonWriter.WriteBool("visible"	, true);
+
+								// Open node Properties
+								jsonWriter.OpenNode("properties");
+
+									jsonWriter.WriteString(	"Class", "Enemy");
+									jsonWriter.WriteString(	"AttackPower", "2");
+									jsonWriter.WriteString(	"DefensePower", "3y");
+									jsonWriter.WriteString(	"EnemyId", "3");
+									jsonWriter.WriteString(	"Level", "1");
+
+								// Close node Properties
+								jsonWriter.CloseNode();
+
+							// Close node Enemies
+							jsonWriter.CloseNode();
+						}
+					}
+				}
+				// Enemies created
 
 			//Close array Objects
 			jsonWriter.CloseArray();

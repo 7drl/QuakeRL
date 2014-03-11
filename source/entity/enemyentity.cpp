@@ -100,28 +100,14 @@ void EnemyEntity::Update(f32 dt)
 	if (pTarget != nullptr && pTarget->GetIsActive())
 	{
 		// Change enemy sprites
-		if (pTarget->GetClassName() == "OptimistPlayer")
-		{
-			if (sEnemy.iEnemyId == 0)
-				pSprite->SetAnimation("OptimistEnemy");
-			else if (sEnemy.iEnemyId == 1)
-				pSprite->SetAnimation("OptimistEnemy1");
-			else if (sEnemy.iEnemyId == 2)
-				pSprite->SetAnimation("OptimistEnemy2");
-			else
-				pSprite->SetAnimation("OptimistEnemy3");
-		}
+		if (sEnemy.iEnemyId == 1)
+			pSprite->SetAnimation("EnemyGrunt");
+		else if (sEnemy.iEnemyId == 2)
+			pSprite->SetAnimation("EnemyOgre");
+		else if (sEnemy.iEnemyId == 3)
+			pSprite->SetAnimation("EnemyKnight");
 		else
-		{
-			if (sEnemy.iEnemyId == 0)
-				pSprite->SetAnimation("PessimistEnemy");
-			else if (sEnemy.iEnemyId == 1)
-				pSprite->SetAnimation("PessimistEnemy1");
-			else if (sEnemy.iEnemyId == 2)
-				pSprite->SetAnimation("PessimistEnemy2");
-			else
-				pSprite->SetAnimation("PessimistEnemy3");
-		}
+			pSprite->SetAnimation("EnemyGrunt");
 
 		b2Vec2 dir = pTarget->GetBodyPosition() - pBody->GetPosition();
 
