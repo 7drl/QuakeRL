@@ -4,7 +4,7 @@
 #include "spriteentity.h"
 #include "../util/collisionsensor.h"
 #include "playerentity.h"
-#include "map/pathfind/Path.h"
+#include <map/pathfind/Path.h>
 
 class EnemyEntity: public SpriteEntity
 {
