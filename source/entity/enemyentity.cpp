@@ -257,6 +257,5 @@ void EnemyEntity::SetLife(u32 life)
 void EnemyEntity::FindPathToPlayer()
 {
 	// Find path to the player
-	MapLayerTiled *gameMap = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-	gPathfinderManager->Findpath(pSprite->GetPosition(), pTarget->GetSprite()->GetPosition(), *gameMap, cPath);
+	gPathfinderManager->Findpath(pSprite->GetPosition(), pTarget->GetSprite()->GetPosition(), cPath);
 }

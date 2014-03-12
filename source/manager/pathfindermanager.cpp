@@ -2,9 +2,9 @@
 #include "map/pathfind/AStarPathfinder.h"
 
 PathfinderManager::PathfinderManager()
-	: pPathfinder(nullptr)
+	: pHeuristic(nullptr)
+	, pPathfinder(nullptr)
 {
-	pPathfinder = sdNew(AStarPathfinder);
 }
 
 PathfinderManager::~PathfinderManager()
@@ -12,12 +12,19 @@ PathfinderManager::~PathfinderManager()
 	sdDelete(pPathfinder);
 }
 
-Path &PathfinderManager::Findpath(const Vector3f &start, const Vector3f &end, MapLayerTiled &map, Path &path)
+void PathfinderManager::Init(MapLayerTiled *mapBackground, MapLayerTiled *mapColliders)
 {
-	return pPathfinder->FindPath(start, end, map, path);
+	pHeuristic = sdNew(Heuristic);
+	pPathfinder = sdNew(AStarPathfinder(true, true, 1, pHeuristic, mapBackground, mapColliders));
 }
+
 
 void PathfinderManager::Update(f32 dt)
 {
 	UNUSED(dt);
+}
+
+Path &PathfinderManager::Findpath(const Vector3f &start, const Vector3f &end, Path &path)
+{
+	return pPathfinder->FindPath(start, end, path);
 }
