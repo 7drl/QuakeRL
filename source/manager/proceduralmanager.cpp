@@ -255,7 +255,7 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 
 	// Sprinkle out the objects on the map (enemies, weapons, ammo boxes)
 	int quantityEnemies = GetRand(10, 20);
-	int quantityObjects = GetRand(10, 20);
+	int quantityObjects = GetRand(5, 10);
 
 	int xObjPlace = 0;
 	int yObjPlace = 0;
@@ -285,6 +285,28 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 	}
 
 	// Objects
+	while (quantityObjects > 0)
+	{
+		xObjPlace	= GetRand(0, iXSize);
+		yObjPlace	= GetRand(0, iYSize);
+		tileToVerify	= GetTile(xObjPlace, yObjPlace);
+		enemyToVerify	= GetEnemy(xObjPlace, yObjPlace);
+		objectToVerify	= GetObject(xObjPlace, yObjPlace);
+
+		// We need to verify if is not a wall or a door and there is empty
+		if (	tileToVerify != tileUpStairs &&
+				tileToVerify != tileDownStairs &&
+				tileToVerify != tileDoor &&
+				tileToVerify != tileStoneWall &&
+				tileToVerify != tileBrickFloor &&
+				tileToVerify != tileCorridor &&
+				enemyToVerify == enemyNull &&
+				objectToVerify == objectNull)
+		{
+			SetObject(xObjPlace, yObjPlace, GetRand(objectHealth, objectLightArmor));
+			quantityObjects--;
+		}
+	}
 
 }
 

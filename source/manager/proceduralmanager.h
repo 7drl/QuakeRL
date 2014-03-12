@@ -43,7 +43,10 @@ class ProceduralManager
 		enum Objects
 		{
 			objectNull,
-			objectHealth
+			objectHealth,
+			objectLightArmor,
+			objectMediumArmor,
+			objectHeavyArmor
 		};
 
 	private:

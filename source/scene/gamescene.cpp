@@ -130,7 +130,7 @@ void GameScene::FogReveal(const Vector3f &pos, u32 radius)
 	{
 		for (auto x = -r; x <= r; x++)
 		{
-			pFog->SetTileAt(sx + x, sy + y, 5); // 5 == ultimo tile, transparente
+			pFog->SetTileAt(sx + x, sy + y, 10); // 10 == ultimo tile, transparente
 		}
 	}
 }
@@ -334,7 +334,7 @@ void GameScene::OnJobCompleted(FileLoader *job)
 	pGameOverImg = (Image *)cScene.GetChildByName("GameOverImage");
 	pGameOverImg->SetVisible(false);
 
-	/*{
+	{
 		pFogMap = sdNew(GameMap);
 		pFogMap->sName = "Fog";
 		pFogMap->bMarkForDeletion = true;
@@ -353,7 +353,7 @@ void GameScene::OnJobCompleted(FileLoader *job)
 		pFog->SetTileSet(set); // Trigger mesh rebuild
 
 		cScene.Add(pFogMap);
-	}*/
+	}
 
 	bInitialized = true;
 }

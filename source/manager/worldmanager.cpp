@@ -231,14 +231,15 @@ String WorldManager::GenerateProceduralMap()
 				// Close node OptimistPlayer
 				jsonWriter.CloseNode();
 
-				// Here we will open a lot of nodes to create enemies
+				// Here we will open a lot of nodes to create enemies and objects
 				for (int y = 0; y < proceduralManager.GetYSize(); y++)
 				{
 					for (int x = 0; x < proceduralManager.GetXSize(); x++)
 					{
+						// Enemies
 						if (proceduralManager.GetEnemy(x, y) == ProceduralManager::Enemies::enemyGrunt)
 						{
-							// Open node Enemies
+							// Open node Enemy
 							jsonWriter.OpenNode();
 
 								jsonWriter.WriteString("name"	, "EnemyGrunt");
@@ -261,12 +262,12 @@ String WorldManager::GenerateProceduralMap()
 								// Close node Properties
 								jsonWriter.CloseNode();
 
-							// Close node Enemies
+							// Close node Enemy
 							jsonWriter.CloseNode();
 						}
 						else if (proceduralManager.GetEnemy(x, y) == ProceduralManager::Enemies::enemyOgre)
 						{
-							// Open node Enemies
+							// Open node Enemy
 							jsonWriter.OpenNode();
 
 								jsonWriter.WriteString("name"	, "EnemyOgre");
@@ -289,12 +290,12 @@ String WorldManager::GenerateProceduralMap()
 								// Close node Properties
 								jsonWriter.CloseNode();
 
-							// Close node Enemies
+							// Close node Enemy
 							jsonWriter.CloseNode();
 						}
 						else if (proceduralManager.GetEnemy(x, y) == ProceduralManager::Enemies::enemyKnight)
 						{
-							// Open node Enemies
+							// Open node Enemy
 							jsonWriter.OpenNode();
 
 								jsonWriter.WriteString("name"	, "EnemyKnight");
@@ -317,12 +318,114 @@ String WorldManager::GenerateProceduralMap()
 								// Close node Properties
 								jsonWriter.CloseNode();
 
-							// Close node Enemies
+							// Close node Enemy
+							jsonWriter.CloseNode();
+						}
+
+						// Objects
+						if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectHealth)
+						{
+							// Open node Object
+							jsonWriter.OpenNode();
+
+							jsonWriter.WriteString("name"	, "HealthPotion");
+							jsonWriter.WriteString("type"	, "");
+							jsonWriter.WriteU32("height"	, 40);
+							jsonWriter.WriteU32("width"		, 40);
+							jsonWriter.WriteU32("x"			, x * 40 + 20);
+							jsonWriter.WriteU32("y"			, y * 40 + 20);
+							jsonWriter.WriteBool("visible"	, true);
+
+								// Open node Properties
+								jsonWriter.OpenNode("properties");
+
+									jsonWriter.WriteString(	"Class", "HealthPotion");
+									jsonWriter.WriteString(	"Amount", "25");
+
+								// Close node Properties
+								jsonWriter.CloseNode();
+
+							// Close node Object
+							jsonWriter.CloseNode();
+						}
+						else if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectLightArmor)
+						{
+							// Open node Object
+							jsonWriter.OpenNode();
+
+							jsonWriter.WriteString("name"	, "StaminaPotion");
+							jsonWriter.WriteString("type"	, "");
+							jsonWriter.WriteU32("height"	, 40);
+							jsonWriter.WriteU32("width"		, 40);
+							jsonWriter.WriteU32("x"			, x * 40 + 20);
+							jsonWriter.WriteU32("y"			, y * 40 + 20);
+							jsonWriter.WriteBool("visible"	, true);
+
+								// Open node Properties
+								jsonWriter.OpenNode("properties");
+
+									jsonWriter.WriteString(	"Class", "StaminaPotion");
+									jsonWriter.WriteString(	"Amount", "100");
+
+								// Close node Properties
+								jsonWriter.CloseNode();
+
+							// Close node Object
+							jsonWriter.CloseNode();
+						}
+						else if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectMediumArmor)
+						{
+							// Open node Object
+							jsonWriter.OpenNode();
+
+							jsonWriter.WriteString("name"	, "StaminaPotion");
+							jsonWriter.WriteString("type"	, "");
+							jsonWriter.WriteU32("height"	, 40);
+							jsonWriter.WriteU32("width"		, 40);
+							jsonWriter.WriteU32("x"			, x * 40 + 20);
+							jsonWriter.WriteU32("y"			, y * 40 + 20);
+							jsonWriter.WriteBool("visible"	, true);
+
+								// Open node Properties
+								jsonWriter.OpenNode("properties");
+
+									jsonWriter.WriteString(	"Class", "StaminaPotion");
+									jsonWriter.WriteString(	"Amount", "150");
+
+								// Close node Properties
+								jsonWriter.CloseNode();
+
+							// Close node Object
+							jsonWriter.CloseNode();
+						}
+						else if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectHeavyArmor)
+						{
+							// Open node Object
+							jsonWriter.OpenNode();
+
+							jsonWriter.WriteString("name"	, "StaminaPotion");
+							jsonWriter.WriteString("type"	, "");
+							jsonWriter.WriteU32("height"	, 40);
+							jsonWriter.WriteU32("width"		, 40);
+							jsonWriter.WriteU32("x"			, x * 40 + 20);
+							jsonWriter.WriteU32("y"			, y * 40 + 20);
+							jsonWriter.WriteBool("visible"	, true);
+
+								// Open node Properties
+								jsonWriter.OpenNode("properties");
+
+									jsonWriter.WriteString(	"Class", "StaminaPotion");
+									jsonWriter.WriteString(	"Amount", "200");
+
+								// Close node Properties
+								jsonWriter.CloseNode();
+
+							// Close node Object
 							jsonWriter.CloseNode();
 						}
 					}
 				}
-				// Enemies created
+				// Enemies and objects created
 
 			//Close array Objects
 			jsonWriter.CloseArray();
