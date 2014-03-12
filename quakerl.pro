@@ -122,7 +122,8 @@ OTHER_FILES_TEXTURE = \
 	resources/textures/optimist_enemy_tileset.png \
 	resources/textures/quakerl_tileset.png \
 	resources/textures/ranger_idle_frame1.png \
-	resources/textures/quakerl_enemy_tileset.png
+	resources/textures/quakerl_enemy_tileset.png \
+	resources/textures/quakerl_objects_tileset.png
 
 #Gui
 OTHER_FILES_GUI_STYLE = \
