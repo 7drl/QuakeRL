@@ -37,9 +37,9 @@ GameScene::GameScene(SceneNode *parent, Camera *mainCamera, const String &sceneF
 	gScene = &cScene;
 	gPhysics = &clPhysicsManager;
 	gSoundManager = &clSoundManager;
+	gPathfinderManager = &clPathfinderManager;
 	gWorldManager = &clWorldManager;
 	gGameScene = this;
-	gPathfinderManager = &clPathfinderManager;
 	memset(&bRequiredKeys, 0x00, sizeof(bRequiredKeys));
 }
 
@@ -288,6 +288,9 @@ void GameScene::OnJobCompleted(FileLoader *job)
 
 	MapLayerMetadata *game = pGameMap->GetLayerByName("Game")->AsMetadata();
 	game->SetVisible(false);
+
+	clPathfinderManager.Init(pGameMap->GetLayerByName("Background")->AsTiled(),
+								pGameMap->GetLayerByName("Colliders")->AsTiled());
 
 	for (unsigned i = 0, len = game->Size(); i < len; ++i)
 	{
