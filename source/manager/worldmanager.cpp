@@ -1,7 +1,7 @@
 #include "worldmanager.h"
 #include "../entity/entityfactory.h"
 #include "../entity/entity.h"
-#include <api/yajl/JsonWriter.h>
+#include <Writer.h>
 #include "proceduralmanager.h"
 
 WorldManager::~WorldManager()
@@ -94,48 +94,48 @@ String WorldManager::GenerateProceduralMap()
 	int upStairsX = 0;
 	int upStairsY = 0;
 
-	JsonWriter jsonWriter;
+	Writer writer;
 
 	// Open node Root
-	jsonWriter.OpenNode();
+	writer.OpenNode();
 
-	jsonWriter.WriteString("orientation", "orthogonal");
-	jsonWriter.WriteU32("tileheight"	, 40);
-	jsonWriter.WriteU32("tilewidth"		, 40);
-	jsonWriter.WriteU32("height"		, 30);
-	jsonWriter.WriteU32("width"			, 30);
-	jsonWriter.WriteU32("version"		, 1);
+	writer.WriteString("orientation", "orthogonal");
+	writer.WriteU32("tileheight"	, 40);
+	writer.WriteU32("tilewidth"		, 40);
+	writer.WriteU32("height"		, 30);
+	writer.WriteU32("width"			, 30);
+	writer.WriteU32("version"		, 1);
 
 	// Open node Properties
-	jsonWriter.OpenNode("properties");
+	writer.OpenNode("properties");
 
-		jsonWriter.WriteString("NextLevel", "dungeon.scene");
+		writer.WriteString("NextLevel", "dungeon.scene");
 
 	// Close node Properties
-	jsonWriter.CloseNode();
+	writer.CloseNode();
 
 	// Open array Layers
-	jsonWriter.OpenArray("layers");
+	writer.OpenArray("layers");
 
 		// Open node Background
-		jsonWriter.OpenNode();
+		writer.OpenNode();
 
-			jsonWriter.WriteString("name"	, "Background");
-			jsonWriter.WriteString("type"	, "tilelayer");
-			jsonWriter.WriteU32	("opacity"	, 1);
-			jsonWriter.WriteU32("height"	, 30);
-			jsonWriter.WriteU32("width"		, 30);
-			jsonWriter.WriteU32("x"			, 0);
-			jsonWriter.WriteU32("y"			, 0);
-			jsonWriter.WriteBool("visible"	, true);
+			writer.WriteString("name"	, "Background");
+			writer.WriteString("type"	, "tilelayer");
+			writer.WriteU32	("opacity"	, 1);
+			writer.WriteU32("height"	, 30);
+			writer.WriteU32("width"		, 30);
+			writer.WriteU32("x"			, 0);
+			writer.WriteU32("y"			, 0);
+			writer.WriteBool("visible"	, true);
 
 			// Open array Data
-			jsonWriter.OpenArray("data");
+			writer.OpenArray("data");
 			for (int y = 0; y < proceduralManager.GetYSize(); y++)
 			{
 				for (int x = 0; x < proceduralManager.GetXSize(); x++)
 				{
-					jsonWriter.WriteU32(proceduralManager.GetTile(x, y));
+					writer.WriteU32(proceduralManager.GetTile(x, y));
 
 					if (proceduralManager.GetTile(x, y) == ProceduralManager::Tiles::tileUpStairs)
 					{
@@ -145,25 +145,25 @@ String WorldManager::GenerateProceduralMap()
 				}
 			}
 			// Close array Data
-			jsonWriter.CloseArray();
+			writer.CloseArray();
 
 		// Close node Background
-		jsonWriter.CloseNode();
+		writer.CloseNode();
 
 		// Open node Colliders
-		jsonWriter.OpenNode();
+		writer.OpenNode();
 
-			jsonWriter.WriteString("name"	, "Colliders");
-			jsonWriter.WriteString("type"	, "objectgroup");
-			jsonWriter.WriteU32("opacity"	, 1);
-			jsonWriter.WriteU32("height"	, 30);
-			jsonWriter.WriteU32("width"		, 30);
-			jsonWriter.WriteU32("x"			, 0);
-			jsonWriter.WriteU32("y"			, 0);
-			jsonWriter.WriteBool("visible"	, true);
+			writer.WriteString("name"	, "Colliders");
+			writer.WriteString("type"	, "objectgroup");
+			writer.WriteU32("opacity"	, 1);
+			writer.WriteU32("height"	, 30);
+			writer.WriteU32("width"		, 30);
+			writer.WriteU32("x"			, 0);
+			writer.WriteU32("y"			, 0);
+			writer.WriteBool("visible"	, true);
 
 			//Open array Objects
-			jsonWriter.OpenArray("objects");
+			writer.OpenArray("objects");
 
 			for (int y = 0; y < proceduralManager.GetYSize(); y++)
 			{
@@ -172,64 +172,64 @@ String WorldManager::GenerateProceduralMap()
 					if (proceduralManager.GetTile(x, y) == ProceduralManager::Tiles::tileStoneWall)
 					{
 						// Open node Collider
-						jsonWriter.OpenNode();
+						writer.OpenNode();
 
-							jsonWriter.WriteString("name"	, "");
-							jsonWriter.WriteString("type"	, "");
-							jsonWriter.WriteU32("height"	, 40);
-							jsonWriter.WriteU32("width"		, 40);
-							jsonWriter.WriteU32("x"			, (x > 0) ? x * 40 : x);
-							jsonWriter.WriteU32("y"			, (y > 0) ? y * 40 : y);
-							jsonWriter.WriteBool("visible"	, true);
+							writer.WriteString("name"	, "");
+							writer.WriteString("type"	, "");
+							writer.WriteU32("height"	, 40);
+							writer.WriteU32("width"		, 40);
+							writer.WriteU32("x"			, (x > 0) ? x * 40 : x);
+							writer.WriteU32("y"			, (y > 0) ? y * 40 : y);
+							writer.WriteBool("visible"	, true);
 
 						// Close node Collider
-						jsonWriter.CloseNode();
+						writer.CloseNode();
 					}
 				}
 			}
 
 			//Close array Objects
-			jsonWriter.CloseArray();
+			writer.CloseArray();
 
 		// Close node Colliders
-		jsonWriter.CloseNode();
+		writer.CloseNode();
 
 		// Open node Game
-		jsonWriter.OpenNode();
+		writer.OpenNode();
 
-			jsonWriter.WriteString(	"name",		"Game");
-			jsonWriter.WriteString(	"type",		"objectgroup");
-			jsonWriter.WriteU32	(	"opacity",	1);
-			jsonWriter.WriteU32(	"height",	30);
-			jsonWriter.WriteU32(	"width",	30);
-			jsonWriter.WriteU32(	"x",		0);
-			jsonWriter.WriteU32(	"y",		0);
-			jsonWriter.WriteBool(	"visible",	true);
+			writer.WriteString(	"name",		"Game");
+			writer.WriteString(	"type",		"objectgroup");
+			writer.WriteU32	(	"opacity",	1);
+			writer.WriteU32(	"height",	30);
+			writer.WriteU32(	"width",	30);
+			writer.WriteU32(	"x",		0);
+			writer.WriteU32(	"y",		0);
+			writer.WriteBool(	"visible",	true);
 
 			//Open array Objects
-			jsonWriter.OpenArray("objects");
+			writer.OpenArray("objects");
 
 				// Open node OptimistPlayer
-				jsonWriter.OpenNode();
+				writer.OpenNode();
 
-					jsonWriter.WriteString("name"	, "OptimistPlayer");
-					jsonWriter.WriteString("type"	, "");
-					jsonWriter.WriteU32("height"	, 0);
-					jsonWriter.WriteU32("width"		, 0);
-					jsonWriter.WriteU32("x"			, upStairsX * 40 + 20);
-					jsonWriter.WriteU32("y"			, upStairsY * 40 + 20);
-					jsonWriter.WriteBool("visible"	, true);
+					writer.WriteString("name"	, "OptimistPlayer");
+					writer.WriteString("type"	, "");
+					writer.WriteU32("height"	, 0);
+					writer.WriteU32("width"		, 0);
+					writer.WriteU32("x"			, upStairsX * 40 + 20);
+					writer.WriteU32("y"			, upStairsY * 40 + 20);
+					writer.WriteBool("visible"	, true);
 
 					// Open node Properties
-					jsonWriter.OpenNode("properties");
+					writer.OpenNode("properties");
 
-						jsonWriter.WriteString(	"Class", "OptimistPlayer");
+						writer.WriteString(	"Class", "OptimistPlayer");
 
 					// Close node Properties
-					jsonWriter.CloseNode();
+					writer.CloseNode();
 
 				// Close node OptimistPlayer
-				jsonWriter.CloseNode();
+				writer.CloseNode();
 
 				// Here we will open a lot of nodes to create enemies and objects
 				for (int y = 0; y < proceduralManager.GetYSize(); y++)
@@ -240,234 +240,234 @@ String WorldManager::GenerateProceduralMap()
 						if (proceduralManager.GetEnemy(x, y) == ProceduralManager::Enemies::enemyGrunt)
 						{
 							// Open node Enemy
-							jsonWriter.OpenNode();
+							writer.OpenNode();
 
-								jsonWriter.WriteString("name"	, "EnemyGrunt");
-								jsonWriter.WriteString("type"	, "");
-								jsonWriter.WriteU32("height"	, 0);
-								jsonWriter.WriteU32("width"		, 0);
-								jsonWriter.WriteU32("x"			, x * 40 + 20);
-								jsonWriter.WriteU32("y"			, y * 40 + 20);
-								jsonWriter.WriteBool("visible"	, true);
+								writer.WriteString("name"	, "EnemyGrunt");
+								writer.WriteString("type"	, "");
+								writer.WriteU32("height"	, 0);
+								writer.WriteU32("width"		, 0);
+								writer.WriteU32("x"			, x * 40 + 20);
+								writer.WriteU32("y"			, y * 40 + 20);
+								writer.WriteBool("visible"	, true);
 
 								// Open node Properties
-								jsonWriter.OpenNode("properties");
+								writer.OpenNode("properties");
 
-									jsonWriter.WriteString(	"Class", "Enemy");
-									jsonWriter.WriteString(	"AttackPower", "2");
-									jsonWriter.WriteString(	"DefensePower", "3y");
-									jsonWriter.WriteString(	"EnemyId", "1");
-									jsonWriter.WriteString(	"Level", "1");
+									writer.WriteString(	"Class", "Enemy");
+									writer.WriteString(	"AttackPower", "2");
+									writer.WriteString(	"DefensePower", "3y");
+									writer.WriteString(	"EnemyId", "1");
+									writer.WriteString(	"Level", "1");
 
 								// Close node Properties
-								jsonWriter.CloseNode();
+								writer.CloseNode();
 
 							// Close node Enemy
-							jsonWriter.CloseNode();
+							writer.CloseNode();
 						}
 						else if (proceduralManager.GetEnemy(x, y) == ProceduralManager::Enemies::enemyOgre)
 						{
 							// Open node Enemy
-							jsonWriter.OpenNode();
+							writer.OpenNode();
 
-								jsonWriter.WriteString("name"	, "EnemyOgre");
-								jsonWriter.WriteString("type"	, "");
-								jsonWriter.WriteU32("height"	, 0);
-								jsonWriter.WriteU32("width"		, 0);
-								jsonWriter.WriteU32("x"			, x * 40 + 20);
-								jsonWriter.WriteU32("y"			, y * 40 + 20);
-								jsonWriter.WriteBool("visible"	, true);
+								writer.WriteString("name"	, "EnemyOgre");
+								writer.WriteString("type"	, "");
+								writer.WriteU32("height"	, 0);
+								writer.WriteU32("width"		, 0);
+								writer.WriteU32("x"			, x * 40 + 20);
+								writer.WriteU32("y"			, y * 40 + 20);
+								writer.WriteBool("visible"	, true);
 
 								// Open node Properties
-								jsonWriter.OpenNode("properties");
+								writer.OpenNode("properties");
 
-									jsonWriter.WriteString(	"Class", "Enemy");
-									jsonWriter.WriteString(	"AttackPower", "2");
-									jsonWriter.WriteString(	"DefensePower", "3y");
-									jsonWriter.WriteString(	"EnemyId", "2");
-									jsonWriter.WriteString(	"Level", "1");
+									writer.WriteString(	"Class", "Enemy");
+									writer.WriteString(	"AttackPower", "2");
+									writer.WriteString(	"DefensePower", "3y");
+									writer.WriteString(	"EnemyId", "2");
+									writer.WriteString(	"Level", "1");
 
 								// Close node Properties
-								jsonWriter.CloseNode();
+								writer.CloseNode();
 
 							// Close node Enemy
-							jsonWriter.CloseNode();
+							writer.CloseNode();
 						}
 						else if (proceduralManager.GetEnemy(x, y) == ProceduralManager::Enemies::enemyKnight)
 						{
 							// Open node Enemy
-							jsonWriter.OpenNode();
+							writer.OpenNode();
 
-								jsonWriter.WriteString("name"	, "EnemyKnight");
-								jsonWriter.WriteString("type"	, "");
-								jsonWriter.WriteU32("height"	, 0);
-								jsonWriter.WriteU32("width"		, 0);
-								jsonWriter.WriteU32("x"			, x * 40 + 20);
-								jsonWriter.WriteU32("y"			, y * 40 + 20);
-								jsonWriter.WriteBool("visible"	, true);
+								writer.WriteString("name"	, "EnemyKnight");
+								writer.WriteString("type"	, "");
+								writer.WriteU32("height"	, 0);
+								writer.WriteU32("width"		, 0);
+								writer.WriteU32("x"			, x * 40 + 20);
+								writer.WriteU32("y"			, y * 40 + 20);
+								writer.WriteBool("visible"	, true);
 
 								// Open node Properties
-								jsonWriter.OpenNode("properties");
+								writer.OpenNode("properties");
 
-									jsonWriter.WriteString(	"Class", "Enemy");
-									jsonWriter.WriteString(	"AttackPower", "2");
-									jsonWriter.WriteString(	"DefensePower", "3y");
-									jsonWriter.WriteString(	"EnemyId", "3");
-									jsonWriter.WriteString(	"Level", "1");
+									writer.WriteString(	"Class", "Enemy");
+									writer.WriteString(	"AttackPower", "2");
+									writer.WriteString(	"DefensePower", "3y");
+									writer.WriteString(	"EnemyId", "3");
+									writer.WriteString(	"Level", "1");
 
 								// Close node Properties
-								jsonWriter.CloseNode();
+								writer.CloseNode();
 
 							// Close node Enemy
-							jsonWriter.CloseNode();
+							writer.CloseNode();
 						}
 
 						// Objects
 						if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectHealth)
 						{
 							// Open node Object
-							jsonWriter.OpenNode();
+							writer.OpenNode();
 
-							jsonWriter.WriteString("name"	, "HealthPotion");
-							jsonWriter.WriteString("type"	, "");
-							jsonWriter.WriteU32("height"	, 40);
-							jsonWriter.WriteU32("width"		, 40);
-							jsonWriter.WriteU32("x"			, x * 40 + 20);
-							jsonWriter.WriteU32("y"			, y * 40 + 20);
-							jsonWriter.WriteBool("visible"	, true);
+							writer.WriteString("name"	, "HealthPotion");
+							writer.WriteString("type"	, "");
+							writer.WriteU32("height"	, 40);
+							writer.WriteU32("width"		, 40);
+							writer.WriteU32("x"			, x * 40 + 20);
+							writer.WriteU32("y"			, y * 40 + 20);
+							writer.WriteBool("visible"	, true);
 
 								// Open node Properties
-								jsonWriter.OpenNode("properties");
+								writer.OpenNode("properties");
 
-									jsonWriter.WriteString(	"Class", "HealthPotion");
-									jsonWriter.WriteString(	"Amount", "25");
+									writer.WriteString(	"Class", "HealthPotion");
+									writer.WriteString(	"Amount", "25");
 
 								// Close node Properties
-								jsonWriter.CloseNode();
+								writer.CloseNode();
 
 							// Close node Object
-							jsonWriter.CloseNode();
+							writer.CloseNode();
 						}
 						else if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectLightArmor)
 						{
 							// Open node Object
-							jsonWriter.OpenNode();
+							writer.OpenNode();
 
-							jsonWriter.WriteString("name"	, "StaminaPotion");
-							jsonWriter.WriteString("type"	, "");
-							jsonWriter.WriteU32("height"	, 40);
-							jsonWriter.WriteU32("width"		, 40);
-							jsonWriter.WriteU32("x"			, x * 40 + 20);
-							jsonWriter.WriteU32("y"			, y * 40 + 20);
-							jsonWriter.WriteBool("visible"	, true);
+							writer.WriteString("name"	, "StaminaPotion");
+							writer.WriteString("type"	, "");
+							writer.WriteU32("height"	, 40);
+							writer.WriteU32("width"		, 40);
+							writer.WriteU32("x"			, x * 40 + 20);
+							writer.WriteU32("y"			, y * 40 + 20);
+							writer.WriteBool("visible"	, true);
 
 								// Open node Properties
-								jsonWriter.OpenNode("properties");
+								writer.OpenNode("properties");
 
-									jsonWriter.WriteString(	"Class", "StaminaPotion");
-									jsonWriter.WriteString(	"Amount", "100");
+									writer.WriteString(	"Class", "StaminaPotion");
+									writer.WriteString(	"Amount", "100");
 
 								// Close node Properties
-								jsonWriter.CloseNode();
+								writer.CloseNode();
 
 							// Close node Object
-							jsonWriter.CloseNode();
+							writer.CloseNode();
 						}
 						else if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectMediumArmor)
 						{
 							// Open node Object
-							jsonWriter.OpenNode();
+							writer.OpenNode();
 
-							jsonWriter.WriteString("name"	, "StaminaPotion");
-							jsonWriter.WriteString("type"	, "");
-							jsonWriter.WriteU32("height"	, 40);
-							jsonWriter.WriteU32("width"		, 40);
-							jsonWriter.WriteU32("x"			, x * 40 + 20);
-							jsonWriter.WriteU32("y"			, y * 40 + 20);
-							jsonWriter.WriteBool("visible"	, true);
+							writer.WriteString("name"	, "StaminaPotion");
+							writer.WriteString("type"	, "");
+							writer.WriteU32("height"	, 40);
+							writer.WriteU32("width"		, 40);
+							writer.WriteU32("x"			, x * 40 + 20);
+							writer.WriteU32("y"			, y * 40 + 20);
+							writer.WriteBool("visible"	, true);
 
 								// Open node Properties
-								jsonWriter.OpenNode("properties");
+								writer.OpenNode("properties");
 
-									jsonWriter.WriteString(	"Class", "StaminaPotion");
-									jsonWriter.WriteString(	"Amount", "150");
+									writer.WriteString(	"Class", "StaminaPotion");
+									writer.WriteString(	"Amount", "150");
 
 								// Close node Properties
-								jsonWriter.CloseNode();
+								writer.CloseNode();
 
 							// Close node Object
-							jsonWriter.CloseNode();
+							writer.CloseNode();
 						}
 						else if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectHeavyArmor)
 						{
 							// Open node Object
-							jsonWriter.OpenNode();
+							writer.OpenNode();
 
-							jsonWriter.WriteString("name"	, "StaminaPotion");
-							jsonWriter.WriteString("type"	, "");
-							jsonWriter.WriteU32("height"	, 40);
-							jsonWriter.WriteU32("width"		, 40);
-							jsonWriter.WriteU32("x"			, x * 40 + 20);
-							jsonWriter.WriteU32("y"			, y * 40 + 20);
-							jsonWriter.WriteBool("visible"	, true);
+							writer.WriteString("name"	, "StaminaPotion");
+							writer.WriteString("type"	, "");
+							writer.WriteU32("height"	, 40);
+							writer.WriteU32("width"		, 40);
+							writer.WriteU32("x"			, x * 40 + 20);
+							writer.WriteU32("y"			, y * 40 + 20);
+							writer.WriteBool("visible"	, true);
 
 								// Open node Properties
-								jsonWriter.OpenNode("properties");
+								writer.OpenNode("properties");
 
-									jsonWriter.WriteString(	"Class", "StaminaPotion");
-									jsonWriter.WriteString(	"Amount", "200");
+									writer.WriteString(	"Class", "StaminaPotion");
+									writer.WriteString(	"Amount", "200");
 
 								// Close node Properties
-								jsonWriter.CloseNode();
+								writer.CloseNode();
 
 							// Close node Object
-							jsonWriter.CloseNode();
+							writer.CloseNode();
 						}
 					}
 				}
 				// Enemies and objects created
 
 			//Close array Objects
-			jsonWriter.CloseArray();
+			writer.CloseArray();
 
 		// Close node Game
-		jsonWriter.CloseNode();
+		writer.CloseNode();
 
 	// Close array Layers
-	jsonWriter.CloseArray();
+	writer.CloseArray();
 
 	// Open array Tilesets
-	jsonWriter.OpenArray("tilesets");
+	writer.OpenArray("tilesets");
 
 		// Open node TileSet
-		jsonWriter.OpenNode();
+		writer.OpenNode();
 
-			jsonWriter.WriteString("name"		,"ground_tileset");
-			jsonWriter.WriteString("image"		, "textures/quakerl_tileset.png");
-			jsonWriter.WriteU32("firstgid"		, 1);
-			jsonWriter.WriteU32("imageheight"	, 400);
-			jsonWriter.WriteU32("imagewidth"	, 40);
-			jsonWriter.WriteU32("margin"		, 0);
-			jsonWriter.WriteU32("spacing"		, 0);
-			jsonWriter.WriteU32("tileheight"	, 40);
-			jsonWriter.WriteU32("tilewidth"		, 40);
+			writer.WriteString("name"		,"ground_tileset");
+			writer.WriteString("image"		, "textures/quakerl_tileset.png");
+			writer.WriteU32("firstgid"		, 1);
+			writer.WriteU32("imageheight"	, 400);
+			writer.WriteU32("imagewidth"	, 40);
+			writer.WriteU32("margin"		, 0);
+			writer.WriteU32("spacing"		, 0);
+			writer.WriteU32("tileheight"	, 40);
+			writer.WriteU32("tilewidth"		, 40);
 
 			// Open node Properties
-			jsonWriter.OpenNode("properties");
+			writer.OpenNode("properties");
 
 			// Close node Properties
-			jsonWriter.CloseNode();
+			writer.CloseNode();
 
 		// Open node TileSet
-		jsonWriter.CloseNode();
+		writer.CloseNode();
 
 	// Close array Tilesets
-	jsonWriter.CloseArray();
+	writer.CloseArray();
 
 	// Close node Root
-	jsonWriter.CloseNode();
+	writer.CloseNode();
 
-	if (jsonWriter.Save(mapFileName))
+	if (writer.Save(mapFileName))
 		return mapFileName;
 	else
 		return "Error create map";
