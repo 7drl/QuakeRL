@@ -4,6 +4,7 @@
 ProceduralManager::ProceduralManager()
 	: pWorldMap(nullptr)
 	, pObjectsMap(nullptr)
+	, pEnemiesMap(nullptr)
 	, iXMax(30)
 	, iYMax(30)
 	, iXSize(0)
@@ -19,6 +20,7 @@ ProceduralManager::ProceduralManager()
 ProceduralManager::~ProceduralManager()
 {
 	sdDelete(pWorldMap);
+	sdDelete(pEnemiesMap);
 	sdDelete(pObjectsMap);
 }
 
@@ -50,6 +52,9 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 	// Creates the array objects map
 	pObjectsMap = sdNew(int[iXSize * iYSize]);
 
+	// Creates the array enemies map
+	pEnemiesMap = sdNew(int[iXSize * iYSize]);
+
 	// Create the borders and fill the midle with dirt
 	for (int y = 0; y < iYSize; y++)
 	{
@@ -68,6 +73,9 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 			else
 				SetTile(x, y, tileBrickFloor);
 				//SetTile(x, y, tileUnused);
+
+			// Initialize the enemies
+			SetEnemy(x, y, enemyNull);
 
 			// Initialize the objects
 			SetObject(x, y, objectNull);
@@ -103,28 +111,28 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 			newx = GetRand(1, iXSize-1);
 			newy = GetRand(1, iYSize-1);
 			validTile = -1;
-			if (GetTile(newx, newy) == tileStoneWall || GetTile(newx, newy) == tileCorridor)
+			if (GetTile(newx, newy) == tileStoneWall)
 			{
 				//check if we can reach the place
-				if (GetTile(newx, newy+1) == tileGrassFloor || GetTile(newx, newy+1) == tileCorridor)
+				if (GetTile(newx, newy+1) == tileGrassFloor)
 				{
 					validTile = 0; //
 					xmod = 0;
 					ymod = -1;
 				}
-				else if (GetTile(newx-1, newy) == tileGrassFloor || GetTile(newx-1, newy) == tileCorridor)
+				else if (GetTile(newx-1, newy) == tileGrassFloor)
 				{
 					validTile = 1; //
 					xmod = +1;
 					ymod = 0;
 				}
-				else if (GetTile(newx, newy-1) == tileGrassFloor || GetTile(newx, newy-1) == tileCorridor)
+				else if (GetTile(newx, newy-1) == tileGrassFloor)
 				{
 					validTile = 2; //
 					xmod = 0;
 					ymod = +1;
 				}
-				else if (GetTile(newx+1, newy) == tileGrassFloor || GetTile(newx+1, newy) == tileCorridor)
+				else if (GetTile(newx+1, newy) == tileGrassFloor)
 				{
 					validTile = 3; //
 					xmod = -1;
@@ -182,9 +190,10 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 	int newy = 0;
 	int ways = 0; // From how many directions we can reach the random spot from
 	int state = 0; // The state the loop is in, start with the stairs
+	int tries = 1000;
 	while (state != 10)
 	{
-		for (int testing = 0; testing < 1000; testing++)
+		for (int testing = 0; testing < tries; testing++)
 		{
 			newx = GetRand(1, iXSize-1);
 			newy = GetRand(1, iYSize-2); //cheap bugfix, pulls down newy to 0<y<24, from 0<y<25
@@ -192,25 +201,25 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 			ways = 4; //the lower the better
 
 			//check if we can reach the spot
-			if (GetTile(newx, newy+1) == tileGrassFloor || GetTile(newx, newy+1) == tileCorridor)
+			if (GetTile(newx, newy+1) == tileGrassFloor)
 			{
 				//north
 				if (GetTile(newx, newy+1) != tileDoor)
 					ways--;
 			}
-			if (GetTile(newx-1, newy) == tileGrassFloor || GetTile(newx-1, newy) == tileCorridor)
+			if (GetTile(newx-1, newy) == tileGrassFloor)
 			{
 				//east
 				if (GetTile(newx-1, newy) != tileDoor)
 					ways--;
 			}
-			if (GetTile(newx, newy-1) == tileGrassFloor || GetTile(newx, newy-1) == tileCorridor)
+			if (GetTile(newx, newy-1) == tileGrassFloor)
 			{
 				//south
 				if (GetTile(newx, newy-1) != tileDoor)
 					ways--;
 			}
-			if (GetTile(newx+1, newy) == tileGrassFloor || GetTile(newx+1, newy) == tileCorridor)
+			if (GetTile(newx+1, newy) == tileGrassFloor)
 			{
 				//west
 				if (GetTile(newx+1, newy) != tileDoor)
@@ -225,6 +234,10 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 					SetTile(newx, newy, tileUpStairs);
 					state = 1;
 					break;
+				}
+				else
+				{
+					testing = 0;
 				}
 			}
 			else if (state == 1)
@@ -242,29 +255,36 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 
 	// Sprinkle out the objects on the map (enemies, weapons, ammo boxes)
 	int quantityEnemies = GetRand(10, 20);
+	int quantityObjects = GetRand(10, 20);
+
 	int xObjPlace = 0;
 	int yObjPlace = 0;
+	int xEnemyPlace = 0;
+	int yEnemyPlace = 0;
 	int tileToVerify = 0;
 	int objectToVerify = 0;
+	int enemyToVerify = 0;
 
+	// Enemies
 	while (quantityEnemies > 0)
 	{
-		xObjPlace = GetRand(0, iXSize);
-		yObjPlace = GetRand(0, iYSize);
-		tileToVerify = GetTile(xObjPlace, yObjPlace);
-		objectToVerify = GetObject(xObjPlace, yObjPlace);
+		xEnemyPlace = GetRand(0, iXSize);
+		yEnemyPlace = GetRand(0, iYSize);
+		tileToVerify = GetTile(xEnemyPlace, yEnemyPlace);
+		enemyToVerify = GetEnemy(xEnemyPlace, yEnemyPlace);
 
 		// We need to verify if is not a wall or a door and there is empty
 		if (	tileToVerify != tileUpStairs &&
 				tileToVerify != tileDoor &&
 				tileToVerify != tileStoneWall &&
-				objectToVerify == objectNull)
+				enemyToVerify == enemyNull)
 		{
-			SetObject(xObjPlace, yObjPlace, GetRand(objectEnemyGrunt, objectEnemyKnight));
+			SetEnemy(xEnemyPlace, yEnemyPlace, GetRand(enemyGrunt, enemyKnight));
 			quantityEnemies--;
 		}
-
 	}
+
+	// Objects
 
 }
 
@@ -276,6 +296,16 @@ void ProceduralManager::SetTile(int x, int y, int tileType)
 int ProceduralManager::GetTile(int x, int y)
 {
 	return pWorldMap[x + iXSize * y];
+}
+
+void ProceduralManager::SetEnemy(int x, int y, int enemyType)
+{
+	pEnemiesMap[x + iXSize * y] = enemyType;
+}
+
+int ProceduralManager::GetEnemy(int x, int y)
+{
+	return pEnemiesMap[x + iXSize * y];
 }
 
 void ProceduralManager::SetObject(int x, int y, int objectType)

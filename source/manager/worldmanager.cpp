@@ -236,7 +236,7 @@ String WorldManager::GenerateProceduralMap()
 				{
 					for (int x = 0; x < proceduralManager.GetXSize(); x++)
 					{
-						if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectEnemyGrunt)
+						if (proceduralManager.GetEnemy(x, y) == ProceduralManager::Enemies::enemyGrunt)
 						{
 							// Open node Enemies
 							jsonWriter.OpenNode();
@@ -264,7 +264,7 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Enemies
 							jsonWriter.CloseNode();
 						}
-						else if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectEnemyOgre)
+						else if (proceduralManager.GetEnemy(x, y) == ProceduralManager::Enemies::enemyOgre)
 						{
 							// Open node Enemies
 							jsonWriter.OpenNode();
@@ -292,7 +292,7 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Enemies
 							jsonWriter.CloseNode();
 						}
-						else if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectEnemyKnight)
+						else if (proceduralManager.GetEnemy(x, y) == ProceduralManager::Enemies::enemyKnight)
 						{
 							// Open node Enemies
 							jsonWriter.OpenNode();

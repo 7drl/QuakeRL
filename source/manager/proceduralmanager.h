@@ -13,6 +13,8 @@ class ProceduralManager
 		virtual int GetTile(int x, int y);
 		virtual void SetObject(int x, int y, int objectType);
 		virtual int GetObject(int x, int y);
+		virtual void SetEnemy(int x, int y, int enemyType);
+		virtual int GetEnemy(int x, int y);
 		virtual int GetXSize();
 		virtual int GetYSize();
 
@@ -30,12 +32,18 @@ class ProceduralManager
 			tileChest
 		};
 
+		enum Enemies
+		{
+			enemyNull,
+			enemyGrunt ,
+			enemyOgre,
+			enemyKnight
+		};
+
 		enum Objects
 		{
 			objectNull,
-			objectEnemyGrunt ,
-			objectEnemyOgre,
-			objectEnemyKnight
+			objectHealth
 		};
 
 	private:
@@ -45,6 +53,7 @@ class ProceduralManager
 		virtual bool MakeCorridor(int x, int y, int lenght, int direction);
 
 		int *pWorldMap;
+		int *pEnemiesMap;
 		int *pObjectsMap;
 
 		int iXMax;
