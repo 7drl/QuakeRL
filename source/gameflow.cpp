@@ -27,7 +27,7 @@ GameFlow::~GameFlow()
 bool GameFlow::Initialize()
 {
 	IGameApp::Initialize();
-	return cPres.Load("configs/game.config", [&](Presentation */*pres*/, Viewport *aborted)
+	return cPres.Load("configs/game.config", [&](Presentation *, Viewport *aborted)
 	{
 		if (!aborted)
 		{
