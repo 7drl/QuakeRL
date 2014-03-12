@@ -303,7 +303,7 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 				enemyToVerify == enemyNull &&
 				objectToVerify == objectNull)
 		{
-			SetObject(xObjPlace, yObjPlace, GetRand(objectHealth, objectLightArmor));
+			SetObject(xObjPlace, yObjPlace, GetRand(objectHealth, objectHeavyArmor));
 			quantityObjects--;
 		}
 	}
