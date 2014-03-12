@@ -82,7 +82,6 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 		}
 	}
 
-
 	// Create the ramdom rooms
 	// Start with making a room in the middle
 	MakeRoom(iXSize/2, iYSize/2, 8, 6, GetRand(0,3));
@@ -185,73 +184,47 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 		}
 	}
 
-	// Sprinkle out the bonusstuff (stairs, chests etc.) over the map
-	int newx = 0;
-	int newy = 0;
-	int ways = 0; // From how many directions we can reach the random spot from
-	int state = 0; // The state the loop is in, start with the stairs
-	int tries = 1000;
-	while (state != 10)
+	// Find one place to the UpStairs and DownSairs
+
+	// UpStairs
+	bool upStairsPlaced = false;
+	int upStairsX = 0;
+	int upStairsY = 0;
+
+	while (!upStairsPlaced)
 	{
-		for (int testing = 0; testing < tries; testing++)
+		Log("Tring to find a place for the upStairs");
+
+		upStairsX = GetRand(0, iXSize);
+		upStairsY = GetRand(0, iYSize);
+
+		if (FindFreeRoomPosition(upStairsX, upStairsY))
 		{
-			newx = GetRand(1, iXSize-1);
-			newy = GetRand(1, iYSize-2); //cheap bugfix, pulls down newy to 0<y<24, from 0<y<25
-
-			ways = 4; //the lower the better
-
-			//check if we can reach the spot
-			if (GetTile(newx, newy+1) == tileGrassFloor)
-			{
-				//north
-				if (GetTile(newx, newy+1) != tileDoor)
-					ways--;
-			}
-			if (GetTile(newx-1, newy) == tileGrassFloor)
-			{
-				//east
-				if (GetTile(newx-1, newy) != tileDoor)
-					ways--;
-			}
-			if (GetTile(newx, newy-1) == tileGrassFloor)
-			{
-				//south
-				if (GetTile(newx, newy-1) != tileDoor)
-					ways--;
-			}
-			if (GetTile(newx+1, newy) == tileGrassFloor)
-			{
-				//west
-				if (GetTile(newx+1, newy) != tileDoor)
-					ways--;
-			}
-
-			if (state == 0)
-			{
-				if (ways == 0)
-				{
-					// We're in state 0, let's place a "upstairs" thing
-					SetTile(newx, newy, tileUpStairs);
-					state = 1;
-					break;
-				}
-				else
-				{
-					testing = 0;
-				}
-			}
-			else if (state == 1)
-			{
-				if (ways == 0)
-				{
-					// State 1, place a "downstairs"
-					SetTile(newx, newy, tileDownStairs);
-					state = 10;
-					break;
-				}
-			}
+			SetTile(upStairsX, upStairsY, tileUpStairs);
+			upStairsPlaced = true;
 		}
 	}
+
+	// DownStairs
+	bool downStairsPlaced = false;
+	int downStairsX = 0;
+	int downStairsY = 0;
+
+	while (!downStairsPlaced)
+	{
+		Log("Tring to find a place for the downStairs");
+
+		downStairsX = GetRand(0, iXSize);
+		downStairsY = GetRand(0, iYSize);
+
+		if (FindFreeRoomPosition(downStairsX, downStairsY))
+		{
+			SetTile(downStairsX, downStairsY, tileDownStairs);
+			downStairsPlaced = true;
+		}
+	}
+
+
 
 	// Sprinkle out the objects on the map (enemies, weapons, ammo boxes)
 	int quantityEnemies = GetRand(10, 20);
@@ -558,4 +531,16 @@ bool ProceduralManager::MakeCorridor(int x, int y, int lenght, int direction)
 	}
 	//woot, we're still here! let's tell the other guys we're done!!
 	return true;
+}
+
+bool ProceduralManager::FindFreeRoomPosition(int x, int y)
+{
+	if (GetTile(x, y) == tileGrassFloor || GetTile(x, y) == tileBrickFloor)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

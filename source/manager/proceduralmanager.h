@@ -54,6 +54,7 @@ class ProceduralManager
 		virtual int GetRand(int min, int max);
 		virtual bool MakeRoom(int x, int y, int xlength, int ylength, int direction);
 		virtual bool MakeCorridor(int x, int y, int lenght, int direction);
+		virtual bool FindFreeRoomPosition(int x, int y);
 
 		int *pWorldMap;
 		int *pEnemiesMap;
