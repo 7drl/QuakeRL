@@ -1,0 +1,187 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="12.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug SDL2|Win32">
+      <Configuration>Debug SDL2</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release SDL2|Win32">
+      <Configuration>Release SDL2</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{C2E9D8AD-02CD-420B-A434-AFA574CC559C}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>quakerl</RootNamespace>
+    <ProjectName>quakerl</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v120</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+    <IncludePath>$(ProjectDir)..\..\..\..\seed\include\;$(ProjectDir)..\..\..\..\seed\contrib\;$(ProjectDir)..\..\..\..\seed\contrib\windows\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\..\..\..\seed\contrib\windows\;$(ProjectDir)..\..\..\..\seed\lib\$(IntDir);$(LibraryPath)</LibraryPath>
+    <TargetName>$(ProjectName).debug</TargetName>
+    <IntDir>
+    </IntDir>
+    <OutDir>$(ProjectDir)..\..\..\resources\</OutDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+    <IncludePath>$(ProjectDir)..\..\..\..\seed\include\;$(ProjectDir)..\..\..\..\seed\contrib\;$(ProjectDir)..\..\..\..\seed\contrib\windows\;$(IncludePath)</IncludePath>
+    <LibraryPath>$(ProjectDir)..\..\..\..\seed\contrib\windows\;$(ProjectDir)..\..\..\..\seed\lib\$(IntDir);$(LibraryPath)</LibraryPath>
+    <TargetName>$(ProjectName).release</TargetName>
+    <IntDir />
+    <OutDir>$(ProjectDir)..\..\..\resources\</OutDir>
+    <GenerateManifest>false</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug SDL2|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;BUILD_SDL2;DEBUG;SEED_ENABLE_OGL20;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4275</DisableSpecificWarnings>
+      <ShowIncludes>false</ShowIncludes>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>OpenAL32.lib;seed.lib;contrib.lib;imm32.lib;version.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release SDL2|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level4</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;BUILD_SDL2;RELEASE;SEED_ENABLE_OGL20;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <DisableSpecificWarnings>4275;4530</DisableSpecificWarnings>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Neither</FavorSizeOrSpeed>
+      <OmitFramePointers>false</OmitFramePointers>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <ExceptionHandling>false</ExceptionHandling>
+      <MinimalRebuild>
+      </MinimalRebuild>
+      <EnableParallelCodeGeneration>true</EnableParallelCodeGeneration>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <StringPooling>false</StringPooling>
+      <FloatingPointModel>Fast</FloatingPointModel>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <WholeProgramOptimization>false</WholeProgramOptimization>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <AdditionalDependencies>OpenAL32.lib;seed.lib;contrib.lib;imm32.lib;version.lib;winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <EnableUAC>false</EnableUAC>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\source\controller\cameracontroller.cpp" />
+    <ClCompile Include="..\..\..\source\data\gamedata.cpp" />
+    <ClCompile Include="..\..\..\source\entity\deathentity.cpp" />
+    <ClCompile Include="..\..\..\source\entity\doorentity.cpp" />
+    <ClCompile Include="..\..\..\source\entity\enemyentity.cpp" />
+    <ClCompile Include="..\..\..\source\entity\entity.cpp" />
+    <ClCompile Include="..\..\..\source\entity\entityfactory.cpp" />
+    <ClCompile Include="..\..\..\source\entity\goldentity.cpp" />
+    <ClCompile Include="..\..\..\source\entity\healthpotionentity.cpp" />
+    <ClCompile Include="..\..\..\source\entity\heartentity.cpp" />
+    <ClCompile Include="..\..\..\source\entity\itementity.cpp" />
+    <ClCompile Include="..\..\..\source\entity\optimistplayerentity.cpp" />
+    <ClCompile Include="..\..\..\source\entity\playerentity.cpp" />
+    <ClCompile Include="..\..\..\source\entity\spriteentity.cpp" />
+    <ClCompile Include="..\..\..\source\entity\staminapotionentity.cpp" />
+    <ClCompile Include="..\..\..\source\entity\teleportentity.cpp" />
+    <ClCompile Include="..\..\..\source\entity\triggerentity.cpp" />
+    <ClCompile Include="..\..\..\source\gameflow.cpp" />
+    <ClCompile Include="..\..\..\source\main.cpp" />
+    <ClCompile Include="..\..\..\source\manager\guimanager.cpp" />
+    <ClCompile Include="..\..\..\source\manager\pathfindermanager.cpp" />
+    <ClCompile Include="..\..\..\source\manager\physicsmanager.cpp" />
+    <ClCompile Include="..\..\..\source\manager\proceduralmanager.cpp" />
+    <ClCompile Include="..\..\..\source\manager\soundmanager.cpp" />
+    <ClCompile Include="..\..\..\source\manager\worldmanager.cpp" />
+    <ClCompile Include="..\..\..\source\scene\gamescene.cpp" />
+    <ClCompile Include="..\..\..\source\states\credits_state.cpp" />
+    <ClCompile Include="..\..\..\source\states\gameover_state.cpp" />
+    <ClCompile Include="..\..\..\source\states\game\pause_state.cpp" />
+    <ClCompile Include="..\..\..\source\states\game\run_state.cpp" />
+    <ClCompile Include="..\..\..\source\states\game_state.cpp" />
+    <ClCompile Include="..\..\..\source\states\mainmenu_state.cpp" />
+    <ClCompile Include="..\..\..\source\states\options_state.cpp" />
+    <ClCompile Include="..\..\..\source\util\collisionsensor.cpp" />
+    <ClCompile Include="..\..\..\source\util\triggercounter.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\source\controller\cameracontroller.h" />
+    <ClInclude Include="..\..\..\source\data\gamedata.h" />
+    <ClInclude Include="..\..\..\source\defines.h" />
+    <ClInclude Include="..\..\..\source\entity\deathentity.h" />
+    <ClInclude Include="..\..\..\source\entity\doorentity.h" />
+    <ClInclude Include="..\..\..\source\entity\enemyentity.h" />
+    <ClInclude Include="..\..\..\source\entity\entity.h" />
+    <ClInclude Include="..\..\..\source\entity\entityfactory.h" />
+    <ClInclude Include="..\..\..\source\entity\goldentity.h" />
+    <ClInclude Include="..\..\..\source\entity\healthpotionentity.h" />
+    <ClInclude Include="..\..\..\source\entity\heartentity.h" />
+    <ClInclude Include="..\..\..\source\entity\itementity.h" />
+    <ClInclude Include="..\..\..\source\entity\optimistplayerentity.h" />
+    <ClInclude Include="..\..\..\source\entity\playerentity.h" />
+    <ClInclude Include="..\..\..\source\entity\spriteentity.h" />
+    <ClInclude Include="..\..\..\source\entity\staminapotionentity.h" />
+    <ClInclude Include="..\..\..\source\entity\teleportentity.h" />
+    <ClInclude Include="..\..\..\source\entity\triggerentity.h" />
+    <ClInclude Include="..\..\..\source\gameflow.h" />
+    <ClInclude Include="..\..\..\source\manager\guimanager.h" />
+    <ClInclude Include="..\..\..\source\manager\pathfindermanager.h" />
+    <ClInclude Include="..\..\..\source\manager\physicsmanager.h" />
+    <ClInclude Include="..\..\..\source\manager\proceduralmanager.h" />
+    <ClInclude Include="..\..\..\source\manager\soundmanager.h" />
+    <ClInclude Include="..\..\..\source\manager\worldmanager.h" />
+    <ClInclude Include="..\..\..\source\scene\gamescene.h" />
+    <ClInclude Include="..\..\..\source\states\credits_state.h" />
+    <ClInclude Include="..\..\..\source\states\gameover_state.h" />
+    <ClInclude Include="..\..\..\source\states\game\pause_state.h" />
+    <ClInclude Include="..\..\..\source\states\game\run_state.h" />
+    <ClInclude Include="..\..\..\source\states\game_state.h" />
+    <ClInclude Include="..\..\..\source\states\mainmenu_state.h" />
+    <ClInclude Include="..\..\..\source\states\options_state.h" />
+    <ClInclude Include="..\..\..\source\util\collisionsensor.h" />
+    <ClInclude Include="..\..\..\source\util\sounds.h" />
+    <ClInclude Include="..\..\..\source\util\triggercounter.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
