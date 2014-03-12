@@ -289,6 +289,7 @@ void GameScene::OnJobCompleted(FileLoader *job)
 	MapLayerMetadata *game = pGameMap->GetLayerByName("Game")->AsMetadata();
 	game->SetVisible(false);
 
+	// Initialize the pathfinder with the background and collider layers
 	clPathfinderManager.Init(pGameMap->GetLayerByName("Background")->AsTiled(),
 								pGameMap->GetLayerByName("Colliders")->AsTiled());
 
