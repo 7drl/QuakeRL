@@ -353,7 +353,7 @@ String WorldManager::GenerateProceduralMap()
 							// Open node Object
 							writer.OpenNode();
 
-							writer.WriteString("name"	, "StaminaPotion");
+							writer.WriteString("name"	, "Armor");
 							writer.WriteString("type"	, "");
 							writer.WriteU32("height"	, 40);
 							writer.WriteU32("width"		, 40);
@@ -364,7 +364,8 @@ String WorldManager::GenerateProceduralMap()
 								// Open node Properties
 								writer.OpenNode("properties");
 
-									writer.WriteString(	"Class", "StaminaPotion");
+									writer.WriteString(	"Class", "Armor");
+									writer.WriteString(	"AnimationName", "LightArmor");
 									writer.WriteString(	"Amount", "100");
 
 								// Close node Properties
@@ -378,7 +379,7 @@ String WorldManager::GenerateProceduralMap()
 							// Open node Object
 							writer.OpenNode();
 
-							writer.WriteString("name"	, "StaminaPotion");
+							writer.WriteString("name"	, "Armor");
 							writer.WriteString("type"	, "");
 							writer.WriteU32("height"	, 40);
 							writer.WriteU32("width"		, 40);
@@ -389,7 +390,8 @@ String WorldManager::GenerateProceduralMap()
 								// Open node Properties
 								writer.OpenNode("properties");
 
-									writer.WriteString(	"Class", "StaminaPotion");
+									writer.WriteString(	"Class", "Armor");
+									writer.WriteString(	"AnimationName", "MediumArmor");
 									writer.WriteString(	"Amount", "150");
 
 								// Close node Properties
@@ -403,7 +405,7 @@ String WorldManager::GenerateProceduralMap()
 							// Open node Object
 							writer.OpenNode();
 
-							writer.WriteString("name"	, "StaminaPotion");
+							writer.WriteString("name"	, "Armor");
 							writer.WriteString("type"	, "");
 							writer.WriteU32("height"	, 40);
 							writer.WriteU32("width"		, 40);
@@ -414,7 +416,8 @@ String WorldManager::GenerateProceduralMap()
 								// Open node Properties
 								writer.OpenNode("properties");
 
-									writer.WriteString(	"Class", "StaminaPotion");
+									writer.WriteString(	"Class", "Armor");
+									writer.WriteString(	"AnimationName", "HeavyArmor");
 									writer.WriteString(	"Amount", "200");
 
 								// Close node Properties
