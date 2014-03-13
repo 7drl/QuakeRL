@@ -32,7 +32,9 @@ SOURCES += source/main.cpp \
 	source/entity/goldentity.cpp \
 	source/manager/pathfindermanager.cpp \
 	source/manager/proceduralmanager.cpp \
-    source/entity/armorentity.cpp
+	source/entity/armorentity.cpp \
+	source/entity/weaponentity.cpp \
+    source/entity/ammoentity.cpp
 
 HEADERS += \
 	source/defines.h \
@@ -70,7 +72,9 @@ HEADERS += \
 	source/entity/goldentity.h \
 	source/manager/pathfindermanager.h \
 	source/manager/proceduralmanager.h \
-    source/entity/armorentity.h
+	source/entity/armorentity.h \
+	source/entity/weaponentity.h \
+    source/entity/ammoentity.h
 
 OTHER_FILES_CONFIG = \
 #Configs
@@ -125,7 +129,8 @@ OTHER_FILES_TEXTURE = \
 	resources/textures/quakerl_tileset.png \
 	resources/textures/ranger_idle_frame1.png \
 	resources/textures/quakerl_enemy_tileset.png \
-	resources/textures/quakerl_objects_tileset.png
+	resources/textures/quakerl_objects_tileset.png \
+	resources/textures/quakerl_weapons_tileset.png
 
 #Gui
 OTHER_FILES_GUI_STYLE = \

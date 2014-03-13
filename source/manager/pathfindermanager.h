@@ -21,7 +21,6 @@ class PathfinderManager
 		Path &Findpath(const Vector3f &start, const Vector3f &end, Path &path);
 
 	private:
-		Heuristic *pHeuristic;
 		IPathfinder *pPathfinder;
 };
 

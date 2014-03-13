@@ -183,6 +183,173 @@
 						}
 					]
 				}
+				{
+					cScale: {x: 1, y: 1, z: 1}
+					cPosition: {z: 100}
+					sType: Sprite
+					sBlending: none
+					sName: Ammo
+					cColor: {r: 255, g: 255, b: 255, a: 255}
+					bVisible: false
+					aAnimations:
+					[
+						{
+							sName: "ShellsAmmo"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/quakerl_objects_tileset.png
+									cBoundary: {iX: 0, iY: 280, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "NailsAmmo"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/quakerl_objects_tileset.png
+									cBoundary: {iX: 0, iY: 320, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "RocketsAmmo"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/quakerl_objects_tileset.png
+									cBoundary: {iX: 0, iY: 360, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "ShockAmmo"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/quakerl_objects_tileset.png
+									cBoundary: {iX: 0, iY: 400, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+					]
+				}
+				{
+					cScale: {x: 1, y: 1, z: 1}
+					cPosition: {z: 100}
+					sType: Sprite
+					sBlending: none
+					sName: Weapon
+					cColor: {r: 255, g: 255, b: 255, a: 255}
+					bVisible: false
+					aAnimations:
+					[
+						{
+							sName: "Rifle"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/quakerl_weapons_tileset.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "Shotgun"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/quakerl_weapons_tileset.png
+									cBoundary: {iX: 0, iY: 40, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "Nailgun"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/quakerl_weapons_tileset.png
+									cBoundary: {iX: 0, iY: 80, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "HeavyNailgun"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/quakerl_weapons_tileset.png
+									cBoundary: {iX: 0, iY: 120, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "GrenadeLauncher"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/quakerl_weapons_tileset.png
+									cBoundary: {iX: 0, iY: 160, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "RocketLauncher"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/quakerl_weapons_tileset.png
+									cBoundary: {iX: 0, iY: 200, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "Shockgun"
+							bAnimated: true
+							bLoop: true
+							iFps: 1
+							aFrames:
+							[
+								{
+									sResource: textures/quakerl_weapons_tileset.png
+									cBoundary: {iX: 0, iY: 240, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+					]
+				}
 			]
 		}
 		{

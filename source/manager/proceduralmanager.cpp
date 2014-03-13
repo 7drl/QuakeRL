@@ -3,7 +3,7 @@
 
 ProceduralManager::ProceduralManager()
 	: pWorldMap(nullptr)
-	, pObjectsMap(nullptr)
+	, pItemsMap(nullptr)
 	, pEnemiesMap(nullptr)
 	, iXMax(30)
 	, iYMax(30)
@@ -21,7 +21,7 @@ ProceduralManager::~ProceduralManager()
 {
 	sdDelete(pWorldMap);
 	sdDelete(pEnemiesMap);
-	sdDelete(pObjectsMap);
+	sdDelete(pItemsMap);
 }
 
 void ProceduralManager::BuildWorld(const int width, const int height, int dungeonObjects)
@@ -49,8 +49,8 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 	// Creates the array world map
 	pWorldMap = sdNew(int[iXSize * iYSize]);
 
-	// Creates the array objects map
-	pObjectsMap = sdNew(int[iXSize * iYSize]);
+	// Creates the array items map
+	pItemsMap = sdNew(int[iXSize * iYSize]);
 
 	// Creates the array enemies map
 	pEnemiesMap = sdNew(int[iXSize * iYSize]);
@@ -77,11 +77,10 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 			// Initialize the enemies
 			SetEnemy(x, y, enemyNull);
 
-			// Initialize the objects
-			SetObject(x, y, objectNull);
+			// Initialize the items
+			SetItem(x, y, itemNull);
 		}
 	}
-
 
 	// Create the ramdom rooms
 	// Start with making a room in the middle
@@ -185,84 +184,56 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 		}
 	}
 
-	// Sprinkle out the bonusstuff (stairs, chests etc.) over the map
-	int newx = 0;
-	int newy = 0;
-	int ways = 0; // From how many directions we can reach the random spot from
-	int state = 0; // The state the loop is in, start with the stairs
-	int tries = 1000;
-	while (state != 10)
+	// Find one place to the UpStairs and DownSairs
+
+	// UpStairs
+	bool upStairsPlaced = false;
+	int upStairsX = 0;
+	int upStairsY = 0;
+
+	while (!upStairsPlaced)
 	{
-		for (int testing = 0; testing < tries; testing++)
+		Log("Tring to find a place for the upStairs");
+
+		upStairsX = GetRand(0, iXSize);
+		upStairsY = GetRand(0, iYSize);
+
+		if (FindFreeRoomPosition(upStairsX, upStairsY))
 		{
-			newx = GetRand(1, iXSize-1);
-			newy = GetRand(1, iYSize-2); //cheap bugfix, pulls down newy to 0<y<24, from 0<y<25
-
-			ways = 4; //the lower the better
-
-			//check if we can reach the spot
-			if (GetTile(newx, newy+1) == tileGrassFloor)
-			{
-				//north
-				if (GetTile(newx, newy+1) != tileDoor)
-					ways--;
-			}
-			if (GetTile(newx-1, newy) == tileGrassFloor)
-			{
-				//east
-				if (GetTile(newx-1, newy) != tileDoor)
-					ways--;
-			}
-			if (GetTile(newx, newy-1) == tileGrassFloor)
-			{
-				//south
-				if (GetTile(newx, newy-1) != tileDoor)
-					ways--;
-			}
-			if (GetTile(newx+1, newy) == tileGrassFloor)
-			{
-				//west
-				if (GetTile(newx+1, newy) != tileDoor)
-					ways--;
-			}
-
-			if (state == 0)
-			{
-				if (ways == 0)
-				{
-					// We're in state 0, let's place a "upstairs" thing
-					SetTile(newx, newy, tileUpStairs);
-					state = 1;
-					break;
-				}
-				else
-				{
-					testing = 0;
-				}
-			}
-			else if (state == 1)
-			{
-				if (ways == 0)
-				{
-					// State 1, place a "downstairs"
-					SetTile(newx, newy, tileDownStairs);
-					state = 10;
-					break;
-				}
-			}
+			SetTile(upStairsX, upStairsY, tileUpStairs);
+			upStairsPlaced = true;
 		}
 	}
 
-	// Sprinkle out the objects on the map (enemies, weapons, ammo boxes)
-	int quantityEnemies = GetRand(10, 20);
-	int quantityObjects = GetRand(5, 10);
+	// DownStairs
+	bool downStairsPlaced = false;
+	int downStairsX = 0;
+	int downStairsY = 0;
 
-	int xObjPlace = 0;
-	int yObjPlace = 0;
+	while (!downStairsPlaced)
+	{
+		Log("Tring to find a place for the downStairs");
+
+		downStairsX = GetRand(0, iXSize);
+		downStairsY = GetRand(0, iYSize);
+
+		if (FindFreeRoomPosition(downStairsX, downStairsY))
+		{
+			SetTile(downStairsX, downStairsY, tileDownStairs);
+			downStairsPlaced = true;
+		}
+	}
+
+	// Sprinkle out the items on the map (enemies, weapons, ammo boxes)
+	int quantityEnemies = GetRand(5, 10);
+	int quantityItems = GetRand(6, 12);
+
+	int xItemPlace = 0;
+	int yItemPlace = 0;
 	int xEnemyPlace = 0;
 	int yEnemyPlace = 0;
 	int tileToVerify = 0;
-	int objectToVerify = 0;
+	int itemToVerify = 0;
 	int enemyToVerify = 0;
 
 	// Enemies
@@ -284,14 +255,14 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 		}
 	}
 
-	// Objects
-	while (quantityObjects > 0)
+	// Items
+	while (quantityItems > 0)
 	{
-		xObjPlace	= GetRand(0, iXSize);
-		yObjPlace	= GetRand(0, iYSize);
-		tileToVerify	= GetTile(xObjPlace, yObjPlace);
-		enemyToVerify	= GetEnemy(xObjPlace, yObjPlace);
-		objectToVerify	= GetObject(xObjPlace, yObjPlace);
+		xItemPlace	= GetRand(0, iXSize);
+		yItemPlace	= GetRand(0, iYSize);
+		tileToVerify	= GetTile(xItemPlace, yItemPlace);
+		enemyToVerify	= GetEnemy(xItemPlace, yItemPlace);
+		itemToVerify	= GetItem(xItemPlace, yItemPlace);
 
 		// We need to verify if is not a wall or a door and there is empty
 		if (	tileToVerify != tileUpStairs &&
@@ -299,12 +270,11 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 				tileToVerify != tileDoor &&
 				tileToVerify != tileStoneWall &&
 				tileToVerify != tileBrickFloor &&
-				tileToVerify != tileCorridor &&
 				enemyToVerify == enemyNull &&
-				objectToVerify == objectNull)
+				itemToVerify == itemNull)
 		{
-			SetObject(xObjPlace, yObjPlace, GetRand(objectHealth, objectHeavyArmor));
-			quantityObjects--;
+			SetItem(xItemPlace, yItemPlace, GetRand(itemHealth, itemWeaponShockgun));
+			quantityItems--;
 		}
 	}
 
@@ -330,14 +300,14 @@ int ProceduralManager::GetEnemy(int x, int y)
 	return pEnemiesMap[x + iXSize * y];
 }
 
-void ProceduralManager::SetObject(int x, int y, int objectType)
+void ProceduralManager::SetItem(int x, int y, int itemType)
 {
-	pObjectsMap[x + iXSize * y] = objectType;
+	pItemsMap[x + iXSize * y] = itemType;
 }
 
-int ProceduralManager::GetObject(int x, int y)
+int ProceduralManager::GetItem(int x, int y)
 {
-	return pObjectsMap[x + iXSize * y];
+	return pItemsMap[x + iXSize * y];
 }
 
 int ProceduralManager::GetXSize()
@@ -558,4 +528,16 @@ bool ProceduralManager::MakeCorridor(int x, int y, int lenght, int direction)
 	}
 	//woot, we're still here! let's tell the other guys we're done!!
 	return true;
+}
+
+bool ProceduralManager::FindFreeRoomPosition(int x, int y)
+{
+	if (GetTile(x, y) == tileGrassFloor || GetTile(x, y) == tileBrickFloor)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
 }

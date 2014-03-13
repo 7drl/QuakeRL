@@ -2,8 +2,7 @@
 #include "map/pathfind/AStarPathfinder.h"
 
 PathfinderManager::PathfinderManager()
-	: pHeuristic(nullptr)
-	, pPathfinder(nullptr)
+	: pPathfinder(nullptr)
 {
 }
 
@@ -14,8 +13,7 @@ PathfinderManager::~PathfinderManager()
 
 void PathfinderManager::Init(MapLayerTiled *mapBackground)
 {
-	pHeuristic = sdNew(Heuristic);
-	pPathfinder = sdNew(AStarPathfinder(true, true, 1, pHeuristic, mapBackground));
+	pPathfinder = sdNew(AStarPathfinder(true, true, 1, mapBackground));
 }
 
 

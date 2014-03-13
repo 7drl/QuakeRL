@@ -52,7 +52,9 @@ void PlayerEntity::Load(MetadataObject &metadata, SceneNode *sprites)
 	SpriteEntity::Load(metadata, sprites);
 	pSprite->SetZ(-10);
 
-	pBody = gPhysics->CreateBody(pSprite);
+	b2Vec2 customSize(26, 26);
+
+	pBody = gPhysics->CreateBody(pSprite, &customSize);
 	pBody->SetFixedRotation(true);
 	pBody->GetFixtureList()->SetUserData(this);
 
