@@ -11,8 +11,8 @@ class ProceduralManager
 		virtual void BuildWorld(const int width, const int height, int dungeonObjects);
 		virtual void SetTile(int x, int y, int tileType);
 		virtual int GetTile(int x, int y);
-		virtual void SetObject(int x, int y, int objectType);
-		virtual int GetObject(int x, int y);
+		virtual void SetItem(int x, int y, int itemType);
+		virtual int GetItem(int x, int y);
 		virtual void SetEnemy(int x, int y, int enemyType);
 		virtual int GetEnemy(int x, int y);
 		virtual int GetXSize();
@@ -40,13 +40,24 @@ class ProceduralManager
 			enemyKnight
 		};
 
-		enum Objects
+		enum Items
 		{
-			objectNull,
-			objectHealth,
-			objectLightArmor,
-			objectMediumArmor,
-			objectHeavyArmor
+			itemNull,
+			itemHealth,
+			itemLightArmor,
+			itemMediumArmor,
+			itemHeavyArmor,
+			itemShellsAmmo,
+			itemNailsAmmo,
+			itemRocketsAmmo,
+			itemShockAmmo,
+			itemWeaponRifle,
+			itemWeaponShotgun,
+			itemWeaponNailgun,
+			itemWeaponHeavyNailgun,
+			itemWeaponGrenadeLauncher,
+			itemWeaponRocketLauncher,
+			itemWeaponShockgun
 		};
 
 	private:
@@ -58,7 +69,7 @@ class ProceduralManager
 
 		int *pWorldMap;
 		int *pEnemiesMap;
-		int *pObjectsMap;
+		int *pItemsMap;
 
 		int iXMax;
 		int iYMax;

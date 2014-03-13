@@ -322,10 +322,10 @@ String WorldManager::GenerateProceduralMap()
 							writer.CloseNode();
 						}
 
-						// Objects
-						if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectHealth)
+						// Items
+						if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemHealth)
 						{
-							// Open node Object
+							// Open node Item
 							writer.OpenNode();
 
 							writer.WriteString("name"	, "HealthPotion");
@@ -348,9 +348,9 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Object
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectLightArmor)
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemLightArmor)
 						{
-							// Open node Object
+							// Open node Item
 							writer.OpenNode();
 
 							writer.WriteString("name"	, "Armor");
@@ -371,12 +371,12 @@ String WorldManager::GenerateProceduralMap()
 								// Close node Properties
 								writer.CloseNode();
 
-							// Close node Object
+							// Close node Item
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectMediumArmor)
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemMediumArmor)
 						{
-							// Open node Object
+							// Open node Item
 							writer.OpenNode();
 
 							writer.WriteString("name"	, "Armor");
@@ -397,12 +397,12 @@ String WorldManager::GenerateProceduralMap()
 								// Close node Properties
 								writer.CloseNode();
 
-							// Close node Object
+							// Close node Item
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetObject(x, y) == ProceduralManager::Objects::objectHeavyArmor)
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemHeavyArmor)
 						{
-							// Open node Object
+							// Open node Item
 							writer.OpenNode();
 
 							writer.WriteString("name"	, "Armor");
@@ -423,7 +423,294 @@ String WorldManager::GenerateProceduralMap()
 								// Close node Properties
 								writer.CloseNode();
 
-							// Close node Object
+							// Close node Item
+							writer.CloseNode();
+						}
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemShellsAmmo)
+						{
+							// Open node Item
+							writer.OpenNode();
+
+							writer.WriteString("name"	, "Ammo");
+							writer.WriteString("type"	, "");
+							writer.WriteU32("height"	, 40);
+							writer.WriteU32("width"		, 40);
+							writer.WriteU32("x"			, x * 40 + 20);
+							writer.WriteU32("y"			, y * 40 + 20);
+							writer.WriteBool("visible"	, true);
+
+								// Open node Properties
+								writer.OpenNode("properties");
+
+									writer.WriteString(	"Class", "Ammo");
+									writer.WriteString(	"AnimationName", "ShellsAmmo");
+									writer.WriteString(	"Amount", "20");
+
+								// Close node Properties
+								writer.CloseNode();
+
+							// Close node Item
+							writer.CloseNode();
+						}
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemNailsAmmo)
+						{
+							// Open node Item
+							writer.OpenNode();
+
+							writer.WriteString("name"	, "Ammo");
+							writer.WriteString("type"	, "");
+							writer.WriteU32("height"	, 40);
+							writer.WriteU32("width"		, 40);
+							writer.WriteU32("x"			, x * 40 + 20);
+							writer.WriteU32("y"			, y * 40 + 20);
+							writer.WriteBool("visible"	, true);
+
+								// Open node Properties
+								writer.OpenNode("properties");
+
+									writer.WriteString(	"Class", "Ammo");
+									writer.WriteString(	"AnimationName", "NailsAmmo");
+									writer.WriteString(	"Amount", "20");
+
+								// Close node Properties
+								writer.CloseNode();
+
+							// Close node Item
+							writer.CloseNode();
+						}
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemRocketsAmmo)
+						{
+							// Open node Item
+							writer.OpenNode();
+
+							writer.WriteString("name"	, "Ammo");
+							writer.WriteString("type"	, "");
+							writer.WriteU32("height"	, 40);
+							writer.WriteU32("width"		, 40);
+							writer.WriteU32("x"			, x * 40 + 20);
+							writer.WriteU32("y"			, y * 40 + 20);
+							writer.WriteBool("visible"	, true);
+
+								// Open node Properties
+								writer.OpenNode("properties");
+
+									writer.WriteString(	"Class", "Ammo");
+									writer.WriteString(	"AnimationName", "RocketsAmmo");
+									writer.WriteString(	"Amount", "20");
+
+								// Close node Properties
+								writer.CloseNode();
+
+							// Close node Item
+							writer.CloseNode();
+						}
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemShockAmmo)
+						{
+							// Open node Item
+							writer.OpenNode();
+
+							writer.WriteString("name"	, "Ammo");
+							writer.WriteString("type"	, "");
+							writer.WriteU32("height"	, 40);
+							writer.WriteU32("width"		, 40);
+							writer.WriteU32("x"			, x * 40 + 20);
+							writer.WriteU32("y"			, y * 40 + 20);
+							writer.WriteBool("visible"	, true);
+
+								// Open node Properties
+								writer.OpenNode("properties");
+
+									writer.WriteString(	"Class", "Ammo");
+									writer.WriteString(	"AnimationName", "ShockAmmo");
+									writer.WriteString(	"Amount", "20");
+
+								// Close node Properties
+								writer.CloseNode();
+
+							// Close node Item
+							writer.CloseNode();
+						}
+						// Weapons
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemWeaponRifle)
+						{
+							// Open node Item
+							writer.OpenNode();
+
+							writer.WriteString("name"	, "Weapon");
+							writer.WriteString("type"	, "");
+							writer.WriteU32("height"	, 40);
+							writer.WriteU32("width"		, 40);
+							writer.WriteU32("x"			, x * 40 + 20);
+							writer.WriteU32("y"			, y * 40 + 20);
+							writer.WriteBool("visible"	, true);
+
+								// Open node Properties
+								writer.OpenNode("properties");
+
+									writer.WriteString(	"Class", "Weapon");
+									writer.WriteString(	"AnimationName", "Rifle");
+									writer.WriteString(	"Amount", "1");
+
+								// Close node Properties
+								writer.CloseNode();
+
+							// Close node Item
+							writer.CloseNode();
+						}
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemWeaponShotgun)
+						{
+							// Open node Item
+							writer.OpenNode();
+
+							writer.WriteString("name"	, "Weapon");
+							writer.WriteString("type"	, "");
+							writer.WriteU32("height"	, 40);
+							writer.WriteU32("width"		, 40);
+							writer.WriteU32("x"			, x * 40 + 20);
+							writer.WriteU32("y"			, y * 40 + 20);
+							writer.WriteBool("visible"	, true);
+
+								// Open node Properties
+								writer.OpenNode("properties");
+
+									writer.WriteString(	"Class", "Weapon");
+									writer.WriteString(	"AnimationName", "Shotgun");
+									writer.WriteString(	"Amount", "1");
+
+								// Close node Properties
+								writer.CloseNode();
+
+							// Close node Item
+							writer.CloseNode();
+						}
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemWeaponNailgun)
+						{
+							// Open node Item
+							writer.OpenNode();
+
+							writer.WriteString("name"	, "Weapon");
+							writer.WriteString("type"	, "");
+							writer.WriteU32("height"	, 40);
+							writer.WriteU32("width"		, 40);
+							writer.WriteU32("x"			, x * 40 + 20);
+							writer.WriteU32("y"			, y * 40 + 20);
+							writer.WriteBool("visible"	, true);
+
+								// Open node Properties
+								writer.OpenNode("properties");
+
+									writer.WriteString(	"Class", "Weapon");
+									writer.WriteString(	"AnimationName", "Nailgun");
+									writer.WriteString(	"Amount", "1");
+
+								// Close node Properties
+								writer.CloseNode();
+
+							// Close node Item
+							writer.CloseNode();
+						}
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemWeaponHeavyNailgun)
+						{
+							// Open node Item
+							writer.OpenNode();
+
+							writer.WriteString("name"	, "Weapon");
+							writer.WriteString("type"	, "");
+							writer.WriteU32("height"	, 40);
+							writer.WriteU32("width"		, 40);
+							writer.WriteU32("x"			, x * 40 + 20);
+							writer.WriteU32("y"			, y * 40 + 20);
+							writer.WriteBool("visible"	, true);
+
+								// Open node Properties
+								writer.OpenNode("properties");
+
+									writer.WriteString(	"Class", "Weapon");
+									writer.WriteString(	"AnimationName", "HeavyNailgun");
+									writer.WriteString(	"Amount", "1");
+
+								// Close node Properties
+								writer.CloseNode();
+
+							// Close node Item
+							writer.CloseNode();
+						}
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemWeaponGrenadeLauncher)
+						{
+							// Open node Item
+							writer.OpenNode();
+
+							writer.WriteString("name"	, "Weapon");
+							writer.WriteString("type"	, "");
+							writer.WriteU32("height"	, 40);
+							writer.WriteU32("width"		, 40);
+							writer.WriteU32("x"			, x * 40 + 20);
+							writer.WriteU32("y"			, y * 40 + 20);
+							writer.WriteBool("visible"	, true);
+
+								// Open node Properties
+								writer.OpenNode("properties");
+
+									writer.WriteString(	"Class", "Weapon");
+									writer.WriteString(	"AnimationName", "GrenadeLauncher");
+									writer.WriteString(	"Amount", "1");
+
+								// Close node Properties
+								writer.CloseNode();
+
+							// Close node Item
+							writer.CloseNode();
+						}
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemWeaponRocketLauncher)
+						{
+							// Open node Item
+							writer.OpenNode();
+
+							writer.WriteString("name"	, "Weapon");
+							writer.WriteString("type"	, "");
+							writer.WriteU32("height"	, 40);
+							writer.WriteU32("width"		, 40);
+							writer.WriteU32("x"			, x * 40 + 20);
+							writer.WriteU32("y"			, y * 40 + 20);
+							writer.WriteBool("visible"	, true);
+
+								// Open node Properties
+								writer.OpenNode("properties");
+
+									writer.WriteString(	"Class", "Weapon");
+									writer.WriteString(	"AnimationName", "RocketLauncher");
+									writer.WriteString(	"Amount", "1");
+
+								// Close node Properties
+								writer.CloseNode();
+
+							// Close node Item
+							writer.CloseNode();
+						}
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemWeaponShockgun)
+						{
+							// Open node Item
+							writer.OpenNode();
+
+							writer.WriteString("name"	, "Weapon");
+							writer.WriteString("type"	, "");
+							writer.WriteU32("height"	, 40);
+							writer.WriteU32("width"		, 40);
+							writer.WriteU32("x"			, x * 40 + 20);
+							writer.WriteU32("y"			, y * 40 + 20);
+							writer.WriteBool("visible"	, true);
+
+								// Open node Properties
+								writer.OpenNode("properties");
+
+									writer.WriteString(	"Class", "Weapon");
+									writer.WriteString(	"AnimationName", "Shockgun");
+									writer.WriteString(	"Amount", "1");
+
+								// Close node Properties
+								writer.CloseNode();
+
+							// Close node Item
 							writer.CloseNode();
 						}
 					}
