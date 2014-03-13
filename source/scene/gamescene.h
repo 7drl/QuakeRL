@@ -63,6 +63,8 @@ class GameScene : public IEventInputKeyboardListener,
 		void UseKey(u32 key);
 		GameMap& GetGameMap();
 
+		void EnemyFindPath();
+
 	private:
 		PlayerEntity	 *pPlayer;
 		PlayerEntity	 *pPlayerOptimist;

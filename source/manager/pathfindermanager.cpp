@@ -12,10 +12,10 @@ PathfinderManager::~PathfinderManager()
 	sdDelete(pPathfinder);
 }
 
-void PathfinderManager::Init(MapLayerTiled *mapBackground, MapLayerTiled *mapColliders)
+void PathfinderManager::Init(MapLayerTiled *mapBackground)
 {
 	pHeuristic = sdNew(Heuristic);
-	pPathfinder = sdNew(AStarPathfinder(true, true, 1, pHeuristic, mapBackground, mapColliders));
+	pPathfinder = sdNew(AStarPathfinder(true, true, 1, pHeuristic, mapBackground));
 }
 
 

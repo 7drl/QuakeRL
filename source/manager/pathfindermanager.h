@@ -16,7 +16,7 @@ class PathfinderManager
 		PathfinderManager();
 		virtual ~PathfinderManager();
 
-		void Init(MapLayerTiled *mapBackground, MapLayerTiled *mapColliders);
+		void Init(MapLayerTiled *mapBackground);
 		void Update(f32 dt);
 		Path &Findpath(const Vector3f &start, const Vector3f &end, Path &path);
 

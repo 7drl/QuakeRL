@@ -48,6 +48,7 @@ class EnemyEntity: public SpriteEntity
 		f32 fInvicibleTime;
 		bool bPlayerLock;
 		bool bIsDead;
+		bool bIsPlayerFound;
 		Path cPath;
 };
 

@@ -14,6 +14,7 @@ EnemyEntity::EnemyEntity()
 	, fInvicibleTime(0.0f)
 	, bPlayerLock(false)
 	, bIsDead(false)
+	, bIsPlayerFound(false)
 	, cPath()
 {
 	sEnemy.displayName = "Enemy";
@@ -91,6 +92,21 @@ void EnemyEntity::Update(f32 dt)
 			pSprite->SetVisible(true);
 			fInvicibleTime = 0;
 		}
+	}
+
+	if(bIsPlayerFound)
+	{
+		Vector3f step = cPath.GetSteps().top();
+		b2Vec2 pos = b2Vec2(step.getX(), step.getY());
+		Log("Before: ----------------- x:%f ----------- y:%f", pBody->GetPosition().x, pBody->GetPosition().y);
+		pBody->SetTransform(pos, pBody->GetAngle());
+		Log("After:  ----------------- x:%f ----------- y:%f", pos.x, pos.y);
+		cPath.GetSteps().pop();
+		cPath.GetSteps().pop();
+		cPath.GetSteps().pop();
+
+		if(cPath.GetSteps().empty())
+			bIsPlayerFound = false;
 	}
 
 	// Search a nerby player
@@ -258,4 +274,5 @@ void EnemyEntity::FindPathToPlayer()
 {
 	// Find path to the player
 	gPathfinderManager->Findpath(pSprite->GetPosition(), pTarget->GetSprite()->GetPosition(), cPath);
+	bIsPlayerFound = true;
 }

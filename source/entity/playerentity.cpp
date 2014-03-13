@@ -168,6 +168,11 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 			SetState(Run);
 			fUpDownMove = 1;
 		}
+
+		if (k == eKey::Space)
+		{
+			gGameScene->EnemyFindPath();
+		}
 	}
 
 	return true;
