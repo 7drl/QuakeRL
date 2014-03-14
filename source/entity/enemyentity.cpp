@@ -191,12 +191,10 @@ void EnemyEntity::Update(f32 dt)
 			this->SetDisplayName(this->GetDisplayName());
 			this->SetLevel(this->GetLevel());
 			this->SetLife(this->GetLife());
-			gGui->SelectEnemy(pTarget->GetDisplayName(), this->sEnemy.iEnemyId);
 		}
 		else if (bPlayerLock && distance >= 1.0f)
 		{
 			bPlayerLock = false;
-			gGui->SelectEnemy();
 		}
 	}
 }
@@ -286,7 +284,6 @@ bool EnemyEntity::OnDamage(u32 amount)
 		gPhysics->AddBodyToRemove(pBody);
 		pBody = nullptr;
 		bIsDead = true;
-		gGui->SelectEnemy();
 	}
 	else
 		fInvicibleTime = 3;
@@ -301,7 +298,7 @@ String EnemyEntity::GetDisplayName() const
 
 void EnemyEntity::SetDisplayName(const String &displayName)
 {
-	gGui->SetEnemyName(displayName);
+	//gGui->SetEnemyName(displayName);
 }
 
 u32 EnemyEntity::GetLevel() const
@@ -312,7 +309,7 @@ u32 EnemyEntity::GetLevel() const
 void EnemyEntity::SetLevel(u32 level)
 {
 	sEnemy.iLevel = level;
-	gGui->SetEnemyLevel(level);
+	//gGui->SetEnemyLevel(level);
 }
 
 u32 EnemyEntity::GetLife() const
@@ -323,7 +320,7 @@ u32 EnemyEntity::GetLife() const
 void EnemyEntity::SetLife(u32 life)
 {
 	sEnemy.iLife = life;
-	gGui->SetEnemyLife(life, this->sEnemy.iLifeTotal);
+	//gGui->SetEnemyLife(life, this->sEnemy.iLifeTotal);
 }
 
 void EnemyEntity::FindPathToPlayer()
