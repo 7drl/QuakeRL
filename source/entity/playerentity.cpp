@@ -5,6 +5,7 @@
 #include "../util/sounds.h"
 #include "../manager/guimanager.h"
 #include "../gameflow.h"
+#include <math.h>
 
 #define PIX2M		0.01f
 #define M2PIX		(1.0f / PIX2M)
@@ -59,14 +60,11 @@ void PlayerEntity::Load(MetadataObject &metadata, SceneNode *sprites)
 	SpriteEntity::Load(metadata, sprites);
 	pSprite->SetZ(-10);
 
-	b2Vec2 customSize(26, 26);
-
-	pBody = gPhysics->CreateBody(pSprite, &customSize);
+	pBody = gPhysics->CreateBody(pSprite);
 	pBody->SetFixedRotation(true);
 	pBody->GetFixtureList()->SetUserData(this);
 
 	pInput->AddKeyboardListener(this);
-	//fVelocity = 2.0f;
 	vPlayerVectorDirection = VECTOR_ZERO;
 }
 
@@ -98,8 +96,6 @@ void PlayerEntity::Teleport(const b2Vec2 &position)
 
 void PlayerEntity::Update(f32 dt)
 {
-	b2Vec2 vel = pBody->GetLinearVelocity();
-
 	if (fInvicibleTime > 0)
 	{
 		pSprite->SetVisible(!pSprite->IsVisible());
@@ -114,50 +110,6 @@ void PlayerEntity::Update(f32 dt)
 				this->bIsInputEnabled = true;
 				this->StopPlayerMovement();
 				SetState(Idle);
-			}
-		}
-	}
-
-	if (fMove != 0)
-	{
-		if (fVelocity > 0.0f)
-		{
-			if (fMove > 0)
-				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x + (PIX2M * 40), pBody->GetTransform().p.y), 0);
-			else
-				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x - (PIX2M * 40), pBody->GetTransform().p.y), 0);
-
-			fVelocity = 0.0f;
-		}
-		else
-		{
-			pBody->SetLinearVelocity(vel);
-			if (!bKeyStillPressed)
-			{
-				bCanMove = true;
-				fMove = 0;
-			}
-		}
-	}
-
-	if (fUpDownMove != 0)
-	{
-		if (fVelocity > 0.0f)
-		{
-			if (fUpDownMove > 0)
-				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y + (PIX2M * 40)), 0);
-			else
-				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y - (PIX2M * 40)), 0);
-
-			fVelocity = 0.0f;
-		}
-		else
-		{
-			pBody->SetLinearVelocity(vel);
-			if (!bKeyStillPressed)
-			{
-				bCanMove = true;
-				fUpDownMove = 0;
 			}
 		}
 	}
@@ -186,7 +138,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 		if ((k == eKey::Up || k == eKey::W) && iCurrentState != Jump)
 		{
 			auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-			Vector3f movePos = Vector3f(pBody->GetTransform().p.x * M2PIX, ((pBody->GetTransform().p.y * M2PIX) - 40), -10 * M2PIX);
+			Vector3f movePos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) - 40), -10);
 			auto tileId = map->GetTileAt(movePos);
 
 			if (tileId != 3) // Wall
@@ -194,10 +146,8 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				if (bCanMove)
 				{
 					SetState(Run);
-					fUpDownMove = -1;
-					fVelocity = 1.0f;
+					pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y - (PIX2M * 40)), 0);
 					bCanMove = false;
-					bKeyStillPressed = true;
 				}
 			}
 		}
@@ -205,7 +155,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 		if (k == eKey::Left || k == eKey::A)
 		{
 			auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-			Vector3f movePos = Vector3f((pBody->GetTransform().p.x * M2PIX) - 40, (pBody->GetTransform().p.y * M2PIX), -10 * M2PIX);
+			Vector3f movePos = Vector3f(ceil((pBody->GetTransform().p.x * M2PIX) - 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
 			auto tileId = map->GetTileAt(movePos);
 
 			if (tileId != 3) // Wall
@@ -213,10 +163,8 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				if (bCanMove)
 				{
 					SetState(Run);
-					fMove = -1;
-					fVelocity = 1.0f;
+					pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x - (PIX2M * 40), pBody->GetTransform().p.y), 0);
 					bCanMove = false;
-					bKeyStillPressed = true;
 				}
 			}
 		}
@@ -224,7 +172,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 		if (k == eKey::Right || k == eKey::D)
 		{
 			auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-			Vector3f movePos = Vector3f((pBody->GetTransform().p.x * M2PIX) + 40, (pBody->GetTransform().p.y * M2PIX), -10 * M2PIX);
+			Vector3f movePos = Vector3f(ceil((pBody->GetTransform().p.x * M2PIX) + 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
 			auto tileId = map->GetTileAt(movePos);
 
 			if (tileId != 3) // Wall
@@ -232,10 +180,8 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				if (bCanMove)
 				{
 					SetState(Run);
-					fMove = 1;
-					fVelocity = 1.0f;
+					pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x + (PIX2M * 40), pBody->GetTransform().p.y), 0);
 					bCanMove = false;
-					bKeyStillPressed = true;
 				}
 			}
 		}
@@ -243,7 +189,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 		if (k == eKey::Down || k == eKey::S)
 		{
 			auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-			Vector3f movePos = Vector3f(pBody->GetTransform().p.x * M2PIX, ((pBody->GetTransform().p.y * M2PIX) + 40 ), -10 * M2PIX);
+			Vector3f movePos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) + 40 ), -10);
 			auto tileId = map->GetTileAt(movePos);
 
 			if (tileId != 3) // Wall
@@ -251,10 +197,8 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				if (bCanMove)
 				{
 					SetState(Run);
-					fUpDownMove = 1;
-					fVelocity = 1.0f;
+					pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y + (PIX2M * 40)), 0);
 					bCanMove = false;
-					bKeyStillPressed = true;
 				}
 			}
 		}
@@ -281,22 +225,22 @@ bool PlayerEntity::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		// Remove the directions
 		if (k == eKey::Up|| k == eKey::W)
 		{
-			bKeyStillPressed = false;
+			bCanMove = true;
 		}
 
 		if (k == eKey::Left|| k == eKey::A)
 		{
-			bKeyStillPressed = false;
+			bCanMove = true;
 		}
 
 		if (k == eKey::Right|| k == eKey::D)
 		{
-			bKeyStillPressed = false;
+			bCanMove = true;
 		}
 
 		if (k == eKey::Down|| k == eKey::S)
 		{
-			bKeyStillPressed = false;
+			bCanMove = true;
 		}
 
 		if (fUpDownMove == 0 && fMove == 0)
