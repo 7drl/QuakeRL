@@ -24,10 +24,11 @@ PlayerEntity::PlayerEntity()
 	, fMove(0.0f)
 	, fUpDownMove(0.0f)
 	, fInvicibleTime(0.0f)
-	, bKeyStillPressed(false)
+	, uQuantityAmmoShells(0)
+	, uQuantityAmmoNails(0)
+	, uQuantityAmmoRockets(0)
+	, uQuantityAmmoShock(0)
 	, bCanMove(true)
-	, bIsActive(false)
-	, bIsInputEnabled(true)
 {
 }
 
@@ -43,10 +44,11 @@ PlayerEntity::PlayerEntity(const char *className, const char *spriteName, bool b
 	, fMove(0.0f)
 	, fUpDownMove(0.0f)
 	, fInvicibleTime(0.0f)
-	, bKeyStillPressed(false)
+	, uQuantityAmmoShells(0)
+	, uQuantityAmmoNails(0)
+	, uQuantityAmmoRockets(0)
+	, uQuantityAmmoShock(0)
 	, bCanMove(true)
-	, bIsActive(bIsActive)
-	, bIsInputEnabled(true)
 {
 }
 
@@ -109,12 +111,7 @@ void PlayerEntity::Update(f32 dt)
 		{
 			pSprite->SetVisible(true);
 			fInvicibleTime = 0;
-			if (this->bIsActive)
-			{
-				this->bIsInputEnabled = true;
-				this->StopPlayerMovement();
-				SetState(Idle);
-			}
+			SetState(Idle);
 		}
 	}
 
@@ -135,83 +132,80 @@ void PlayerEntity::Update(f32 dt)
 
 bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 {
-	if (this->bIsActive && this->bIsInputEnabled)
+	Key k = ev->GetKey();
+	vLastPlayerPos = b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y);
+
+	if ((k == eKey::Up || k == eKey::W) && iCurrentState != Jump)
 	{
-		Key k = ev->GetKey();
-		vLastPlayerPos = b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y);
+		auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
+		Vector3f movePos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) - 40), -10);
+		auto tileId = map->GetTileAt(movePos);
 
-		if ((k == eKey::Up || k == eKey::W) && iCurrentState != Jump)
+		if (tileId != 3) // Wall
 		{
-			auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-			Vector3f movePos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) - 40), -10);
-			auto tileId = map->GetTileAt(movePos);
-
-			if (tileId != 3) // Wall
+			if (bCanMove)
 			{
-				if (bCanMove)
-				{
-					SetState(Run);
-					pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y - (PIX2M * 40)), 0);
-					bCanMove = false;
-				}
+				SetState(Run);
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y - (PIX2M * 40)), 0);
+				bCanMove = false;
 			}
 		}
+	}
 
-		if (k == eKey::Left || k == eKey::A)
+	if (k == eKey::Left || k == eKey::A)
+	{
+		auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
+		Vector3f movePos = Vector3f(ceil((pBody->GetTransform().p.x * M2PIX) - 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
+		auto tileId = map->GetTileAt(movePos);
+
+		if (tileId != 3) // Wall
 		{
-			auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-			Vector3f movePos = Vector3f(ceil((pBody->GetTransform().p.x * M2PIX) - 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
-			auto tileId = map->GetTileAt(movePos);
-
-			if (tileId != 3) // Wall
+			if (bCanMove)
 			{
-				if (bCanMove)
-				{
-					SetState(Run);
-					pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x - (PIX2M * 40), pBody->GetTransform().p.y), 0);
-					bCanMove = false;
-				}
+				SetState(Run);
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x - (PIX2M * 40), pBody->GetTransform().p.y), 0);
+				bCanMove = false;
 			}
 		}
+	}
 
-		if (k == eKey::Right || k == eKey::D)
+	if (k == eKey::Right || k == eKey::D)
+	{
+		auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
+		Vector3f movePos = Vector3f(ceil((pBody->GetTransform().p.x * M2PIX) + 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
+		auto tileId = map->GetTileAt(movePos);
+
+		if (tileId != 3) // Wall
 		{
-			auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-			Vector3f movePos = Vector3f(ceil((pBody->GetTransform().p.x * M2PIX) + 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
-			auto tileId = map->GetTileAt(movePos);
-
-			if (tileId != 3) // Wall
+			if (bCanMove)
 			{
-				if (bCanMove)
-				{
-					SetState(Run);
-					pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x + (PIX2M * 40), pBody->GetTransform().p.y), 0);
-					bCanMove = false;
-				}
+				SetState(Run);
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x + (PIX2M * 40), pBody->GetTransform().p.y), 0);
+				bCanMove = false;
 			}
 		}
+	}
 
-		if (k == eKey::Down || k == eKey::S)
+	if (k == eKey::Down || k == eKey::S)
+	{
+		auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
+		Vector3f movePos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) + 40 ), -10);
+		auto tileId = map->GetTileAt(movePos);
+
+		if (tileId != 3) // Wall
 		{
-			auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-			Vector3f movePos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) + 40 ), -10);
-			auto tileId = map->GetTileAt(movePos);
-
-			if (tileId != 3) // Wall
+			if (bCanMove)
 			{
-				if (bCanMove)
-				{
-					SetState(Run);
-					pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y + (PIX2M * 40)), 0);
-					bCanMove = false;
-				}
+				SetState(Run);
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y + (PIX2M * 40)), 0);
+				bCanMove = false;
 			}
 		}
+	}
 
-		if (k == eKey::Space)
-		{
-			gGameScene->EnemyFindPath();
-		}
+	if (k == eKey::Space)
+	{
+		gGameScene->EnemyFindPath();
 	}
 
 	return true;
@@ -219,39 +213,36 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 
 bool PlayerEntity::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	if (this->bIsActive && this->bIsInputEnabled)
+	Key k = ev->GetKey();
+
+	b2Vec2 vel = pBody->GetLinearVelocity();
+	vel.x = 0;
+	vel.y = 0;
+
+	// Remove the directions
+	if (k == eKey::Up|| k == eKey::W)
 	{
-		Key k = ev->GetKey();
+		bCanMove = true;
+	}
 
-		b2Vec2 vel = pBody->GetLinearVelocity();
-		vel.x = 0;
-		vel.y = 0;
+	if (k == eKey::Left|| k == eKey::A)
+	{
+		bCanMove = true;
+	}
 
-		// Remove the directions
-		if (k == eKey::Up|| k == eKey::W)
-		{
-			bCanMove = true;
-		}
+	if (k == eKey::Right|| k == eKey::D)
+	{
+		bCanMove = true;
+	}
 
-		if (k == eKey::Left|| k == eKey::A)
-		{
-			bCanMove = true;
-		}
+	if (k == eKey::Down|| k == eKey::S)
+	{
+		bCanMove = true;
+	}
 
-		if (k == eKey::Right|| k == eKey::D)
-		{
-			bCanMove = true;
-		}
-
-		if (k == eKey::Down|| k == eKey::S)
-		{
-			bCanMove = true;
-		}
-
-		if (fUpDownMove == 0 && fMove == 0)
-		{
-			SetState(Idle);
-		}
+	if (fUpDownMove == 0 && fMove == 0)
+	{
+		SetState(Idle);
 	}
 
 	return true;
@@ -267,21 +258,6 @@ ItemTypes::Enum PlayerEntity::GetItem() const
 	return eItem;
 }
 
-void PlayerEntity::SetIsActive(bool isActive)
-{
-	bIsActive = isActive;
-}
-
-void PlayerEntity::SetIsInputEnabled(bool isInputEnabled)
-{
-	bIsInputEnabled = isInputEnabled;
-}
-
-bool PlayerEntity::GetIsInputEnabled() const
-{
-	return bIsInputEnabled;
-}
-
 void PlayerEntity::StopPlayerMovement()
 {
 	b2Vec2 vel = pBody->GetLinearVelocity();
@@ -291,11 +267,6 @@ void PlayerEntity::StopPlayerMovement()
 	pBody->SetLinearVelocity(vel);
 	fUpDownMove = 0;
 	fMove = 0;
-}
-
-bool PlayerEntity::GetIsActive()
-{
-	return bIsActive;
 }
 
 void PlayerEntity::SetState(int newState)

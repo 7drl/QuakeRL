@@ -117,25 +117,25 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 			if (GetTile(newx, newy) == tileStoneWall)
 			{
 				//check if we can reach the place
-				if (GetTile(newx, newy+1) == tileGrassFloor)
+				if (GetTile(newx, newy+1) == tileBrickRoomFloor)
 				{
 					validTile = 0; //
 					xmod = 0;
 					ymod = -1;
 				}
-				else if (GetTile(newx-1, newy) == tileGrassFloor)
+				else if (GetTile(newx-1, newy) == tileBrickRoomFloor)
 				{
 					validTile = 1; //
 					xmod = +1;
 					ymod = 0;
 				}
-				else if (GetTile(newx, newy-1) == tileGrassFloor)
+				else if (GetTile(newx, newy-1) == tileBrickRoomFloor)
 				{
 					validTile = 2; //
 					xmod = 0;
 					ymod = +1;
 				}
-				else if (GetTile(newx+1, newy) == tileGrassFloor)
+				else if (GetTile(newx+1, newy) == tileBrickRoomFloor)
 				{
 					validTile = 3; //
 					xmod = -1;
@@ -173,7 +173,7 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 					SetTile(newx, newy, tileDoor);
 
 					//clean up infront of the door so we can reach it
-					SetTile((newx+xmod), (newy+ymod), tileGrassFloor);
+					SetTile((newx+xmod), (newy+ymod), tileBrickRoomFloor);
 				}
 			}
 			else if (feature >= iChanceRoom){ //new corridor
@@ -289,7 +289,7 @@ void ProceduralManager::SetTile(u32 x, u32 y, u32 tileType)
 	pWorldMap[x + iXSize * y] = tileType;
 }
 
-int ProceduralManager::GetTile(u32 x, u32 y)
+u32 ProceduralManager::GetTile(u32 x, u32 y)
 {
 	return pWorldMap[x + iXSize * y];
 }
@@ -299,7 +299,7 @@ void ProceduralManager::SetEnemy(u32 x, u32 y, u32 enemyType)
 	pEnemiesMap[x + iXSize * y] = enemyType;
 }
 
-int ProceduralManager::GetEnemy(u32 x, u32 y)
+u32 ProceduralManager::GetEnemy(u32 x, u32 y)
 {
 	return pEnemiesMap[x + iXSize * y];
 }
@@ -309,38 +309,20 @@ void ProceduralManager::SetItem(u32 x, u32 y, u32 itemType)
 	pItemsMap[x + iXSize * y] = itemType;
 }
 
-int ProceduralManager::GetItem(u32 x, u32 y)
+u32 ProceduralManager::GetItem(u32 x, u32 y)
 {
 	return pItemsMap[x + iXSize * y];
 }
 
-int ProceduralManager::GetXSize()
+u32 ProceduralManager::GetXSize()
 {
 	return iXSize;
 }
 
-int ProceduralManager::GetYSize()
+u32 ProceduralManager::GetYSize()
 {
 	return iYSize;
 }
-
-/*
-int ProceduralManager::GetRand(int min, int max)
-{
-	time_t seed;
-	seed = time(NULL) + lOldSeed;
-	lOldSeed = seed;
-
-	srand(seed);
-
-	int n = max - min + 1;
-	int i = rand() % n;
-
-	if(i < 0)
-		i = -i;
-
-	return min + i;
-}*/
 
 bool ProceduralManager::MakeRoom(u32 x, u32 y, u32 xlength, u32 ylength, u32 direction)
 {
@@ -349,104 +331,111 @@ bool ProceduralManager::MakeRoom(u32 x, u32 y, u32 xlength, u32 ylength, u32 dir
 	u32 ylen = clRand.Get(4, ylength);
 
 	// The tile type it's going to be filled with
-	u32 floor = tileGrassFloor;
+	u32 floor = tileBrickRoomFloor;
 	u32 wall = tileStoneWall;
 
 	// Choose the way it's pointing at
 	int dir = 0;
 	if (direction > 0 && direction < 4) dir = direction;
 
-	switch(dir){
-	case 0:
-	//north
-		//Check if there's enough space left for it
-		for (u32 ytemp = y; ytemp > (y-ylen); ytemp--){
-			if (ytemp > iYSize) return false;
-			for (u32 xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++){
-				if (xtemp > iXSize) return false;
-				if (GetTile(xtemp, ytemp) != tileBrickFloor) return false; //no space left...
+	switch(dir)
+	{
+		case 0:
+		//north
+			//Check if there's enough space left for it
+			for (u32 ytemp = y; ytemp > (y-ylen); ytemp--)
+			{
+				if (ytemp > iYSize) return false;
+				for (u32 xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++)
+				{
+					if (xtemp > iXSize) return false;
+					if (GetTile(xtemp, ytemp) != tileBrickFloor) return false; //no space left...
+				}
 			}
-		}
 
-		//we're still here, build
-		for (u32 ytemp = y; ytemp > (y-ylen); ytemp--){
-			for (u32 xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++){
-				//start with the walls
-				if (xtemp == (x-xlen/2)) SetTile(xtemp, ytemp, wall);
-				else if (xtemp == (x+(xlen-1)/2)) SetTile(xtemp, ytemp, wall);
-				else if (ytemp == y) SetTile(xtemp, ytemp, wall);
-				else if (ytemp == (y-ylen+1)) SetTile(xtemp, ytemp, wall);
-				//and then fill with the floor
-				else SetTile(xtemp, ytemp, floor);
+			//we're still here, build
+			for (u32 ytemp = y; ytemp > (y-ylen); ytemp--)
+			{
+				for (u32 xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++)
+				{
+					//start with the walls
+					if (xtemp == (x-xlen/2)) SetTile(xtemp, ytemp, wall);
+					else if (xtemp == (x+(xlen-1)/2)) SetTile(xtemp, ytemp, wall);
+					else if (ytemp == y) SetTile(xtemp, ytemp, wall);
+					else if (ytemp == (y-ylen+1)) SetTile(xtemp, ytemp, wall);
+					//and then fill with the floor
+					else SetTile(xtemp, ytemp, floor);
+				}
 			}
-		}
-		break;
-	case 1:
-	//east
-		for (u32 ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
-			if (ytemp > iYSize) return false;
-			for (u32 xtemp = x; xtemp < (x+xlen); xtemp++){
-				if (xtemp > iXSize) return false;
-				if (GetTile(xtemp, ytemp) != tileBrickFloor) return false;
+			break;
+		case 1:
+		//east
+			for (u32 ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++)
+			{
+				if (ytemp > iYSize) return false;
+				for (u32 xtemp = x; xtemp < (x+xlen); xtemp++)
+				{
+					if (xtemp > iXSize) return false;
+					if (GetTile(xtemp, ytemp) != tileBrickFloor) return false;
+				}
 			}
-		}
 
-		for (u32 ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
-			for (u32 xtemp = x; xtemp < (x+xlen); xtemp++){
+			for (u32 ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
+				for (u32 xtemp = x; xtemp < (x+xlen); xtemp++){
 
-				if (xtemp == x) SetTile(xtemp, ytemp, wall);
-				else if (xtemp == (x+xlen-1)) SetTile(xtemp, ytemp, wall);
-				else if (ytemp == (y-ylen/2)) SetTile(xtemp, ytemp, wall);
-				else if (ytemp == (y+(ylen-1)/2)) SetTile(xtemp, ytemp, wall);
+					if (xtemp == x) SetTile(xtemp, ytemp, wall);
+					else if (xtemp == (x+xlen-1)) SetTile(xtemp, ytemp, wall);
+					else if (ytemp == (y-ylen/2)) SetTile(xtemp, ytemp, wall);
+					else if (ytemp == (y+(ylen-1)/2)) SetTile(xtemp, ytemp, wall);
 
-				else SetTile(xtemp, ytemp, floor);
+					else SetTile(xtemp, ytemp, floor);
+				}
 			}
-		}
-		break;
-	case 2:
-	//south
-		for (u32 ytemp = y; ytemp < (y+ylen); ytemp++){
-			if (ytemp > iYSize) return false;
-			for (u32 xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++){
-				if (xtemp > iXSize) return false;
-				if (GetTile(xtemp, ytemp) != tileBrickFloor) return false;
+			break;
+		case 2:
+		//south
+			for (u32 ytemp = y; ytemp < (y+ylen); ytemp++){
+				if (ytemp > iYSize) return false;
+				for (u32 xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++){
+					if (xtemp > iXSize) return false;
+					if (GetTile(xtemp, ytemp) != tileBrickFloor) return false;
+				}
 			}
-		}
 
-		for (u32 ytemp = y; ytemp < (y+ylen); ytemp++){
-			for (u32 xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++){
+			for (u32 ytemp = y; ytemp < (y+ylen); ytemp++){
+				for (u32 xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++){
 
-				if (xtemp == (x-xlen/2)) SetTile(xtemp, ytemp, wall);
-				else if (xtemp == (x+(xlen-1)/2)) SetTile(xtemp, ytemp, wall);
-				else if (ytemp == y) SetTile(xtemp, ytemp, wall);
-				else if (ytemp == (y+ylen-1)) SetTile(xtemp, ytemp, wall);
+					if (xtemp == (x-xlen/2)) SetTile(xtemp, ytemp, wall);
+					else if (xtemp == (x+(xlen-1)/2)) SetTile(xtemp, ytemp, wall);
+					else if (ytemp == y) SetTile(xtemp, ytemp, wall);
+					else if (ytemp == (y+ylen-1)) SetTile(xtemp, ytemp, wall);
 
-				else SetTile(xtemp, ytemp, floor);
+					else SetTile(xtemp, ytemp, floor);
+				}
 			}
-		}
-		break;
-	case 3:
-	//west
-		for (u32 ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
-			if (ytemp > iYSize) return false;
-			for (u32 xtemp = x; xtemp > (x-xlen); xtemp--){
-				if (xtemp > iXSize) return false;
-				if (GetTile(xtemp, ytemp) != tileBrickFloor) return false;
+			break;
+		case 3:
+		//west
+			for (u32 ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
+				if (ytemp > iYSize) return false;
+				for (u32 xtemp = x; xtemp > (x-xlen); xtemp--){
+					if (xtemp > iXSize) return false;
+					if (GetTile(xtemp, ytemp) != tileBrickFloor) return false;
+				}
 			}
-		}
 
-		for (u32 ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
-			for (u32 xtemp = x; xtemp > (x-xlen); xtemp--){
+			for (u32 ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
+				for (u32 xtemp = x; xtemp > (x-xlen); xtemp--){
 
-				if (xtemp == x) SetTile(xtemp, ytemp, wall);
-				else if (xtemp == (x-xlen+1)) SetTile(xtemp, ytemp, wall);
-				else if (ytemp == (y-ylen/2)) SetTile(xtemp, ytemp, wall);
-				else if (ytemp == (y+(ylen-1)/2)) SetTile(xtemp, ytemp, wall);
+					if (xtemp == x) SetTile(xtemp, ytemp, wall);
+					else if (xtemp == (x-xlen+1)) SetTile(xtemp, ytemp, wall);
+					else if (ytemp == (y-ylen/2)) SetTile(xtemp, ytemp, wall);
+					else if (ytemp == (y+(ylen-1)/2)) SetTile(xtemp, ytemp, wall);
 
-				else SetTile(xtemp, ytemp, floor);
+					else SetTile(xtemp, ytemp, floor);
+				}
 			}
-		}
-		break;
+			break;
 	}
 
 	//yay, all done
@@ -537,7 +526,7 @@ bool ProceduralManager::MakeCorridor(u32 x, u32 y, u32 lenght, u32 direction)
 
 bool ProceduralManager::FindFreeRoomPosition(u32 x, u32 y)
 {
-	if (GetTile(x, y) == tileGrassFloor || GetTile(x, y) == tileBrickFloor)
+	if (GetTile(x, y) == tileBrickRoomFloor || GetTile(x, y) == tileBrickFloor)
 	{
 		return true;
 	}

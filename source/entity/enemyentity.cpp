@@ -169,10 +169,10 @@ void EnemyEntity::Update(f32 dt)
 	*/
 
 	// Search a nerby player
-	if (pTarget == nullptr || (pTarget != nullptr && !pTarget->GetIsActive()))
+	if (pTarget == nullptr)
 		pTarget = static_cast<OptimistPlayerEntity *>(gWorldManager->FindEntityByClassName("OptimistPlayer"));
 
-	if (pTarget != nullptr && pTarget->GetIsActive())
+	if (pTarget != nullptr)
 	{
 		// Change enemy sprites
 		if (sEnemy.iEnemyId == 1)
@@ -215,7 +215,6 @@ void EnemyEntity::OnCollision(const CollisionEvent &event)
 
 			// Stop player movement
 			player->StopPlayerMovement();
-			player->SetIsInputEnabled(false);
 
 			s32 damageToPlayer = (player->GetDefensePower() - sEnemy.iAttackPower) + (rand() % 3 + 1);
 			if (damageToPlayer < 0)

@@ -10,19 +10,19 @@ class ProceduralManager
 		virtual ~ProceduralManager();
 		virtual void BuildWorld(const u32 width, const u32 height, u32 dungeonObjects);
 		virtual void SetTile(u32 x, u32 y, u32 tileType);
-		virtual int GetTile(u32 x, u32 y);
+		virtual u32 GetTile(u32 x, u32 y);
 		virtual void SetItem(u32 x, u32 y, u32 itemType);
-		virtual int GetItem(u32 x, u32 y);
+		virtual u32 GetItem(u32 x, u32 y);
 		virtual void SetEnemy(u32 x, u32 y, u32 enemyType);
-		virtual int GetEnemy(u32 x, u32 y);
-		virtual int GetXSize();
-		virtual int GetYSize();
+		virtual u32 GetEnemy(u32 x, u32 y);
+		virtual u32 GetXSize();
+		virtual u32 GetYSize();
 
-		enum Tiles
+		enum eTiles
 		{
 			tileUnused = 0,
 			tileBrickFloor,
-			tileGrassFloor,
+			tileBrickRoomFloor,
 			tileStoneWall,
 			tileMetalFloor,
 			tileCorridor,
@@ -32,7 +32,7 @@ class ProceduralManager
 			tileChest
 		};
 
-		enum Enemies
+		enum eEnemies
 		{
 			enemyNull,
 			enemyGrunt ,
@@ -40,7 +40,7 @@ class ProceduralManager
 			enemyKnight
 		};
 
-		enum Items
+		enum eItems
 		{
 			itemNull,
 			itemHealth,
