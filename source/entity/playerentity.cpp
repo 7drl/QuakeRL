@@ -6,6 +6,9 @@
 #include "../manager/guimanager.h"
 #include "../gameflow.h"
 
+#define PIX2M		0.01f
+#define M2PIX		(1.0f / PIX2M)
+
 ENTITY_CREATOR("Player", PlayerEntity)
 
 PlayerEntity::PlayerEntity()
@@ -19,6 +22,8 @@ PlayerEntity::PlayerEntity()
 	, fMove(0.0f)
 	, fUpDownMove(0.0f)
 	, fInvicibleTime(0.0f)
+	, bKeyStillPressed(false)
+	, bCanMove(true)
 	, bIsActive(false)
 	, bIsInputEnabled(true)
 {
@@ -35,6 +40,8 @@ PlayerEntity::PlayerEntity(const char *className, const char *spriteName, bool b
 	, fMove(0.0f)
 	, fUpDownMove(0.0f)
 	, fInvicibleTime(0.0f)
+	, bKeyStillPressed(false)
+	, bCanMove(true)
 	, bIsActive(bIsActive)
 	, bIsInputEnabled(true)
 {
@@ -113,15 +120,46 @@ void PlayerEntity::Update(f32 dt)
 
 	if (fMove != 0)
 	{
-		vel.x = fVelocity * fMove;
-		pBody->SetLinearVelocity(vel);
+		if (fVelocity > 0.0f)
+		{
+			if (fMove > 0)
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x + (PIX2M * 40), pBody->GetTransform().p.y), 0);
+			else
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x - (PIX2M * 40), pBody->GetTransform().p.y), 0);
 
+			fVelocity = 0.0f;
+		}
+		else
+		{
+			pBody->SetLinearVelocity(vel);
+			if (!bKeyStillPressed)
+			{
+				bCanMove = true;
+				fMove = 0;
+			}
+		}
 	}
 
 	if (fUpDownMove != 0)
 	{
-		vel.y = fVelocity * fUpDownMove;
-		pBody->SetLinearVelocity(vel);
+		if (fVelocity > 0.0f)
+		{
+			if (fUpDownMove > 0)
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y + (PIX2M * 40)), 0);
+			else
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y - (PIX2M * 40)), 0);
+
+			fVelocity = 0.0f;
+		}
+		else
+		{
+			pBody->SetLinearVelocity(vel);
+			if (!bKeyStillPressed)
+			{
+				bCanMove = true;
+				fUpDownMove = 0;
+			}
+		}
 	}
 
 	if (iCurrentState == iPreviousState)
@@ -145,30 +183,80 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 	{
 		Key k = ev->GetKey();
 
-		//b2Vec2 vel = pBody->GetLinearVelocity();
-
 		if ((k == eKey::Up || k == eKey::W) && iCurrentState != Jump)
 		{
-			SetState(Run);
-			fUpDownMove = -1;
+			auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
+			Vector3f movePos = Vector3f(pBody->GetTransform().p.x * M2PIX, ((pBody->GetTransform().p.y * M2PIX) - 40), -10 * M2PIX);
+			auto tileId = map->GetTileAt(movePos);
+
+			if (tileId != 3) // Wall
+			{
+				if (bCanMove)
+				{
+					SetState(Run);
+					fUpDownMove = -1;
+					fVelocity = 1.0f;
+					bCanMove = false;
+					bKeyStillPressed = true;
+				}
+			}
 		}
 
 		if (k == eKey::Left || k == eKey::A)
 		{
-			SetState(Run);
-			fMove = -1;
+			auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
+			Vector3f movePos = Vector3f((pBody->GetTransform().p.x * M2PIX) - 40, (pBody->GetTransform().p.y * M2PIX), -10 * M2PIX);
+			auto tileId = map->GetTileAt(movePos);
+
+			if (tileId != 3) // Wall
+			{
+				if (bCanMove)
+				{
+					SetState(Run);
+					fMove = -1;
+					fVelocity = 1.0f;
+					bCanMove = false;
+					bKeyStillPressed = true;
+				}
+			}
 		}
 
 		if (k == eKey::Right || k == eKey::D)
 		{
-			SetState(Run);
-			fMove = 1;
+			auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
+			Vector3f movePos = Vector3f((pBody->GetTransform().p.x * M2PIX) + 40, (pBody->GetTransform().p.y * M2PIX), -10 * M2PIX);
+			auto tileId = map->GetTileAt(movePos);
+
+			if (tileId != 3) // Wall
+			{
+				if (bCanMove)
+				{
+					SetState(Run);
+					fMove = 1;
+					fVelocity = 1.0f;
+					bCanMove = false;
+					bKeyStillPressed = true;
+				}
+			}
 		}
 
 		if (k == eKey::Down || k == eKey::S)
 		{
-			SetState(Run);
-			fUpDownMove = 1;
+			auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
+			Vector3f movePos = Vector3f(pBody->GetTransform().p.x * M2PIX, ((pBody->GetTransform().p.y * M2PIX) + 40 ), -10 * M2PIX);
+			auto tileId = map->GetTileAt(movePos);
+
+			if (tileId != 3) // Wall
+			{
+				if (bCanMove)
+				{
+					SetState(Run);
+					fUpDownMove = 1;
+					fVelocity = 1.0f;
+					bCanMove = false;
+					bKeyStillPressed = true;
+				}
+			}
 		}
 	}
 
@@ -188,26 +276,22 @@ bool PlayerEntity::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		// Remove the directions
 		if (k == eKey::Up|| k == eKey::W)
 		{
-			pBody->SetLinearVelocity(vel);
-			fUpDownMove = 0;
+			bKeyStillPressed = false;
 		}
 
 		if (k == eKey::Left|| k == eKey::A)
 		{
-			pBody->SetLinearVelocity(vel);
-			fMove = 0;
+			bKeyStillPressed = false;
 		}
 
 		if (k == eKey::Right|| k == eKey::D)
 		{
-			pBody->SetLinearVelocity(vel);
-			fMove = 0;
+			bKeyStillPressed = false;
 		}
 
 		if (k == eKey::Down|| k == eKey::S)
 		{
-			pBody->SetLinearVelocity(vel);
-			fUpDownMove = 0;
+			bKeyStillPressed = false;
 		}
 
 		if (fUpDownMove == 0 && fMove == 0)

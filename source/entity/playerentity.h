@@ -124,6 +124,8 @@ class PlayerEntity: public SpriteEntity,
 		f32 fUpDownMove;
 		f32 fInvicibleTime;
 
+		bool bKeyStillPressed;
+		bool bCanMove;
 		bool bIsActive;
 		bool bIsInputEnabled;
 		void SetState(int newState);

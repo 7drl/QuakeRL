@@ -3,8 +3,8 @@
 
 ProceduralManager::ProceduralManager()
 	: pWorldMap(nullptr)
-	, pItemsMap(nullptr)
 	, pEnemiesMap(nullptr)
+	, pItemsMap(nullptr)
 	, iXMax(30)
 	, iYMax(30)
 	, iXSize(0)
@@ -193,7 +193,7 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 
 	while (!upStairsPlaced)
 	{
-		Log("Tring to find a place for the upStairs");
+		Log("Trying to find a place for the upStairs");
 
 		upStairsX = GetRand(0, iXSize);
 		upStairsY = GetRand(0, iYSize);
@@ -212,7 +212,7 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 
 	while (!downStairsPlaced)
 	{
-		Log("Tring to find a place for the downStairs");
+		Log("Trying to find a place for the downStairs");
 
 		downStairsX = GetRand(0, iXSize);
 		downStairsY = GetRand(0, iYSize);
