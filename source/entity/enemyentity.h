@@ -50,6 +50,10 @@ class EnemyEntity: public SpriteEntity
 		bool bIsDead;
 		bool bIsPlayerFound;
 		Path cPath;
+
+		f32 fMove;
+		f32 fUpDownMove;
+		f32 fVelocity;
 };
 
 #endif

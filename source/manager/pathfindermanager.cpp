@@ -13,7 +13,7 @@ PathfinderManager::~PathfinderManager()
 
 void PathfinderManager::Init(MapLayerTiled *mapBackground)
 {
-	pPathfinder = sdNew(AStarPathfinder(true, true, 1, mapBackground));
+	pPathfinder = sdNew(AStarPathfinder(true, true, 40, 3, mapBackground));
 }
 
 

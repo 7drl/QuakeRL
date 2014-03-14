@@ -16,6 +16,9 @@ EnemyEntity::EnemyEntity()
 	, bIsDead(false)
 	, bIsPlayerFound(false)
 	, cPath()
+	, fMove(0.0f)
+	, fUpDownMove(0.0f)
+	, fVelocity(2.0f)
 {
 	sEnemy.displayName = "Enemy";
 }
@@ -80,7 +83,6 @@ void EnemyEntity::Update(f32 dt)
 		return;
 
 	b2Vec2 vel = pBody->GetLinearVelocity();
-	pBody->SetLinearVelocity(vel);
 
 	if (fInvicibleTime > 0)
 	{
@@ -94,20 +96,74 @@ void EnemyEntity::Update(f32 dt)
 		}
 	}
 
+	/*
 	if(bIsPlayerFound)
 	{
-		Vector3f step = cPath.GetSteps().top();
-		b2Vec2 pos = b2Vec2(step.getX(), step.getY());
-		Log("Before: ----------------- x:%f ----------- y:%f", pBody->GetPosition().x, pBody->GetPosition().y);
-		pBody->SetTransform(pos, pBody->GetAngle());
-		Log("After:  ----------------- x:%f ----------- y:%f", pos.x, pos.y);
-		cPath.GetSteps().pop();
-		cPath.GetSteps().pop();
-		cPath.GetSteps().pop();
+		Vector3f dir = cPath.GetDirectionSteps().top();
 
-		if(cPath.GetSteps().empty())
+		if (dir.getX() == VECTOR_UP.getX() && dir.getY() == VECTOR_UP.getY())
+		{
+			fUpDownMove = -1;
+		}
+
+		if (dir.getX() == VECTOR_LEFT.getX() && dir.getY() == VECTOR_LEFT.getY())
+		{
+			fMove = -1;
+		}
+
+		if (dir.getX() == VECTOR_RIGHT.getX() && dir.getY() == VECTOR_RIGHT.getY())
+		{
+			fMove = 1;
+		}
+
+		if (dir.getX() == VECTOR_DOWN.getX() && dir.getY() == VECTOR_DOWN.getY())
+		{
+			fUpDownMove = 1;
+		}
+
+		////////////
+
+		if (dir.getX() == VECTOR_UP_LEFT.getX() && dir.getY() == VECTOR_UP_LEFT.getY())
+		{
+			fUpDownMove = -1;
+			fMove = -1;
+		}
+		if (dir.getX() == VECTOR_UP_RIGHT.getX() && dir.getY() == VECTOR_UP_RIGHT.getY())
+		{
+			fUpDownMove = -1;
+			fMove = 1;
+		}
+		if (dir.getX() == VECTOR_DOWN_RIGHT.getX() && dir.getY() == VECTOR_DOWN_RIGHT.getY())
+		{
+			fUpDownMove = 1;
+			fMove = 1;
+		}
+		if (dir.getX() == VECTOR_DOWN_LEFT.getX() && dir.getY() == VECTOR_DOWN_LEFT.getY())
+		{
+			fUpDownMove = 1;
+			fMove = -1;
+		}
+
+		if (fMove != 0)
+		{
+			Log("fMove: %f", fMove);
+			vel.x = fVelocity * fMove;
+			pBody->SetLinearVelocity(vel);
+			fMove = 0;
+		}
+
+		if (fUpDownMove != 0)
+		{
+			Log("fUpDownMove: %f", fUpDownMove);
+			vel.y = fVelocity * fUpDownMove;
+			pBody->SetLinearVelocity(vel);
+			fMove = 0;
+		}
+
+		if(cPath.GetDirectionSteps().empty())
 			bIsPlayerFound = false;
 	}
+	*/
 
 	// Search a nerby player
 	if (pTarget == nullptr || (pTarget != nullptr && !pTarget->GetIsActive()))
@@ -274,5 +330,74 @@ void EnemyEntity::FindPathToPlayer()
 {
 	// Find path to the player
 	gPathfinderManager->Findpath(pSprite->GetPosition(), pTarget->GetSprite()->GetPosition(), cPath);
-	bIsPlayerFound = true;
+	bIsPlayerFound = false;
+	b2Vec2 vel = pBody->GetLinearVelocity();
+	b2Vec2 stop{0.0f, 0.0f};
+
+	while(!cPath.GetDirectionSteps().empty())
+	{
+		Vector3f dir = cPath.GetDirectionSteps().top();
+
+		if (dir.getX() == VECTOR_UP.getX() && dir.getY() == VECTOR_UP.getY())
+		{
+			fUpDownMove = -1;
+		}
+
+		if (dir.getX() == VECTOR_LEFT.getX() && dir.getY() == VECTOR_LEFT.getY())
+		{
+			fMove = -1;
+		}
+
+		if (dir.getX() == VECTOR_RIGHT.getX() && dir.getY() == VECTOR_RIGHT.getY())
+		{
+			fMove = 1;
+		}
+
+		if (dir.getX() == VECTOR_DOWN.getX() && dir.getY() == VECTOR_DOWN.getY())
+		{
+			fUpDownMove = 1;
+		}
+
+		////////////
+
+		if (dir.getX() == VECTOR_UP_LEFT.getX() && dir.getY() == VECTOR_UP_LEFT.getY())
+		{
+			fUpDownMove = -1;
+			fMove = -1;
+		}
+		if (dir.getX() == VECTOR_UP_RIGHT.getX() && dir.getY() == VECTOR_UP_RIGHT.getY())
+		{
+			fUpDownMove = -1;
+			fMove = 1;
+		}
+		if (dir.getX() == VECTOR_DOWN_RIGHT.getX() && dir.getY() == VECTOR_DOWN_RIGHT.getY())
+		{
+			fUpDownMove = 1;
+			fMove = 1;
+		}
+		if (dir.getX() == VECTOR_DOWN_LEFT.getX() && dir.getY() == VECTOR_DOWN_LEFT.getY())
+		{
+			fUpDownMove = 1;
+			fMove = -1;
+		}
+
+		if (fMove != 0)
+		{
+			Log("fMove: %f", fMove);
+			vel.x = fVelocity * fMove;
+			pBody->SetLinearVelocity(vel);
+			fMove = 0;
+		}
+
+		if (fUpDownMove != 0)
+		{
+			Log("fUpDownMove: %f", fUpDownMove);
+			vel.y = fVelocity * fUpDownMove;
+			pBody->SetLinearVelocity(vel);
+			fMove = 0;
+		}
+
+		pBody->SetLinearVelocity(stop);
+		cPath.GetDirectionSteps().pop();
+	}
 }
