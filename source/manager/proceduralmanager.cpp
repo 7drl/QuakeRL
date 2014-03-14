@@ -9,10 +9,10 @@ ProceduralManager::ProceduralManager()
 	, iYMax(30)
 	, iXSize(0)
 	, iYSize(0)
-	, lOldSeed(0)
 	, iObjects(0)
 	, iChanceRoom(0)
 	, iChanceCorridor(0)
+	, clRand()
 {
 
 }
@@ -24,9 +24,12 @@ ProceduralManager::~ProceduralManager()
 	sdDelete(pItemsMap);
 }
 
-void ProceduralManager::BuildWorld(const int width, const int height, int dungeonObjects)
+void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeonObjects)
 {
-	// Initialize commom values
+	// Initialize rand component
+	clRand.Initialize();
+
+	// Initialize common values
 	iChanceRoom = 75;
 	iChanceCorridor = 25;
 
@@ -47,18 +50,18 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 		iYSize = height;
 
 	// Creates the array world map
-	pWorldMap = sdNew(int[iXSize * iYSize]);
+	pWorldMap = sdNew(u32[iXSize * iYSize]);
 
 	// Creates the array items map
-	pItemsMap = sdNew(int[iXSize * iYSize]);
+	pItemsMap = sdNew(u32[iXSize * iYSize]);
 
 	// Creates the array enemies map
-	pEnemiesMap = sdNew(int[iXSize * iYSize]);
+	pEnemiesMap = sdNew(u32[iXSize * iYSize]);
 
 	// Create the borders and fill the midle with dirt
-	for (int y = 0; y < iYSize; y++)
+	for (u32 y = 0; y < iYSize; y++)
 	{
-		for (int x = 0; x < iXSize; x++)
+		for (u32 x = 0; x < iXSize; x++)
 		{
 			//Making the borders of unwalkable walls
 			if (y == 0)
@@ -84,10 +87,10 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 
 	// Create the ramdom rooms
 	// Start with making a room in the middle
-	MakeRoom(iXSize/2, iYSize/2, 8, 6, GetRand(0,3));
+	MakeRoom(iXSize/2, iYSize/2, 8, 6, clRand.Get(0u, 3u));
 
 	// Keep count of the number of "objects" we've made
-	int currentFeatures = 1; //+1 for the first room we just made
+	u32 currentFeatures = 1; //+1 for the first room we just made
 
 	// Then we sart the main loop to build the world
 	for (int countingTries = 0; countingTries < 1000; countingTries++)
@@ -99,16 +102,17 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 		}
 
 		//start with a random wall
-		int newx = 0;
-		int xmod = 0;
-		int newy = 0;
-		int ymod = 0;
+		u32 newx = 0;
+		u32 xmod = 0;
+		u32 newy = 0;
+		u32 ymod = 0;
 		int validTile = -1;
 		//1000 chances to find a suitable object (room or corridor)..
 		//(yea, i know it's kinda ugly with a for-loop... -_-')
-		for (int testing = 0; testing < 1000; testing++){
-			newx = GetRand(1, iXSize-1);
-			newy = GetRand(1, iYSize-1);
+		for (u32 testing = 0; testing < 1000; testing++)
+		{
+			newx = clRand.Get(1, iXSize-1);
+			newy = clRand.Get(1, iYSize-1);
 			validTile = -1;
 			if (GetTile(newx, newy) == tileStoneWall)
 			{
@@ -159,7 +163,7 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 		if (validTile > -1)
 		{
 			//choose what to build now at our newly found place, and at what direction
-			int feature = GetRand(0, 100);
+			u32 feature = clRand.Get((u32)0, (u32)100);
 			if (feature <= iChanceRoom){ //a new room
 				if (MakeRoom((newx+xmod), (newy+ymod), 8, 6, validTile))
 				{
@@ -195,8 +199,8 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 	{
 		Log("Trying to find a place for the upStairs");
 
-		upStairsX = GetRand(0, iXSize);
-		upStairsY = GetRand(0, iYSize);
+		upStairsX = clRand.Get(0, iXSize);
+		upStairsY = clRand.Get(0, iYSize);
 
 		if (FindFreeRoomPosition(upStairsX, upStairsY))
 		{
@@ -214,8 +218,8 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 	{
 		Log("Trying to find a place for the downStairs");
 
-		downStairsX = GetRand(0, iXSize);
-		downStairsY = GetRand(0, iYSize);
+		downStairsX = clRand.Get(0, iXSize);
+		downStairsY = clRand.Get(0, iYSize);
 
 		if (FindFreeRoomPosition(downStairsX, downStairsY))
 		{
@@ -225,22 +229,22 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 	}
 
 	// Sprinkle out the items on the map (enemies, weapons, ammo boxes)
-	int quantityEnemies = GetRand(5, 10);
-	int quantityItems = GetRand(6, 12);
+	u32 quantityEnemies = clRand.Get(5u, 10u);
+	u32 quantityItems = clRand.Get(6u, 12u);
 
-	int xItemPlace = 0;
-	int yItemPlace = 0;
-	int xEnemyPlace = 0;
-	int yEnemyPlace = 0;
-	int tileToVerify = 0;
-	int itemToVerify = 0;
-	int enemyToVerify = 0;
+	u32 xItemPlace = 0;
+	u32 yItemPlace = 0;
+	u32 xEnemyPlace = 0;
+	u32 yEnemyPlace = 0;
+	u32 tileToVerify = 0;
+	u32 itemToVerify = 0;
+	u32 enemyToVerify = 0;
 
 	// Enemies
 	while (quantityEnemies > 0)
 	{
-		xEnemyPlace = GetRand(0, iXSize);
-		yEnemyPlace = GetRand(0, iYSize);
+		xEnemyPlace = clRand.Get(0, iXSize);
+		yEnemyPlace = clRand.Get(0, iYSize);
 		tileToVerify = GetTile(xEnemyPlace, yEnemyPlace);
 		enemyToVerify = GetEnemy(xEnemyPlace, yEnemyPlace);
 
@@ -250,7 +254,7 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 				tileToVerify != tileStoneWall &&
 				enemyToVerify == enemyNull)
 		{
-			SetEnemy(xEnemyPlace, yEnemyPlace, GetRand(enemyGrunt, enemyKnight));
+			SetEnemy(xEnemyPlace, yEnemyPlace, clRand.Get((u32)enemyGrunt, (u32)enemyKnight));
 			quantityEnemies--;
 		}
 	}
@@ -258,8 +262,8 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 	// Items
 	while (quantityItems > 0)
 	{
-		xItemPlace	= GetRand(0, iXSize);
-		yItemPlace	= GetRand(0, iYSize);
+		xItemPlace	= clRand.Get(0, iXSize);
+		yItemPlace	= clRand.Get(0, iYSize);
 		tileToVerify	= GetTile(xItemPlace, yItemPlace);
 		enemyToVerify	= GetEnemy(xItemPlace, yItemPlace);
 		itemToVerify	= GetItem(xItemPlace, yItemPlace);
@@ -273,39 +277,39 @@ void ProceduralManager::BuildWorld(const int width, const int height, int dungeo
 				enemyToVerify == enemyNull &&
 				itemToVerify == itemNull)
 		{
-			SetItem(xItemPlace, yItemPlace, GetRand(itemHealth, itemWeaponShockgun));
+			SetItem(xItemPlace, yItemPlace, clRand.Get((u32)itemHealth, (u32)itemWeaponShockgun));
 			quantityItems--;
 		}
 	}
 
 }
 
-void ProceduralManager::SetTile(int x, int y, int tileType)
+void ProceduralManager::SetTile(u32 x, u32 y, u32 tileType)
 {
 	pWorldMap[x + iXSize * y] = tileType;
 }
 
-int ProceduralManager::GetTile(int x, int y)
+int ProceduralManager::GetTile(u32 x, u32 y)
 {
 	return pWorldMap[x + iXSize * y];
 }
 
-void ProceduralManager::SetEnemy(int x, int y, int enemyType)
+void ProceduralManager::SetEnemy(u32 x, u32 y, u32 enemyType)
 {
 	pEnemiesMap[x + iXSize * y] = enemyType;
 }
 
-int ProceduralManager::GetEnemy(int x, int y)
+int ProceduralManager::GetEnemy(u32 x, u32 y)
 {
 	return pEnemiesMap[x + iXSize * y];
 }
 
-void ProceduralManager::SetItem(int x, int y, int itemType)
+void ProceduralManager::SetItem(u32 x, u32 y, u32 itemType)
 {
 	pItemsMap[x + iXSize * y] = itemType;
 }
 
-int ProceduralManager::GetItem(int x, int y)
+int ProceduralManager::GetItem(u32 x, u32 y)
 {
 	return pItemsMap[x + iXSize * y];
 }
@@ -320,6 +324,7 @@ int ProceduralManager::GetYSize()
 	return iYSize;
 }
 
+/*
 int ProceduralManager::GetRand(int min, int max)
 {
 	time_t seed;
@@ -335,17 +340,17 @@ int ProceduralManager::GetRand(int min, int max)
 		i = -i;
 
 	return min + i;
-}
+}*/
 
-bool ProceduralManager::MakeRoom(int x, int y, int xlength, int ylength, int direction)
+bool ProceduralManager::MakeRoom(u32 x, u32 y, u32 xlength, u32 ylength, u32 direction)
 {
 	// Define the dimensions of the room, it should be at least 4x4 tiles (2x2 for walking on, the rest is walls)
-	int xlen = GetRand(4, xlength);
-	int ylen = GetRand(4, ylength);
+	u32 xlen = clRand.Get(4, xlength);
+	u32 ylen = clRand.Get(4, ylength);
 
 	// The tile type it's going to be filled with
-	int floor = tileGrassFloor;
-	int wall = tileStoneWall;
+	u32 floor = tileGrassFloor;
+	u32 wall = tileStoneWall;
 
 	// Choose the way it's pointing at
 	int dir = 0;
@@ -355,17 +360,17 @@ bool ProceduralManager::MakeRoom(int x, int y, int xlength, int ylength, int dir
 	case 0:
 	//north
 		//Check if there's enough space left for it
-		for (int ytemp = y; ytemp > (y-ylen); ytemp--){
-			if (ytemp < 0 || ytemp > iYSize) return false;
-			for (int xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++){
-				if (xtemp < 0 || xtemp > iXSize) return false;
+		for (u32 ytemp = y; ytemp > (y-ylen); ytemp--){
+			if (ytemp > iYSize) return false;
+			for (u32 xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++){
+				if (xtemp > iXSize) return false;
 				if (GetTile(xtemp, ytemp) != tileBrickFloor) return false; //no space left...
 			}
 		}
 
 		//we're still here, build
-		for (int ytemp = y; ytemp > (y-ylen); ytemp--){
-			for (int xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++){
+		for (u32 ytemp = y; ytemp > (y-ylen); ytemp--){
+			for (u32 xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++){
 				//start with the walls
 				if (xtemp == (x-xlen/2)) SetTile(xtemp, ytemp, wall);
 				else if (xtemp == (x+(xlen-1)/2)) SetTile(xtemp, ytemp, wall);
@@ -378,16 +383,16 @@ bool ProceduralManager::MakeRoom(int x, int y, int xlength, int ylength, int dir
 		break;
 	case 1:
 	//east
-		for (int ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
-			if (ytemp < 0 || ytemp > iYSize) return false;
-			for (int xtemp = x; xtemp < (x+xlen); xtemp++){
-				if (xtemp < 0 || xtemp > iXSize) return false;
+		for (u32 ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
+			if (ytemp > iYSize) return false;
+			for (u32 xtemp = x; xtemp < (x+xlen); xtemp++){
+				if (xtemp > iXSize) return false;
 				if (GetTile(xtemp, ytemp) != tileBrickFloor) return false;
 			}
 		}
 
-		for (int ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
-			for (int xtemp = x; xtemp < (x+xlen); xtemp++){
+		for (u32 ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
+			for (u32 xtemp = x; xtemp < (x+xlen); xtemp++){
 
 				if (xtemp == x) SetTile(xtemp, ytemp, wall);
 				else if (xtemp == (x+xlen-1)) SetTile(xtemp, ytemp, wall);
@@ -400,16 +405,16 @@ bool ProceduralManager::MakeRoom(int x, int y, int xlength, int ylength, int dir
 		break;
 	case 2:
 	//south
-		for (int ytemp = y; ytemp < (y+ylen); ytemp++){
-			if (ytemp < 0 || ytemp > iYSize) return false;
-			for (int xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++){
-				if (xtemp < 0 || xtemp > iXSize) return false;
+		for (u32 ytemp = y; ytemp < (y+ylen); ytemp++){
+			if (ytemp > iYSize) return false;
+			for (u32 xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++){
+				if (xtemp > iXSize) return false;
 				if (GetTile(xtemp, ytemp) != tileBrickFloor) return false;
 			}
 		}
 
-		for (int ytemp = y; ytemp < (y+ylen); ytemp++){
-			for (int xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++){
+		for (u32 ytemp = y; ytemp < (y+ylen); ytemp++){
+			for (u32 xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++){
 
 				if (xtemp == (x-xlen/2)) SetTile(xtemp, ytemp, wall);
 				else if (xtemp == (x+(xlen-1)/2)) SetTile(xtemp, ytemp, wall);
@@ -422,16 +427,16 @@ bool ProceduralManager::MakeRoom(int x, int y, int xlength, int ylength, int dir
 		break;
 	case 3:
 	//west
-		for (int ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
-			if (ytemp < 0 || ytemp > iYSize) return false;
-			for (int xtemp = x; xtemp > (x-xlen); xtemp--){
-				if (xtemp < 0 || xtemp > iXSize) return false;
+		for (u32 ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
+			if (ytemp > iYSize) return false;
+			for (u32 xtemp = x; xtemp > (x-xlen); xtemp--){
+				if (xtemp > iXSize) return false;
 				if (GetTile(xtemp, ytemp) != tileBrickFloor) return false;
 			}
 		}
 
-		for (int ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
-			for (int xtemp = x; xtemp > (x-xlen); xtemp--){
+		for (u32 ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
+			for (u32 xtemp = x; xtemp > (x-xlen); xtemp--){
 
 				if (xtemp == x) SetTile(xtemp, ytemp, wall);
 				else if (xtemp == (x-xlen+1)) SetTile(xtemp, ytemp, wall);
@@ -448,26 +453,26 @@ bool ProceduralManager::MakeRoom(int x, int y, int xlength, int ylength, int dir
 	return true;
 }
 
-bool ProceduralManager::MakeCorridor(int x, int y, int lenght, int direction)
+bool ProceduralManager::MakeCorridor(u32 x, u32 y, u32 lenght, u32 direction)
 {
-	int len = GetRand(2, lenght);
-	int floor = tileCorridor;
-	int dir = 0;
+	u32 len = clRand.Get(2, lenght);
+	u32 floor = tileCorridor;
+	u32 dir = 0;
 	if(direction > 0 && direction < 4) dir = direction;
 
-	int xtemp = 0;
-	int ytemp = 0;
+	u32 xtemp = 0;
+	u32 ytemp = 0;
 
 	switch(dir)
 	{
 		case 0:
 		{
-			if(x < 0 || x > iXSize) return false;
+			if(x > iXSize) return false;
 			else xtemp = x;
 
 			for(ytemp = y; ytemp > (y-len); ytemp--)
 			{
-				if(ytemp < 0 || ytemp > iYSize) return false;
+				if(ytemp > iYSize) return false;
 				if(GetTile(xtemp, ytemp) != tileBrickFloor) return false;
 			}
 
@@ -480,12 +485,12 @@ bool ProceduralManager::MakeCorridor(int x, int y, int lenght, int direction)
 		}
 		case 1:
 		{
-			if(y < 0 || y > iYSize) return false;
+			if(y > iYSize) return false;
 			else ytemp = y;
 
 			for(xtemp = x; xtemp < (x + len); xtemp++)
 			{
-				if(xtemp < 0 || xtemp > iXSize) return false;
+				if(xtemp > iXSize) return false;
 				if(GetTile(xtemp, ytemp) != tileBrickFloor) return false;
 			}
 
@@ -497,12 +502,12 @@ bool ProceduralManager::MakeCorridor(int x, int y, int lenght, int direction)
 		}
 		case 2:
 		{
-			if(x < 0 || x > iXSize) return false;
+			if(x > iXSize) return false;
 			else xtemp = x;
 
 			for(ytemp = y; ytemp < (y + len); ytemp++)
 			{
-				if(ytemp < 0 || ytemp > iYSize) return false;
+				if(ytemp > iYSize) return false;
 				if(GetTile(xtemp, ytemp) != tileBrickFloor) return false;
 			}
 			for (ytemp = y; ytemp < (y+len); ytemp++){
@@ -512,11 +517,11 @@ bool ProceduralManager::MakeCorridor(int x, int y, int lenght, int direction)
 		}
 		case 3:
 		{
-			if (ytemp < 0 || ytemp > iYSize) return false;
+			if (ytemp > iYSize) return false;
 			else ytemp = y;
 
 			for (xtemp = x; xtemp > (x-len); xtemp--){
-				if (xtemp < 0 || xtemp > iXSize) return false;
+				if (xtemp > iXSize) return false;
 				if (GetTile(xtemp, ytemp) != tileBrickFloor) return false;
 			}
 
@@ -530,7 +535,7 @@ bool ProceduralManager::MakeCorridor(int x, int y, int lenght, int direction)
 	return true;
 }
 
-bool ProceduralManager::FindFreeRoomPosition(int x, int y)
+bool ProceduralManager::FindFreeRoomPosition(u32 x, u32 y)
 {
 	if (GetTile(x, y) == tileGrassFloor || GetTile(x, y) == tileBrickFloor)
 	{

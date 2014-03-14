@@ -8,13 +8,13 @@ class ProceduralManager
 	public:
 		ProceduralManager();
 		virtual ~ProceduralManager();
-		virtual void BuildWorld(const int width, const int height, int dungeonObjects);
-		virtual void SetTile(int x, int y, int tileType);
-		virtual int GetTile(int x, int y);
-		virtual void SetItem(int x, int y, int itemType);
-		virtual int GetItem(int x, int y);
-		virtual void SetEnemy(int x, int y, int enemyType);
-		virtual int GetEnemy(int x, int y);
+		virtual void BuildWorld(const u32 width, const u32 height, u32 dungeonObjects);
+		virtual void SetTile(u32 x, u32 y, u32 tileType);
+		virtual int GetTile(u32 x, u32 y);
+		virtual void SetItem(u32 x, u32 y, u32 itemType);
+		virtual int GetItem(u32 x, u32 y);
+		virtual void SetEnemy(u32 x, u32 y, u32 enemyType);
+		virtual int GetEnemy(u32 x, u32 y);
 		virtual int GetXSize();
 		virtual int GetYSize();
 
@@ -62,26 +62,25 @@ class ProceduralManager
 
 	private:
 
-		virtual int GetRand(int min, int max);
-		virtual bool MakeRoom(int x, int y, int xlength, int ylength, int direction);
-		virtual bool MakeCorridor(int x, int y, int lenght, int direction);
-		virtual bool FindFreeRoomPosition(int x, int y);
+		//virtual int GetRand(int min, int max);
+		virtual bool MakeRoom(u32 x, u32 y, u32 xlength, u32 ylength, u32 direction);
+		virtual bool MakeCorridor(u32 x, u32 y, u32 lenght, u32 direction);
+		virtual bool FindFreeRoomPosition(u32 x, u32 y);
 
-		int *pWorldMap;
-		int *pEnemiesMap;
-		int *pItemsMap;
+		u32 *pWorldMap;
+		u32 *pEnemiesMap;
+		u32 *pItemsMap;
 
-		int iXMax;
-		int iYMax;
+		u32 iXMax;
+		u32 iYMax;
 
-		int iXSize;
-		int iYSize;
+		u32 iXSize;
+		u32 iYSize;
 
-		long lOldSeed;
-
-		int iObjects;
-		int iChanceRoom;
-		int iChanceCorridor;
+		u32 iObjects;
+		u32 iChanceRoom;
+		u32 iChanceCorridor;
+		Rand clRand;
 
 };
 

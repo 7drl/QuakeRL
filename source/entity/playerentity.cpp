@@ -15,6 +15,7 @@ ENTITY_CREATOR("Player", PlayerEntity)
 PlayerEntity::PlayerEntity()
 	: SpriteEntity("Player", "Player")
 	, pBody(nullptr)
+	, vLastPlayerPos(b2Vec2(0,0))
 	, vPlayerVectorDirection()
 	, eItem(ItemTypes::None)
 	, iPreviousState(Idle)
@@ -33,6 +34,7 @@ PlayerEntity::PlayerEntity()
 PlayerEntity::PlayerEntity(const char *className, const char *spriteName, bool bIsActive)
 	: SpriteEntity(className, spriteName)
 	, pBody(nullptr)
+	, vLastPlayerPos(b2Vec2(0,0))
 	, vPlayerVectorDirection()
 	, eItem(ItemTypes::None)
 	, iPreviousState(Idle)
@@ -63,6 +65,8 @@ void PlayerEntity::Load(MetadataObject &metadata, SceneNode *sprites)
 	pBody = gPhysics->CreateBody(pSprite);
 	pBody->SetFixedRotation(true);
 	pBody->GetFixtureList()->SetUserData(this);
+
+	vLastPlayerPos = b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y);
 
 	pInput->AddKeyboardListener(this);
 	vPlayerVectorDirection = VECTOR_ZERO;
@@ -134,6 +138,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 	if (this->bIsActive && this->bIsInputEnabled)
 	{
 		Key k = ev->GetKey();
+		vLastPlayerPos = b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y);
 
 		if ((k == eKey::Up || k == eKey::W) && iCurrentState != Jump)
 		{
@@ -405,20 +410,19 @@ void PlayerEntity::SetDefensePower(u32 defensePower)
 	sPlayer.iDefensePower = defensePower;
 }
 
-bool PlayerEntity::OnDamage(const b2Vec2 vec2Push, u32 amount)
+bool PlayerEntity::OnDamage(u32 amount)
 {
 	// Play damage sound
 	gSoundManager->Play(SND_DAMAGE);
 
-	// Apply force to player
-	pBody->ApplyForce(vec2Push, pBody->GetWorldCenter());
+	// Move Player to last tile position
+	pBody->SetTransform(vLastPlayerPos, 0);
 
 	// Create the ghost effect
 	if (fInvicibleTime > 0)
 		return false;
 
 	fInvicibleTime = 1.0f;
-	//pText->SetVisible(true);
 
 	// Receive the damage
 	u32 life = this->GetLife() - amount;
@@ -427,6 +431,9 @@ bool PlayerEntity::OnDamage(const b2Vec2 vec2Push, u32 amount)
 		this->SetLife(life);
 	else
 		gGameData->SetIsGameOver(true);
+
+	// Add the ability to move again
+	bCanMove = true;
 
 	return true;
 }
