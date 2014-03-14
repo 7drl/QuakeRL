@@ -258,6 +258,11 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				}
 			}
 		}
+
+		if (k == eKey::Space)
+		{
+			gGameScene->EnemyFindPath();
+		}
 	}
 
 	return true;
@@ -389,7 +394,7 @@ u32 PlayerEntity::GetGold() const
 void PlayerEntity::SetGold(const u32 gold)
 {
 	sPlayer.iGold = gold;
-	gGui->SetGold(gold);
+	//gGui->SetGold(gold);
 }
 
 u32 PlayerEntity::GetLife() const
@@ -399,7 +404,7 @@ u32 PlayerEntity::GetLife() const
 void PlayerEntity::SetLife(const u32 life)
 {
 	sPlayer.iLife = life;
-	gGui->SetLife(life, this->sPlayer.iLifeTotal);
+	//gGui->SetLife(life, this->sPlayer.iLifeTotal);
 }
 void PlayerEntity::RemoveLife()
 {
@@ -426,7 +431,7 @@ u32 PlayerEntity::GetStamina() const
 void PlayerEntity::SetStamina(const u32 stamina)
 {
 	sPlayer.iStamina = stamina;
-	gGui->SetStamina(stamina, this->sPlayer.iStaminaTotal);
+	//gGui->SetStamina(stamina, this->sPlayer.iStaminaTotal);
 }
 void PlayerEntity::RemoveStamina()
 {

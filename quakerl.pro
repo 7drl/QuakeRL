@@ -34,7 +34,7 @@ SOURCES += source/main.cpp \
 	source/manager/proceduralmanager.cpp \
 	source/entity/armorentity.cpp \
 	source/entity/weaponentity.cpp \
-    source/entity/ammoentity.cpp
+	source/entity/ammoentity.cpp
 
 HEADERS += \
 	source/defines.h \
@@ -74,7 +74,7 @@ HEADERS += \
 	source/manager/proceduralmanager.h \
 	source/entity/armorentity.h \
 	source/entity/weaponentity.h \
-    source/entity/ammoentity.h
+	source/entity/ammoentity.h
 
 OTHER_FILES_CONFIG = \
 #Configs
@@ -130,7 +130,9 @@ OTHER_FILES_TEXTURE = \
 	resources/textures/ranger_idle_frame1.png \
 	resources/textures/quakerl_enemy_tileset.png \
 	resources/textures/quakerl_objects_tileset.png \
-	resources/textures/quakerl_weapons_tileset.png
+	resources/textures/quakerl_weapons_tileset.png \
+	resources/textures/ibar.png \
+	resources/textures/sbar.png
 
 #Gui
 OTHER_FILES_GUI_STYLE = \

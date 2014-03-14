@@ -1,7 +1,7 @@
 #include "cameracontroller.h"
 
-const s32 kViewW = 784;
-const s32 kViewH = 768;
+const s32 kViewW = 1024;
+const s32 kViewH = 614;
 const f32 kHalfViewW = kViewW / 2.0f;
 const f32 kHalfViewH = kViewH / 2.0f;
 

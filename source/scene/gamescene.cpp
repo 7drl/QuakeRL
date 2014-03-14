@@ -94,13 +94,13 @@ bool GameScene::Initialize()
 	pInput->AddKeyboardListener(this);
 
 	// Get the initial value from game data
-	gGui->SetPlayerName("Optimist");
+/*	gGui->SetPlayerName("Optimist");
 	gGui->SetLevel(1);
 	gGui->SetXP(100);
 	gGui->SetAttackPower(15);
 	gGui->SetGold(0);
 	gGui->SetLife(22, 22);
-	gGui->SetStamina(10, 10);
+	gGui->SetStamina(10, 10);*/
 
 	return true;
 }
@@ -263,7 +263,7 @@ void GameScene::Resume()
 void GameScene::OnJobCompleted(FileLoader *job)
 {
 	// Test to generate map
-	String mapName = clWorldManager.GenerateProceduralMap();
+	String mapName = "proceduralmap.json";//clWorldManager.GenerateProceduralMap();
 	Log("Name of map generated: %s", mapName.c_str());
 
 	Reader r(job->pFile);
@@ -289,8 +289,8 @@ void GameScene::OnJobCompleted(FileLoader *job)
 	MapLayerMetadata *game = pGameMap->GetLayerByName("Game")->AsMetadata();
 	game->SetVisible(false);
 
-	clPathfinderManager.Init(pGameMap->GetLayerByName("Background")->AsTiled(),
-								pGameMap->GetLayerByName("Colliders")->AsTiled());
+	// Initialize the pathfinder with the background and collider layers
+	clPathfinderManager.Init(pGameMap->GetLayerByName("Background")->AsTiled());
 
 	for (unsigned i = 0, len = game->Size(); i < len; ++i)
 	{
@@ -316,8 +316,6 @@ void GameScene::OnJobCompleted(FileLoader *job)
 	{
 		pPlayer = pPlayerOptimist;
 		musCur = &musTheme;
-		gGui->SelectHero("Optimist");
-		gGui->SelectEnemy();
 		pSoundSystem->PlayMusic(musCur);
 	}
 
@@ -338,7 +336,7 @@ void GameScene::OnJobCompleted(FileLoader *job)
 	pGameOverImg->SetVisible(false);
 
 	{
-		pFogMap = sdNew(GameMap);
+		/*pFogMap = sdNew(GameMap);
 		pFogMap->sName = "Fog";
 		pFogMap->bMarkForDeletion = true;
 		pFogMap->SetPosition(pGameMap->GetPosition());
@@ -355,7 +353,7 @@ void GameScene::OnJobCompleted(FileLoader *job)
 		set->SetTexture(tex);
 		pFog->SetTileSet(set); // Trigger mesh rebuild
 
-		cScene.Add(pFogMap);
+		cScene.Add(pFogMap);*/
 	}
 
 	bInitialized = true;
@@ -389,4 +387,9 @@ void GameScene::RemoveLife()
 GameMap& GameScene::GetGameMap()
 {
 	return *pGameMap;
+}
+
+void GameScene::EnemyFindPath()
+{
+	pEnemyEntity->FindPathToPlayer();
 }

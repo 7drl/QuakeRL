@@ -11,9 +11,9 @@ PathfinderManager::~PathfinderManager()
 	sdDelete(pPathfinder);
 }
 
-void PathfinderManager::Init(MapLayerTiled *mapBackground, MapLayerTiled *mapColliders)
+void PathfinderManager::Init(MapLayerTiled *mapBackground)
 {
-	pPathfinder = sdNew(AStarPathfinder(true, true, 1, mapBackground, mapColliders));
+	pPathfinder = sdNew(AStarPathfinder(true, true, 40, 3, mapBackground));
 }
 
 
