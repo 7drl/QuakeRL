@@ -107,7 +107,7 @@ void EnemyEntity::Update(f32 dt)
 		b2Vec2 dir = pTarget->GetBodyPosition() - pBody->GetPosition();
 		f32 distance = dir.Normalize();
 
-		if (distance <= 1.0f && !bPlayerLock)
+		if (distance <= 1.5f && !bPlayerLock)
 		{
 			// Verify if the player has a target
 			if (pTarget->GetEnemyTarget() == nullptr)

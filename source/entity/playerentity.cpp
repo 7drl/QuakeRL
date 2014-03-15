@@ -540,7 +540,7 @@ void PlayerEntity::OnCollision(const CollisionEvent &event)
 		Entity *other = event.GetOtherEntity();
 		if (other != nullptr && other->GetClassName() == "Trigger")
 		{
-			gGameScene->UseKey(this->GiveKey());
+			gGameScene->ChangeLevel();
 		}
 	}
 }
