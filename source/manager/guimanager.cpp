@@ -101,6 +101,24 @@ bool GuiManager::LoadGUI(const String &doc)
 			pDoc->Focus();
 			pDoc->Show();
 
+			if (pDoc->GetElementById("armor_aparence_div") != nullptr)
+				pArmorPicture = pDoc->GetElementById("armor_aparence_div");
+
+			if (pDoc->GetElementById("character_aparence_div") != nullptr)
+				pAvatarPicture = pDoc->GetElementById("character_aparence_div");
+
+			if (pDoc->GetElementById("character_ammo_div") != nullptr)
+				pAmmoPicture = pDoc->GetElementById("character_ammo_div");
+
+			if (pDoc->GetElementById("armor") != nullptr)
+				pElementArmor = pDoc->GetElementById("armor");
+
+			if (pDoc->GetElementById("life") != nullptr)
+				pElementLife = pDoc->GetElementById("life");
+
+			if (pDoc->GetElementById("ammo") != nullptr)
+				pElementAmmo = pDoc->GetElementById("ammo");
+
 			if (pDoc->GetElementById("sfx") != nullptr && gGameData->IsSfxEnabled())
 				pDoc->GetElementById("sfx")->SetAttribute("checked", "");
 
@@ -258,6 +276,52 @@ void GuiManager::OnGuiEvent(Rocket::Core::Event &ev, const Rocket::Core::String 
 
 // GUI Elements
 
+void GuiManager::OnGetArmor(const u32 armor)
+{
+	if(armor == 0)			pArmorPicture->SetClassNames("armor_aparence_0");
+	else if(armor == 100)	pArmorPicture->SetClassNames("armor_aparence_100");
+	else if(armor == 150)	pArmorPicture->SetClassNames("armor_aparence_150");
+	else					pArmorPicture->SetClassNames("armor_aparence_200");
+}
+
+void GuiManager::OnDamageAvatar(const u32 life)
+{
+	if(100 <= life && life > 80)		pAvatarPicture->SetClassNames("character_aparence_100");
+	else if(80 <= life && life > 60)	pAvatarPicture->SetClassNames("character_aparence_80");
+	else if(60 <= life && life > 40)	pAvatarPicture->SetClassNames("character_aparence_60");
+	else if(40 <= life && life > 20)	pAvatarPicture->SetClassNames("character_aparence_40");
+	else								pAvatarPicture->SetClassNames("character_aparence_20");
+}
+
+void GuiManager::OnGetAmmo(const String &ammoName)
+{
+	if(ammoName == "shells")		pAmmoPicture->SetClassNames("ammo_aparence_shells");
+	else if(ammoName == "nails")	pAmmoPicture->SetClassNames("ammo_aparence_nails");
+	else if(ammoName == "rockets")	pAmmoPicture->SetClassNames("ammo_aparence_rockets");
+	else							pAmmoPicture->SetClassNames("ammo_aparence_cells");
+}
+
+void GuiManager::SetArmor(u32 armor)
+{
+	char x[100];
+	snprintf(x, 100, "%d", armor);
+	pElementArmor->SetInnerRML(Rocket::Core::String(x));
+}
+
+void GuiManager::SetLife(u32 life)
+{
+	char x[100];
+	snprintf(x, 100, "%d", life);
+	pElementLife->SetInnerRML(Rocket::Core::String(x));
+}
+
+
+void GuiManager::SetAmmo(u32 quantity)
+{
+	char x[100];
+	snprintf(x, 100, "%d", quantity);
+	pElementAmmo->SetInnerRML(Rocket::Core::String(x));
+}
 
 
 ISceneObject *GuiManager::GetSceneObject() const

@@ -263,7 +263,7 @@ void GameScene::Resume()
 void GameScene::OnJobCompleted(FileLoader *job)
 {
 	// Test to generate map
-	String mapName = "proceduralmap.json";//clWorldManager.GenerateProceduralMap();
+	String mapName = clWorldManager.GenerateProceduralMap();
 	Log("Name of map generated: %s", mapName.c_str());
 
 	Reader r(job->pFile);

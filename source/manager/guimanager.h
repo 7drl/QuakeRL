@@ -32,14 +32,23 @@ class GuiManager : public IRocketEventListener
 		bool LoadStackedGUI(const String &doc);
 		bool UnloadStackedGUI();
 
+		void OnDamageAvatar(const u32 life);
+		void OnGetArmor(const u32 armor);
+		void OnGetAmmo(const String &ammoName);
+
+		void SetArmor(u32 armor);
+		void SetLife(u32 life);
+		void SetAmmo(u32 quantity);
+
 		// IRocketEventListener
 		virtual void OnGuiEvent(Rocket::Core::Event &ev, const Rocket::Core::String &script);
 
-	private:
+
+private:
 		bool InitializeGUI();
 		void PrintHostage(u32 hostage);
 
-	private:
+private:
 		String				sDocument;
 
 		// GUI
@@ -49,6 +58,14 @@ class GuiManager : public IRocketEventListener
 		Rocket::Core::ElementDocument *pStackedDoc;
 
 		// GUI Elements
+		Rocket::Core::Element	*pArmorPicture;
+		Rocket::Core::Element	*pAvatarPicture;
+		Rocket::Core::Element	*pAmmoPicture;
+
+		Rocket::Core::Element	*pElementArmor;
+		Rocket::Core::Element	*pElementLife;
+		Rocket::Core::Element	*pElementAmmo;
+
 		Rocket::Core::Element	*pElementSfx;
 		Rocket::Core::Element	*pElementBgm;
 };

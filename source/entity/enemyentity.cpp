@@ -228,6 +228,9 @@ void EnemyEntity::FindPathToPlayer()
 	gPathfinderManager->Findpath(pSprite->GetPosition(), pTarget->GetSprite()->GetPosition(), cPath);
 	bIsPlayerFound = false;
 
+	if(cPath.GetDirectionSteps().empty())
+		return;
+
 	Vector3f dir = cPath.GetDirectionSteps().top();
 
 	if (dir.getX() != 0.0f)
