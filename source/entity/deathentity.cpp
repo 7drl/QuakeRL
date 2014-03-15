@@ -80,7 +80,7 @@ void DeathEntity::OnCollision(const CollisionEvent &event)
 			}
 			else if (fSleep <= 0)
 			{
-				if (player->OnDamage(b2Vec2(0, 0), 0))
+				if (player->OnDamage(0))
 				{
 					gSoundManager->Play(SND_DAMAGE);
 					//gGameScene->RemoveLife();

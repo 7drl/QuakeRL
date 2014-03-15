@@ -131,13 +131,13 @@ String WorldManager::GenerateProceduralMap()
 
 			// Open array Data
 			writer.OpenArray("data");
-			for (int y = 0; y < proceduralManager.GetYSize(); y++)
+			for (u32 y = 0; y < proceduralManager.GetYSize(); y++)
 			{
-				for (int x = 0; x < proceduralManager.GetXSize(); x++)
+				for (u32 x = 0; x < proceduralManager.GetXSize(); x++)
 				{
 					writer.WriteU32(proceduralManager.GetTile(x, y));
 
-					if (proceduralManager.GetTile(x, y) == ProceduralManager::Tiles::tileUpStairs)
+					if (proceduralManager.GetTile(x, y) == ProceduralManager::eTiles::tileUpStairs)
 					{
 						upStairsX = x;
 						upStairsY = y;
@@ -165,11 +165,11 @@ String WorldManager::GenerateProceduralMap()
 			//Open array Objects
 			writer.OpenArray("objects");
 
-			for (int y = 0; y < proceduralManager.GetYSize(); y++)
+			for (u32 y = 0; y < proceduralManager.GetYSize(); y++)
 			{
-				for (int x = 0; x < proceduralManager.GetXSize(); x++)
+				for (u32 x = 0; x < proceduralManager.GetXSize(); x++)
 				{
-					if (proceduralManager.GetTile(x, y) == ProceduralManager::Tiles::tileStoneWall)
+					if (proceduralManager.GetTile(x, y) == ProceduralManager::eTiles::tileStoneWall)
 					{
 						// Open node Collider
 						writer.OpenNode();
@@ -232,12 +232,12 @@ String WorldManager::GenerateProceduralMap()
 				writer.CloseNode();
 
 				// Here we will open a lot of nodes to create enemies and objects
-				for (int y = 0; y < proceduralManager.GetYSize(); y++)
+				for (u32 y = 0; y < proceduralManager.GetYSize(); y++)
 				{
-					for (int x = 0; x < proceduralManager.GetXSize(); x++)
+					for (u32 x = 0; x < proceduralManager.GetXSize(); x++)
 					{
 						// Enemies
-						if (proceduralManager.GetEnemy(x, y) == ProceduralManager::Enemies::enemyGrunt)
+						if (proceduralManager.GetEnemy(x, y) == ProceduralManager::eEnemies::enemyGrunt)
 						{
 							// Open node Enemy
 							writer.OpenNode();
@@ -265,7 +265,7 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Enemy
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetEnemy(x, y) == ProceduralManager::Enemies::enemyOgre)
+						else if (proceduralManager.GetEnemy(x, y) == ProceduralManager::eEnemies::enemyOgre)
 						{
 							// Open node Enemy
 							writer.OpenNode();
@@ -293,7 +293,7 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Enemy
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetEnemy(x, y) == ProceduralManager::Enemies::enemyKnight)
+						else if (proceduralManager.GetEnemy(x, y) == ProceduralManager::eEnemies::enemyKnight)
 						{
 							// Open node Enemy
 							writer.OpenNode();
@@ -323,7 +323,7 @@ String WorldManager::GenerateProceduralMap()
 						}
 
 						// Items
-						if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemHealth)
+						if (proceduralManager.GetItem(x, y) == ProceduralManager::eItems::itemHealth)
 						{
 							// Open node Item
 							writer.OpenNode();
@@ -348,7 +348,7 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Object
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemLightArmor)
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::eItems::itemLightArmor)
 						{
 							// Open node Item
 							writer.OpenNode();
@@ -374,7 +374,7 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Item
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemMediumArmor)
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::eItems::itemMediumArmor)
 						{
 							// Open node Item
 							writer.OpenNode();
@@ -400,7 +400,7 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Item
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemHeavyArmor)
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::eItems::itemHeavyArmor)
 						{
 							// Open node Item
 							writer.OpenNode();
@@ -426,7 +426,7 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Item
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemShellsAmmo)
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::eItems::itemShellsAmmo)
 						{
 							// Open node Item
 							writer.OpenNode();
@@ -452,7 +452,7 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Item
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemNailsAmmo)
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::eItems::itemNailsAmmo)
 						{
 							// Open node Item
 							writer.OpenNode();
@@ -478,7 +478,7 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Item
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemRocketsAmmo)
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::eItems::itemRocketsAmmo)
 						{
 							// Open node Item
 							writer.OpenNode();
@@ -504,7 +504,7 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Item
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemShockAmmo)
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::eItems::itemShockAmmo)
 						{
 							// Open node Item
 							writer.OpenNode();
@@ -531,7 +531,7 @@ String WorldManager::GenerateProceduralMap()
 							writer.CloseNode();
 						}
 						// Weapons
-						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemWeaponRifle)
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::eItems::itemWeaponRifle)
 						{
 							// Open node Item
 							writer.OpenNode();
@@ -557,7 +557,7 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Item
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemWeaponShotgun)
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::eItems::itemWeaponShotgun)
 						{
 							// Open node Item
 							writer.OpenNode();
@@ -583,7 +583,7 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Item
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemWeaponNailgun)
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::eItems::itemWeaponNailgun)
 						{
 							// Open node Item
 							writer.OpenNode();
@@ -609,7 +609,7 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Item
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemWeaponHeavyNailgun)
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::eItems::itemWeaponHeavyNailgun)
 						{
 							// Open node Item
 							writer.OpenNode();
@@ -635,7 +635,7 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Item
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemWeaponGrenadeLauncher)
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::eItems::itemWeaponGrenadeLauncher)
 						{
 							// Open node Item
 							writer.OpenNode();
@@ -661,7 +661,7 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Item
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemWeaponRocketLauncher)
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::eItems::itemWeaponRocketLauncher)
 						{
 							// Open node Item
 							writer.OpenNode();
@@ -687,7 +687,7 @@ String WorldManager::GenerateProceduralMap()
 							// Close node Item
 							writer.CloseNode();
 						}
-						else if (proceduralManager.GetItem(x, y) == ProceduralManager::Items::itemWeaponShockgun)
+						else if (proceduralManager.GetItem(x, y) == ProceduralManager::eItems::itemWeaponShockgun)
 						{
 							// Open node Item
 							writer.OpenNode();

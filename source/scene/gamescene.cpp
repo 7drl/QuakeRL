@@ -263,7 +263,7 @@ void GameScene::Resume()
 void GameScene::OnJobCompleted(FileLoader *job)
 {
 	// Test to generate map
-	String mapName = "proceduralmap.json";//clWorldManager.GenerateProceduralMap();
+	String mapName = /*"proceduralmap.json";*/ clWorldManager.GenerateProceduralMap();
 	Log("Name of map generated: %s", mapName.c_str());
 
 	Reader r(job->pFile);
@@ -336,7 +336,7 @@ void GameScene::OnJobCompleted(FileLoader *job)
 	pGameOverImg->SetVisible(false);
 
 	{
-		/*pFogMap = sdNew(GameMap);
+		pFogMap = sdNew(GameMap);
 		pFogMap->sName = "Fog";
 		pFogMap->bMarkForDeletion = true;
 		pFogMap->SetPosition(pGameMap->GetPosition());
@@ -353,7 +353,7 @@ void GameScene::OnJobCompleted(FileLoader *job)
 		set->SetTexture(tex);
 		pFog->SetTileSet(set); // Trigger mesh rebuild
 
-		cScene.Add(pFogMap);*/
+		cScene.Add(pFogMap);
 	}
 
 	bInitialized = true;

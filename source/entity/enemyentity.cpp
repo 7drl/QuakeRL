@@ -5,6 +5,9 @@
 #include "../manager/guimanager.h"
 #include <cmath>
 
+#define PIX2M		0.01f
+#define M2PIX		(1.0f / PIX2M)
+
 ENTITY_CREATOR("Enemy", EnemyEntity)
 
 EnemyEntity::EnemyEntity()
@@ -166,10 +169,10 @@ void EnemyEntity::Update(f32 dt)
 	*/
 
 	// Search a nerby player
-	if (pTarget == nullptr || (pTarget != nullptr && !pTarget->GetIsActive()))
+	if (pTarget == nullptr)
 		pTarget = static_cast<OptimistPlayerEntity *>(gWorldManager->FindEntityByClassName("OptimistPlayer"));
 
-	if (pTarget != nullptr && pTarget->GetIsActive())
+	if (pTarget != nullptr)
 	{
 		// Change enemy sprites
 		if (sEnemy.iEnemyId == 1)
@@ -212,47 +215,13 @@ void EnemyEntity::OnCollision(const CollisionEvent &event)
 
 			// Stop player movement
 			player->StopPlayerMovement();
-			player->SetIsInputEnabled(false);
-
-			// Define a vector to push the player
-			b2Vec2 vecToPush = b2Vec2(0, 0);
-
-			// Find where the player comes
-			if (gPhysics->RayCast(pBody, b2Vec2(0, -0.32f)) ||
-				gPhysics->RayCast(pBody, b2Vec2(0.16f, -0.32f)) ||
-				gPhysics->RayCast(pBody, b2Vec2(-0.16f, -0.32f)))
-			{
-				Log("Push player up");
-				vecToPush = b2Vec2(0.0f, -1.0f);
-			}
-			else if (gPhysics->RayCast(pBody, b2Vec2(0, 0.32f)) ||
-					 gPhysics->RayCast(pBody, b2Vec2(0.16f, 0.32f)) ||
-					 gPhysics->RayCast(pBody, b2Vec2(-0.16f, 0.32f)))
-			{
-				Log("Push player down");
-				vecToPush = b2Vec2(0.0f, 1.0f);
-			}
-			else if (gPhysics->RayCast(pBody, b2Vec2(-0.32f, 0.0f)) ||
-					 gPhysics->RayCast(pBody, b2Vec2(-0.32f, 0.16f)) ||
-					 gPhysics->RayCast(pBody, b2Vec2(-0.32f, -0.16f)))
-			{
-				Log("Push player left");
-				vecToPush = b2Vec2(-1.0f, 0.0f);
-			}
-			else if (gPhysics->RayCast(pBody, b2Vec2(0.32f, 0.0f)) ||
-					 gPhysics->RayCast(pBody, b2Vec2(0.32f, 0.16f)) ||
-					 gPhysics->RayCast(pBody, b2Vec2(0.32f, -0.16f)))
-			{
-				Log("Push player right");
-				vecToPush = b2Vec2(1.0f, 0.0f);
-			}
 
 			s32 damageToPlayer = (player->GetDefensePower() - sEnemy.iAttackPower) + (rand() % 3 + 1);
 			if (damageToPlayer < 0)
 				damageToPlayer = 0;
 
 			//Do damage to the player
-			player->OnDamage(vecToPush, u32(damageToPlayer));
+			player->OnDamage(u32(damageToPlayer));
 
 			s32 damageEnemyBase = player->GetAttackPower() - sEnemy.iDefensePower + (rand() % 3 + 1);
 			if (damageEnemyBase < 0)
@@ -328,8 +297,6 @@ void EnemyEntity::FindPathToPlayer()
 	// Find path to the player
 	gPathfinderManager->Findpath(pSprite->GetPosition(), pTarget->GetSprite()->GetPosition(), cPath);
 	bIsPlayerFound = false;
-	b2Vec2 vel = pBody->GetLinearVelocity();
-	b2Vec2 stop{0.0f, 0.0f};
 
 	while(!cPath.GetDirectionSteps().empty())
 	{
@@ -381,20 +348,25 @@ void EnemyEntity::FindPathToPlayer()
 		if (fMove != 0)
 		{
 			Log("fMove: %f", fMove);
-			vel.x = fVelocity * fMove;
-			pBody->SetLinearVelocity(vel);
+			if (fMove > 0)
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x + (PIX2M * 40), pBody->GetTransform().p.y), 0);
+			else
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x - (PIX2M * 40), pBody->GetTransform().p.y), 0);
 			fMove = 0;
 		}
 
 		if (fUpDownMove != 0)
 		{
 			Log("fUpDownMove: %f", fUpDownMove);
-			vel.y = fVelocity * fUpDownMove;
-			pBody->SetLinearVelocity(vel);
+			if (fUpDownMove > 0)
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y + (PIX2M * 40)), 0);
+			else
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y - (PIX2M * 40)), 0);
 			fMove = 0;
 		}
 
-		pBody->SetLinearVelocity(stop);
 		cPath.GetDirectionSteps().pop();
 	}
+
+	pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x - (PIX2M * 40), pBody->GetTransform().p.y), 0);
 }

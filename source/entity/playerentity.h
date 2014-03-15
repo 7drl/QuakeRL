@@ -4,6 +4,7 @@
 #include <Box2D/Box2D.h>
 #include "../defines.h"
 #include "spriteentity.h"
+#include "weaponentity.h"
 
 namespace ItemTypes
 {
@@ -45,17 +46,11 @@ class PlayerEntity: public SpriteEntity,
 		ItemTypes::Enum GetItem() const;
 
 		void Teleport(const b2Vec2 &position);
-		bool OnDamage(const b2Vec2 vec2Push, u32 amount);
+		bool OnDamage(u32 amount);
 		void OnCollect(ItemTypes::Enum item, u32 amount);
 
 		void StopPlayerMovement();
 		void ChangePlayer();
-
-		void SetIsActive(bool isActive);
-		bool GetIsActive();
-
-		void SetIsInputEnabled(bool isKeyboardEnabled);
-		bool GetIsInputEnabled() const;
 
 		String GetDisplayName() const;
 
@@ -111,6 +106,7 @@ class PlayerEntity: public SpriteEntity,
 
 	protected:
 		b2Body *pBody;
+		b2Vec2 vLastPlayerPos;
 		Vector3f vPlayerVectorDirection;
 
 		ItemTypes::Enum eItem;
@@ -124,10 +120,21 @@ class PlayerEntity: public SpriteEntity,
 		f32 fUpDownMove;
 		f32 fInvicibleTime;
 
-		bool bKeyStillPressed;
+		u32 uQuantityAmmoShells;
+		u32 uQuantityAmmoNails;
+		u32 uQuantityAmmoRockets;
+		u32 uQuantityAmmoShock;
+
+		// Maybe in the future we could put that in a list, Then the player could manage weapons in an inventory
+		WeaponEntity cRifleWeapon;
+		WeaponEntity cShotgunWeapon;
+		WeaponEntity cNailgunWeapon;
+		WeaponEntity cHeavyNailgunWeapon;
+		WeaponEntity cGrenadeWeapon;
+		WeaponEntity cRocketWeapon;
+		WeaponEntity cShockWeapon;
+
 		bool bCanMove;
-		bool bIsActive;
-		bool bIsInputEnabled;
 		void SetState(int newState);
 };
 

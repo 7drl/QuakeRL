@@ -5,6 +5,7 @@
 #include "../util/sounds.h"
 #include "../manager/guimanager.h"
 #include "../gameflow.h"
+#include <math.h>
 
 #define PIX2M		0.01f
 #define M2PIX		(1.0f / PIX2M)
@@ -14,6 +15,7 @@ ENTITY_CREATOR("Player", PlayerEntity)
 PlayerEntity::PlayerEntity()
 	: SpriteEntity("Player", "Player")
 	, pBody(nullptr)
+	, vLastPlayerPos(b2Vec2(0,0))
 	, vPlayerVectorDirection()
 	, eItem(ItemTypes::None)
 	, iPreviousState(Idle)
@@ -22,16 +24,18 @@ PlayerEntity::PlayerEntity()
 	, fMove(0.0f)
 	, fUpDownMove(0.0f)
 	, fInvicibleTime(0.0f)
-	, bKeyStillPressed(false)
+	, uQuantityAmmoShells(0)
+	, uQuantityAmmoNails(0)
+	, uQuantityAmmoRockets(0)
+	, uQuantityAmmoShock(0)
 	, bCanMove(true)
-	, bIsActive(false)
-	, bIsInputEnabled(true)
 {
 }
 
 PlayerEntity::PlayerEntity(const char *className, const char *spriteName, bool bIsActive)
 	: SpriteEntity(className, spriteName)
 	, pBody(nullptr)
+	, vLastPlayerPos(b2Vec2(0,0))
 	, vPlayerVectorDirection()
 	, eItem(ItemTypes::None)
 	, iPreviousState(Idle)
@@ -40,10 +44,11 @@ PlayerEntity::PlayerEntity(const char *className, const char *spriteName, bool b
 	, fMove(0.0f)
 	, fUpDownMove(0.0f)
 	, fInvicibleTime(0.0f)
-	, bKeyStillPressed(false)
+	, uQuantityAmmoShells(0)
+	, uQuantityAmmoNails(0)
+	, uQuantityAmmoRockets(0)
+	, uQuantityAmmoShock(0)
 	, bCanMove(true)
-	, bIsActive(bIsActive)
-	, bIsInputEnabled(true)
 {
 }
 
@@ -59,14 +64,13 @@ void PlayerEntity::Load(MetadataObject &metadata, SceneNode *sprites)
 	SpriteEntity::Load(metadata, sprites);
 	pSprite->SetZ(-10);
 
-	b2Vec2 customSize(26, 26);
-
-	pBody = gPhysics->CreateBody(pSprite, &customSize);
+	pBody = gPhysics->CreateBody(pSprite);
 	pBody->SetFixedRotation(true);
 	pBody->GetFixtureList()->SetUserData(this);
 
+	vLastPlayerPos = b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y);
+
 	pInput->AddKeyboardListener(this);
-	//fVelocity = 2.0f;
 	vPlayerVectorDirection = VECTOR_ZERO;
 }
 
@@ -98,8 +102,6 @@ void PlayerEntity::Teleport(const b2Vec2 &position)
 
 void PlayerEntity::Update(f32 dt)
 {
-	b2Vec2 vel = pBody->GetLinearVelocity();
-
 	if (fInvicibleTime > 0)
 	{
 		pSprite->SetVisible(!pSprite->IsVisible());
@@ -109,56 +111,7 @@ void PlayerEntity::Update(f32 dt)
 		{
 			pSprite->SetVisible(true);
 			fInvicibleTime = 0;
-			if (this->bIsActive)
-			{
-				this->bIsInputEnabled = true;
-				this->StopPlayerMovement();
-				SetState(Idle);
-			}
-		}
-	}
-
-	if (fMove != 0)
-	{
-		if (fVelocity > 0.0f)
-		{
-			if (fMove > 0)
-				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x + (PIX2M * 40), pBody->GetTransform().p.y), 0);
-			else
-				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x - (PIX2M * 40), pBody->GetTransform().p.y), 0);
-
-			fVelocity = 0.0f;
-		}
-		else
-		{
-			pBody->SetLinearVelocity(vel);
-			if (!bKeyStillPressed)
-			{
-				bCanMove = true;
-				fMove = 0;
-			}
-		}
-	}
-
-	if (fUpDownMove != 0)
-	{
-		if (fVelocity > 0.0f)
-		{
-			if (fUpDownMove > 0)
-				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y + (PIX2M * 40)), 0);
-			else
-				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y - (PIX2M * 40)), 0);
-
-			fVelocity = 0.0f;
-		}
-		else
-		{
-			pBody->SetLinearVelocity(vel);
-			if (!bKeyStillPressed)
-			{
-				bCanMove = true;
-				fUpDownMove = 0;
-			}
+			SetState(Idle);
 		}
 	}
 
@@ -179,90 +132,80 @@ void PlayerEntity::Update(f32 dt)
 
 bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 {
-	if (this->bIsActive && this->bIsInputEnabled)
+	Key k = ev->GetKey();
+	vLastPlayerPos = b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y);
+
+	if ((k == eKey::Up || k == eKey::W) && iCurrentState != Jump)
 	{
-		Key k = ev->GetKey();
+		auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
+		Vector3f movePos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) - 40), -10);
+		auto tileId = map->GetTileAt(movePos);
 
-		if ((k == eKey::Up || k == eKey::W) && iCurrentState != Jump)
+		if (tileId != 3) // Wall
 		{
-			auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-			Vector3f movePos = Vector3f(pBody->GetTransform().p.x * M2PIX, ((pBody->GetTransform().p.y * M2PIX) - 40), -10 * M2PIX);
-			auto tileId = map->GetTileAt(movePos);
-
-			if (tileId != 3) // Wall
+			if (bCanMove)
 			{
-				if (bCanMove)
-				{
-					SetState(Run);
-					fUpDownMove = -1;
-					fVelocity = 1.0f;
-					bCanMove = false;
-					bKeyStillPressed = true;
-				}
+				SetState(Run);
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y - (PIX2M * 40)), 0);
+				bCanMove = false;
 			}
 		}
+	}
 
-		if (k == eKey::Left || k == eKey::A)
+	if (k == eKey::Left || k == eKey::A)
+	{
+		auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
+		Vector3f movePos = Vector3f(ceil((pBody->GetTransform().p.x * M2PIX) - 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
+		auto tileId = map->GetTileAt(movePos);
+
+		if (tileId != 3) // Wall
 		{
-			auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-			Vector3f movePos = Vector3f((pBody->GetTransform().p.x * M2PIX) - 40, (pBody->GetTransform().p.y * M2PIX), -10 * M2PIX);
-			auto tileId = map->GetTileAt(movePos);
-
-			if (tileId != 3) // Wall
+			if (bCanMove)
 			{
-				if (bCanMove)
-				{
-					SetState(Run);
-					fMove = -1;
-					fVelocity = 1.0f;
-					bCanMove = false;
-					bKeyStillPressed = true;
-				}
+				SetState(Run);
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x - (PIX2M * 40), pBody->GetTransform().p.y), 0);
+				bCanMove = false;
 			}
 		}
+	}
 
-		if (k == eKey::Right || k == eKey::D)
+	if (k == eKey::Right || k == eKey::D)
+	{
+		auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
+		Vector3f movePos = Vector3f(ceil((pBody->GetTransform().p.x * M2PIX) + 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
+		auto tileId = map->GetTileAt(movePos);
+
+		if (tileId != 3) // Wall
 		{
-			auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-			Vector3f movePos = Vector3f((pBody->GetTransform().p.x * M2PIX) + 40, (pBody->GetTransform().p.y * M2PIX), -10 * M2PIX);
-			auto tileId = map->GetTileAt(movePos);
-
-			if (tileId != 3) // Wall
+			if (bCanMove)
 			{
-				if (bCanMove)
-				{
-					SetState(Run);
-					fMove = 1;
-					fVelocity = 1.0f;
-					bCanMove = false;
-					bKeyStillPressed = true;
-				}
+				SetState(Run);
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x + (PIX2M * 40), pBody->GetTransform().p.y), 0);
+				bCanMove = false;
 			}
 		}
+	}
 
-		if (k == eKey::Down || k == eKey::S)
+	if (k == eKey::Down || k == eKey::S)
+	{
+		auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
+		Vector3f movePos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) + 40 ), -10);
+		auto tileId = map->GetTileAt(movePos);
+
+		if (tileId != 3) // Wall
 		{
-			auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-			Vector3f movePos = Vector3f(pBody->GetTransform().p.x * M2PIX, ((pBody->GetTransform().p.y * M2PIX) + 40 ), -10 * M2PIX);
-			auto tileId = map->GetTileAt(movePos);
-
-			if (tileId != 3) // Wall
+			if (bCanMove)
 			{
-				if (bCanMove)
-				{
-					SetState(Run);
-					fUpDownMove = 1;
-					fVelocity = 1.0f;
-					bCanMove = false;
-					bKeyStillPressed = true;
-				}
+				SetState(Run);
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y + (PIX2M * 40)), 0);
+				bCanMove = false;
 			}
 		}
+	}
 
-		if (k == eKey::Space)
-		{
-			gGameScene->EnemyFindPath();
-		}
+	if (k == eKey::Space)
+	{
+		gGameScene->EnemyFindPath();
 	}
 
 	return true;
@@ -270,39 +213,36 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 
 bool PlayerEntity::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
-	if (this->bIsActive && this->bIsInputEnabled)
+	Key k = ev->GetKey();
+
+	b2Vec2 vel = pBody->GetLinearVelocity();
+	vel.x = 0;
+	vel.y = 0;
+
+	// Remove the directions
+	if (k == eKey::Up|| k == eKey::W)
 	{
-		Key k = ev->GetKey();
+		bCanMove = true;
+	}
 
-		b2Vec2 vel = pBody->GetLinearVelocity();
-		vel.x = 0;
-		vel.y = 0;
+	if (k == eKey::Left|| k == eKey::A)
+	{
+		bCanMove = true;
+	}
 
-		// Remove the directions
-		if (k == eKey::Up|| k == eKey::W)
-		{
-			bKeyStillPressed = false;
-		}
+	if (k == eKey::Right|| k == eKey::D)
+	{
+		bCanMove = true;
+	}
 
-		if (k == eKey::Left|| k == eKey::A)
-		{
-			bKeyStillPressed = false;
-		}
+	if (k == eKey::Down|| k == eKey::S)
+	{
+		bCanMove = true;
+	}
 
-		if (k == eKey::Right|| k == eKey::D)
-		{
-			bKeyStillPressed = false;
-		}
-
-		if (k == eKey::Down|| k == eKey::S)
-		{
-			bKeyStillPressed = false;
-		}
-
-		if (fUpDownMove == 0 && fMove == 0)
-		{
-			SetState(Idle);
-		}
+	if (fUpDownMove == 0 && fMove == 0)
+	{
+		SetState(Idle);
 	}
 
 	return true;
@@ -318,21 +258,6 @@ ItemTypes::Enum PlayerEntity::GetItem() const
 	return eItem;
 }
 
-void PlayerEntity::SetIsActive(bool isActive)
-{
-	bIsActive = isActive;
-}
-
-void PlayerEntity::SetIsInputEnabled(bool isInputEnabled)
-{
-	bIsInputEnabled = isInputEnabled;
-}
-
-bool PlayerEntity::GetIsInputEnabled() const
-{
-	return bIsInputEnabled;
-}
-
 void PlayerEntity::StopPlayerMovement()
 {
 	b2Vec2 vel = pBody->GetLinearVelocity();
@@ -342,11 +267,6 @@ void PlayerEntity::StopPlayerMovement()
 	pBody->SetLinearVelocity(vel);
 	fUpDownMove = 0;
 	fMove = 0;
-}
-
-bool PlayerEntity::GetIsActive()
-{
-	return bIsActive;
 }
 
 void PlayerEntity::SetState(int newState)
@@ -461,20 +381,19 @@ void PlayerEntity::SetDefensePower(u32 defensePower)
 	sPlayer.iDefensePower = defensePower;
 }
 
-bool PlayerEntity::OnDamage(const b2Vec2 vec2Push, u32 amount)
+bool PlayerEntity::OnDamage(u32 amount)
 {
 	// Play damage sound
 	gSoundManager->Play(SND_DAMAGE);
 
-	// Apply force to player
-	pBody->ApplyForce(vec2Push, pBody->GetWorldCenter());
+	// Move Player to last tile position
+	pBody->SetTransform(vLastPlayerPos, 0);
 
 	// Create the ghost effect
 	if (fInvicibleTime > 0)
 		return false;
 
 	fInvicibleTime = 1.0f;
-	//pText->SetVisible(true);
 
 	// Receive the damage
 	u32 life = this->GetLife() - amount;
@@ -483,6 +402,9 @@ bool PlayerEntity::OnDamage(const b2Vec2 vec2Push, u32 amount)
 		this->SetLife(life);
 	else
 		gGameData->SetIsGameOver(true);
+
+	// Add the ability to move again
+	bCanMove = true;
 
 	return true;
 }
