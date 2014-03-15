@@ -17,7 +17,8 @@ PlayerEntity::PlayerEntity()
 	, pBody(nullptr)
 	, vLastPlayerPos(b2Vec2(0,0))
 	, vPlayerVectorDirection()
-	, eItem(ItemTypes::None)
+	, eItem(ItemTypes::Consumables::None)
+	, eWeapon(ItemTypes::Weapons::Axe)
 	, iPreviousState(Idle)
 	, iCurrentState(Idle)
 	, fVelocity(0.0f)
@@ -29,8 +30,6 @@ PlayerEntity::PlayerEntity()
 	, uQuantityAmmoRockets(0)
 	, uQuantityAmmoShock(0)
 	, pEnemyTarget(nullptr)
-	, pProjectileSprite(nullptr)
-	, pProjectileBody(nullptr)
 	, bCanMove(true)
 
 {
@@ -41,7 +40,8 @@ PlayerEntity::PlayerEntity(const char *className, const char *spriteName)
 	, pBody(nullptr)
 	, vLastPlayerPos(b2Vec2(0,0))
 	, vPlayerVectorDirection()
-	, eItem(ItemTypes::None)
+	, eItem(ItemTypes::Consumables::None)
+	, eWeapon(ItemTypes::Weapons::Axe)
 	, iPreviousState(Idle)
 	, iCurrentState(Idle)
 	, fVelocity(0.0f)
@@ -53,8 +53,6 @@ PlayerEntity::PlayerEntity(const char *className, const char *spriteName)
 	, uQuantityAmmoRockets(0)
 	, uQuantityAmmoShock(0)
 	, pEnemyTarget(nullptr)
-	, pProjectileSprite(nullptr)
-	, pProjectileBody(nullptr)
 	, bCanMove(true)
 {
 }
@@ -62,7 +60,6 @@ PlayerEntity::PlayerEntity(const char *className, const char *spriteName)
 PlayerEntity::~PlayerEntity()
 {
 	pInput->RemoveKeyboardListener(this);
-	sdDelete(pProjectileSprite);
 	gPhysics->DestroyBody(pBody);
 	pBody = nullptr;
 }
@@ -142,8 +139,6 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 {
 	Key k = ev->GetKey();
 	vLastPlayerPos = b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y);
-
-	Log("x:%f y:%f", pBody->GetTransform().p.x, pBody->GetTransform().p.y);
 
 	if ((k == eKey::Up || k == eKey::W) && iCurrentState != Jump)
 	{
@@ -230,20 +225,49 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 			// Play shot sound
 			// TODO
 
-			// Instantiate the projectile entity
-
-			SceneNode *sprites = (SceneNode *) gScene->GetChildByName("Sprites");
-
-			pProjectileSprite = sdNew(Sprite(*static_cast<Sprite *>(sprites->GetChildByName("RocketProjectile"))));
-			pProjectileSprite->SetPosition(pBody->GetTransform().p.x * M2PIX, pBody->GetTransform().p.y * M2PIX);
-			gScene->Add(pProjectileSprite);
-
-			pProjectileSprite->SetZ(-10);
-			pProjectileBody = gPhysics->CreateBody(pProjectileSprite);
-			pProjectileBody->SetFixedRotation(true);
-
-			// Apply force to the enemy
+			// Do Damage to the enemy
+			pEnemyTarget->ReceiveDamage(1, GetWeapon());
 		}
+	}
+
+	if (k == eKey::Digit1)
+	{
+		SetWeapon(ItemTypes::Weapons::Axe);
+	}
+
+	if (k == eKey::Digit2)
+	{
+		SetWeapon(ItemTypes::Weapons::Rifle);
+	}
+
+	if (k == eKey::Digit3)
+	{
+		SetWeapon(ItemTypes::Weapons::Shotgun);
+	}
+
+	if (k == eKey::Digit4)
+	{
+		SetWeapon(ItemTypes::Weapons::Nailgun);
+	}
+
+	if (k == eKey::Digit5)
+	{
+		SetWeapon(ItemTypes::Weapons::HeavyNailgun);
+	}
+
+	if (k == eKey::Digit6)
+	{
+		SetWeapon(ItemTypes::Weapons::GrenadeLauncher);
+	}
+
+	if (k == eKey::Digit7)
+	{
+		SetWeapon(ItemTypes::Weapons::RocketLauncher);
+	}
+
+	if (k == eKey::Digit8)
+	{
+		SetWeapon(ItemTypes::Weapons::Shockgun);
 	}
 
 	return true;
@@ -286,14 +310,24 @@ bool PlayerEntity::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 	return true;
 }
 
-void PlayerEntity::SetItem(ItemTypes::Enum item)
+void PlayerEntity::SetItem(ItemTypes::Consumables item)
 {
 	eItem = item;
 }
 
-ItemTypes::Enum PlayerEntity::GetItem() const
+ItemTypes::Consumables PlayerEntity::GetItem() const
 {
 	return eItem;
+}
+
+void PlayerEntity::SetWeapon(ItemTypes::Weapons weapon)
+{
+	eWeapon = weapon;
+}
+
+ItemTypes::Weapons PlayerEntity::GetWeapon() const
+{
+	return eWeapon;
 }
 
 void PlayerEntity::StopPlayerMovement()
@@ -452,21 +486,19 @@ bool PlayerEntity::OnDamage(u32 amount)
 	return true;
 }
 
-void PlayerEntity::OnCollect(ItemTypes::Enum item, u32 amount)
+void PlayerEntity::OnCollect(ItemTypes::Consumables item, u32 amount)
 {
 	// Play collect sound
 	gSoundManager->Play(SND_POWERUP);
 
-	if(item == ItemTypes::HealthPotion
-		&& (this->GetLife() + amount) < this->GetLifeTotal())
-		this->SetLife(this->GetLife() + amount);
+	if(item == ItemTypes::HealthPotion)
+	{
+		//TODO play health pickup item
+		//gSoundManager->Play(SND_POWERUP);
 
-	if(item == ItemTypes::StaminaPotion
-		&& (this->GetStamina() + amount) < this->GetStaminaTotal())
-		this->SetStamina(this->GetStamina() + amount);
-
-	if(item == ItemTypes::Gold)
-		this->SetGold(this->GetGold() + amount);
+		if ((this->GetLife() + amount) < this->GetLifeTotal())
+			this->SetLife(this->GetLife() + amount);
+	}
 }
 
 u32 PlayerEntity::GiveKey()

@@ -28,7 +28,6 @@ SOURCES += source/main.cpp \
 	source/entity/enemyentity.cpp \
 	source/entity/healthpotionentity.cpp \
 	source/entity/staminapotionentity.cpp \
-	source/entity/goldentity.cpp \
 	source/manager/pathfindermanager.cpp \
 	source/manager/proceduralmanager.cpp \
 	source/entity/armorentity.cpp \
@@ -68,7 +67,6 @@ HEADERS += \
 	source/entity/enemyentity.h \
 	source/entity/healthpotionentity.h \
 	source/entity/staminapotionentity.h \
-	source/entity/goldentity.h \
 	source/manager/pathfindermanager.h \
 	source/manager/proceduralmanager.h \
 	source/entity/armorentity.h \
@@ -134,7 +132,9 @@ OTHER_FILES_TEXTURE = \
 	resources/textures/ibar.png \
 	resources/textures/sbar.png \
 	resources/textures/rocketProjectile.png \
-	resources/textures/face1.png
+	resources/textures/face1.png \
+	resources/textures/enemy_ogre_explosion.png \
+	resources/textures/enemy_ogre_blood.png
 
 #Gui
 OTHER_FILES_GUI_STYLE = \

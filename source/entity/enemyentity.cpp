@@ -19,8 +19,6 @@ EnemyEntity::EnemyEntity()
 	, bIsDead(false)
 	, bIsPlayerFound(false)
 	, cPath()
-	, fMove(0.0f)
-	, fUpDownMove(0.0f)
 {
 	sEnemy.displayName = "Enemy";
 }
@@ -74,15 +72,8 @@ void EnemyEntity::Load(MetadataObject &metadata, SceneNode *sprites)
 
 	b2Vec2 customSize(40, 40);
 
-	// Change enemy sprites
-	if (sEnemy.iEnemyId == 1)
-		pSprite->SetAnimation("EnemyGrunt");
-	else if (sEnemy.iEnemyId == 2)
-		pSprite->SetAnimation("EnemyOgre");
-	else if (sEnemy.iEnemyId == 3)
-		pSprite->SetAnimation("EnemyKnight");
-	else
-		pSprite->SetAnimation("EnemyGrunt");
+	// Change enemy sprites to idle
+	LoadEnemyIdleAnimation();
 
 	pBody = gPhysics->CreateKinematicBody(pSprite, &customSize);
 	pBody->SetFixedRotation(true);
@@ -96,12 +87,13 @@ void EnemyEntity::Update(f32 dt)
 
 	if (fInvicibleTime > 0)
 	{
-		pSprite->SetVisible(!pSprite->IsVisible());
-
 		fInvicibleTime -= dt;
 		if (fInvicibleTime <= 0)
 		{
-			pSprite->SetVisible(true);
+			// Change enemy sprites to idle
+			LoadEnemyIdleAnimation();
+
+			// Reset invicible time
 			fInvicibleTime = 0;
 		}
 	}
@@ -139,34 +131,53 @@ void EnemyEntity::OnCollision(const CollisionEvent &event)
 		Log("ENEMY colidiu");
 
 		Entity *other = event.GetOtherEntity();
-		if (other != nullptr && other->GetClassName() == "OptimistPlayer")
+		if (other != nullptr)
 		{
-			PlayerEntity *player = static_cast<PlayerEntity *>(other);
+			Log("Colisao com: %s", other->GetClassName().c_str());
+			if(other->GetClassName() == "OptimistPlayer")
+			{
+				PlayerEntity *player = static_cast<PlayerEntity *>(other);
 
-			// Stop player movement
-			player->StopPlayerMovement();
+				// Stop player movement
+				player->StopPlayerMovement();
 
-			s32 damageToPlayer = (player->GetDefensePower() - sEnemy.iAttackPower) + (rand() % 3 + 1);
-			if (damageToPlayer < 0)
-				damageToPlayer = 0;
+				s32 damageToPlayer = (player->GetDefensePower() - sEnemy.iAttackPower) + (rand() % 3 + 1);
+				if (damageToPlayer < 0)
+					damageToPlayer = 0;
 
-			//Do damage to the player
-			player->OnDamage(u32(damageToPlayer));
+				//Do damage to the player
+				player->OnDamage(u32(damageToPlayer));
 
-			s32 damageEnemyBase = player->GetAttackPower() - sEnemy.iDefensePower + (rand() % 3 + 1);
-			if (damageEnemyBase < 0)
-				damageEnemyBase = 0;
+				s32 damageEnemyBase = player->GetAttackPower() - sEnemy.iDefensePower + (rand() % 3 + 1);
+				if (damageEnemyBase < 0)
+					damageEnemyBase = 0;
 
-			//Receive damage
-			this->OnDamage(u32(damageEnemyBase));
+				//Receive damage
+				this->ReceiveDamage(u32(damageEnemyBase), ItemTypes::Weapons::Axe);
+			}
 		}
 	}
 }
 
-bool EnemyEntity::OnDamage(u32 amount)
+bool EnemyEntity::ReceiveDamage(u32 amount, ItemTypes::Weapons weapon)
 {
 	// Play damage sound
 	gSoundManager->Play(SND_DAMAGE);
+
+	// Change animation
+	if (weapon == ItemTypes::Weapons::Rifle || weapon == ItemTypes::Weapons::Shotgun ||
+		weapon == ItemTypes::Weapons::Nailgun || weapon == ItemTypes::Weapons::HeavyNailgun)
+	{
+		pSprite->SetAnimation("EnemyOgreBlood");
+	}
+	else if (weapon == ItemTypes::Weapons::RocketLauncher || weapon == ItemTypes::Weapons::GrenadeLauncher)
+	{
+		pSprite->SetAnimation("EnemyOgreExplosion");
+	}
+	else
+	{
+		pSprite->SetAnimation("EnemyOgreBlood");
+	}
 
 	if (fInvicibleTime > 0)
 		return false;
@@ -185,7 +196,7 @@ bool EnemyEntity::OnDamage(u32 amount)
 		bIsDead = true;
 	}
 	else
-		fInvicibleTime = 3;
+		fInvicibleTime = 0.6;
 
 	return true;
 }
@@ -253,4 +264,16 @@ void EnemyEntity::FindPathToPlayer()
 b2Vec2 EnemyEntity::GetBodyPosition() const
 {
 	return pBody->GetPosition();
+}
+
+void EnemyEntity::LoadEnemyIdleAnimation()
+{
+	if (sEnemy.iEnemyId == 1)
+		pSprite->SetAnimation("EnemyGrunt");
+	else if (sEnemy.iEnemyId == 2)
+		pSprite->SetAnimation("EnemyOgre");
+	else if (sEnemy.iEnemyId == 3)
+		pSprite->SetAnimation("EnemyKnight");
+	else
+		pSprite->SetAnimation("EnemyGrunt");
 }

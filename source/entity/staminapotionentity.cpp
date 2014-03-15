@@ -25,7 +25,7 @@ void StaminaPotionEntity::OnCollision(const CollisionEvent &event)
 			this->clSensor.Disable();
 
 			//Collect Item
-			player->OnCollect(ItemTypes::StaminaPotion, this->iAmount);
+			player->OnCollect(ItemTypes::Armor, this->iAmount);
 
 		}
 	}

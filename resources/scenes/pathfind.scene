@@ -81,6 +81,64 @@
 							]
 						}
 						{
+							sName: "EnemyOgreExplosion"
+							bAnimated: true
+							bLoop: true
+							iFps: 8
+							aFrames:
+							[
+								{
+									sResource: textures/enemy_ogre_explosion.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_ogre_explosion.png
+									cBoundary: {iX: 40, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_ogre_explosion.png
+									cBoundary: {iX: 80, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_ogre_explosion.png
+									cBoundary: {iX: 120, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_ogre_explosion.png
+									cBoundary: {iX: 160, iY: 0, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "EnemyOgreBlood"
+							bAnimated: true
+							bLoop: true
+							iFps: 8
+							aFrames:
+							[
+								{
+									sResource: textures/enemy_ogre_blood.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_ogre_blood.png
+									cBoundary: {iX: 40, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_ogre_blood.png
+									cBoundary: {iX: 80, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_ogre_blood.png
+									cBoundary: {iX: 120, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_ogre_blood.png
+									cBoundary: {iX: 160, iY: 0, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
 							sName: "EnemyKnight"
 							bAnimated: true
 							bLoop: true
