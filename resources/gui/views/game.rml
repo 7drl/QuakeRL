@@ -8,6 +8,9 @@
 			<div id="weapon_div">
 			</div>
 			<div id="character_div">
+				<div id="character_armor_div"/>
+				<div id="character_avatar_div"/>
+				<div id="character_ammo_div"/>
 			</div>
 		</game>
 	</body>

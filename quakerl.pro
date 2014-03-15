@@ -133,7 +133,8 @@ OTHER_FILES_TEXTURE = \
 	resources/textures/quakerl_weapons_tileset.png \
 	resources/textures/ibar.png \
 	resources/textures/sbar.png \
-	resources/textures/rocketProjectile.png
+	resources/textures/rocketProjectile.png \
+	resources/textures/face1.png
 
 #Gui
 OTHER_FILES_GUI_STYLE = \
