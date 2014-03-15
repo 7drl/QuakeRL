@@ -168,19 +168,19 @@ bool EnemyEntity::ReceiveDamage(u32 amount, ItemTypes::Weapons weapon)
 	if (weapon == ItemTypes::Weapons::Rifle || weapon == ItemTypes::Weapons::Shotgun ||
 		weapon == ItemTypes::Weapons::Nailgun || weapon == ItemTypes::Weapons::HeavyNailgun)
 	{
-		pSprite->SetAnimation("EnemyOgreBlood");
+		LoadEnemyBloodAnimation();
 	}
 	else if (weapon == ItemTypes::Weapons::RocketLauncher || weapon == ItemTypes::Weapons::GrenadeLauncher)
 	{
-		pSprite->SetAnimation("EnemyOgreExplosion");
+		LoadEnemyExplosionAnimation();
 	}
 	else if (weapon == ItemTypes::Weapons::Shockgun)
 	{
-		pSprite->SetAnimation("EnemyOgreShock");
+		LoadEnemyShockAnimation();
 	}
 	else
 	{
-		pSprite->SetAnimation("EnemyOgreBlood");
+		LoadEnemyBloodAnimation();
 	}
 
 	if (fInvicibleTime > 0)
@@ -284,3 +284,42 @@ void EnemyEntity::LoadEnemyIdleAnimation()
 	else
 		pSprite->SetAnimation("EnemyGrunt");
 }
+
+void EnemyEntity::LoadEnemyBloodAnimation()
+{
+	if (sEnemy.iEnemyId == 1)
+		pSprite->SetAnimation("EnemyGruntBlood");
+	else if (sEnemy.iEnemyId == 2)
+		pSprite->SetAnimation("EnemyOgreBlood");
+	else if (sEnemy.iEnemyId == 3)
+		pSprite->SetAnimation("EnemyKnightBlood");
+	else
+		pSprite->SetAnimation("EnemyGruntBlood");
+}
+
+void EnemyEntity::LoadEnemyExplosionAnimation()
+{
+	if (sEnemy.iEnemyId == 1)
+		pSprite->SetAnimation("EnemyGruntExplosion");
+	else if (sEnemy.iEnemyId == 2)
+		pSprite->SetAnimation("EnemyOgreExplosion");
+	else if (sEnemy.iEnemyId == 3)
+		pSprite->SetAnimation("EnemyKnightExplosion");
+	else
+		pSprite->SetAnimation("EnemyGruntExplosion");
+
+}
+
+void EnemyEntity::LoadEnemyShockAnimation()
+{
+	if (sEnemy.iEnemyId == 1)
+		pSprite->SetAnimation("EnemyGruntShock");
+	else if (sEnemy.iEnemyId == 2)
+		pSprite->SetAnimation("EnemyOgreShock");
+	else if (sEnemy.iEnemyId == 3)
+		pSprite->SetAnimation("EnemyKnightShock");
+	else
+		pSprite->SetAnimation("EnemyGruntShock");
+
+}
+

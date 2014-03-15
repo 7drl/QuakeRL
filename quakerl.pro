@@ -135,7 +135,13 @@ OTHER_FILES_TEXTURE = \
 	resources/textures/face1.png \
 	resources/textures/enemy_ogre_explosion.png \
 	resources/textures/enemy_ogre_blood.png \
-	resources/textures/enemy_ogre_shock.png
+	resources/textures/enemy_ogre_shock.png \
+	resources/textures/enemy_grunt_explosion.png \
+	resources/textures/enemy_grunt_blood.png \
+	resources/textures/enemy_grunt_shock.png \
+	resources/textures/enemy_knight_explosion.png \
+	resources/textures/enemy_knight_blood.png \
+	resources/textures/enemy_knight_shock.png
 
 #Gui
 OTHER_FILES_GUI_STYLE = \

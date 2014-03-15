@@ -68,6 +68,93 @@
 							]
 						}
 						{
+							sName: "EnemyGruntExplosion"
+							bAnimated: true
+							bLoop: true
+							iFps: 8
+							aFrames:
+							[
+								{
+									sResource: textures/enemy_grunt_explosion.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_explosion.png
+									cBoundary: {iX: 40, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_explosion.png
+									cBoundary: {iX: 80, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_explosion.png
+									cBoundary: {iX: 120, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_explosion.png
+									cBoundary: {iX: 160, iY: 0, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "EnemyGruntBlood"
+							bAnimated: true
+							bLoop: true
+							iFps: 8
+							aFrames:
+							[
+								{
+									sResource: textures/enemy_grunt_blood.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_blood.png
+									cBoundary: {iX: 40, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_blood.png
+									cBoundary: {iX: 80, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_blood.png
+									cBoundary: {iX: 120, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_blood.png
+									cBoundary: {iX: 160, iY: 0, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "EnemyGruntShock"
+							bAnimated: true
+							bLoop: true
+							iFps: 8
+							aFrames:
+							[
+								{
+									sResource: textures/enemy_grunt_shock.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_shock.png
+									cBoundary: {iX: 40, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_shock.png
+									cBoundary: {iX: 80, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_shock.png
+									cBoundary: {iX: 120, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_shock.png
+									cBoundary: {iX: 160, iY: 0, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
 							sName: "EnemyOgre"
 							bAnimated: true
 							bLoop: true
@@ -177,6 +264,93 @@
 								{
 									sResource: textures/quakerl_enemy_tileset.png
 									cBoundary: {iX: 0, iY: 80, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "EnemyKnightExplosion"
+							bAnimated: true
+							bLoop: true
+							iFps: 8
+							aFrames:
+							[
+								{
+									sResource: textures/enemy_knight_explosion.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_explosion.png
+									cBoundary: {iX: 40, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_explosion.png
+									cBoundary: {iX: 80, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_explosion.png
+									cBoundary: {iX: 120, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_explosion.png
+									cBoundary: {iX: 160, iY: 0, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "EnemyKnightBlood"
+							bAnimated: true
+							bLoop: true
+							iFps: 8
+							aFrames:
+							[
+								{
+									sResource: textures/enemy_knight_blood.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_blood.png
+									cBoundary: {iX: 40, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_blood.png
+									cBoundary: {iX: 80, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_blood.png
+									cBoundary: {iX: 120, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_blood.png
+									cBoundary: {iX: 160, iY: 0, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "EnemyKnightShock"
+							bAnimated: true
+							bLoop: true
+							iFps: 8
+							aFrames:
+							[
+								{
+									sResource: textures/enemy_knight_shock.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_shock.png
+									cBoundary: {iX: 40, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_shock.png
+									cBoundary: {iX: 80, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_shock.png
+									cBoundary: {iX: 120, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_shock.png
+									cBoundary: {iX: 160, iY: 0, iWidth: 40, iHeight: 40}
 								}
 							]
 						}
