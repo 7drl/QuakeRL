@@ -181,14 +181,14 @@ void EnemyEntity::Update(f32 dt)
 
 	if (pTarget != nullptr)
 	{
-		// Register himself to the player as target
-		pTarget->SetEnemyTarget(this);
-
 		b2Vec2 dir = pTarget->GetBodyPosition() - pBody->GetPosition();
 		f32 distance = dir.Normalize();
 
 		if (distance <= 1.0f && !bPlayerLock)
 		{
+			// Register himself to the player as target
+			pTarget->SetEnemyTarget(this);
+
 			bPlayerLock = true;
 			this->SetDisplayName(this->GetDisplayName());
 			this->SetLevel(this->GetLevel());
@@ -348,9 +348,9 @@ void EnemyEntity::FindPathToPlayer()
 		{
 			Log("fMove: %f", fMove);
 			if (fMove > 0)
-				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x + (PIX2M * 40), pBody->GetTransform().p.y), 0);
+				pBody->SetTransform(b2Vec2(ceil(pBody->GetTransform().p.x + (PIX2M * 40)), pBody->GetTransform().p.y), 0);
 			else
-				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x - (PIX2M * 40), pBody->GetTransform().p.y), 0);
+				pBody->SetTransform(b2Vec2(ceil(pBody->GetTransform().p.x - (PIX2M * 40)), pBody->GetTransform().p.y), 0);
 			fMove = 0;
 		}
 
@@ -358,14 +358,17 @@ void EnemyEntity::FindPathToPlayer()
 		{
 			Log("fUpDownMove: %f", fUpDownMove);
 			if (fUpDownMove > 0)
-				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y + (PIX2M * 40)), 0);
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, ceil(pBody->GetTransform().p.y + (PIX2M * 40))), 0);
 			else
-				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y - (PIX2M * 40)), 0);
+				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, ceil(pBody->GetTransform().p.y - (PIX2M * 40))), 0);
 			fMove = 0;
 		}
 
 		cPath.GetDirectionSteps().pop();
 	}
+}
 
-	pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x - (PIX2M * 40), pBody->GetTransform().p.y), 0);
+b2Vec2 EnemyEntity::GetBodyPosition() const
+{
+	return pBody->GetPosition();
 }

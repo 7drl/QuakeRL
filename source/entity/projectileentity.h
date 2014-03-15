@@ -16,13 +16,13 @@ class ProjectileEntity: public SpriteEntity
 		Vector3f GetPosition();
 		Sprite *GetSprite() const;
 
-		//virtual void SetTarget(SpriteEntity *target);
+		//virtual void SetTarget(EnemyEntity *target);
 		virtual void OnCollision(const CollisionEvent &event);
 		virtual void Activate();
 
 	private:
 
-		SpriteEntity *pTarget;
+		//EnemyEntity *pTarget;
 		CollisionSensor clSensor;
 		f32 fSleepConfig;
 		f32 fSleep;

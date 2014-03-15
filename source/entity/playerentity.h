@@ -5,6 +5,7 @@
 #include "../defines.h"
 #include "spriteentity.h"
 #include "weaponentity.h"
+#include "projectileentity.h"
 
 namespace ItemTypes
 {
@@ -143,6 +144,10 @@ class PlayerEntity: public SpriteEntity,
 
 		// Enemy Target
 		EnemyEntity *pEnemyTarget;
+
+		// Projectile
+		Sprite *pProjectileSprite;
+		b2Body *pProjectileBody;
 
 		bool bCanMove;
 		void SetState(int newState);

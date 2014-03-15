@@ -10,7 +10,6 @@ ENTITY_CREATOR("Projectile", ProjectileEntity)
 
 ProjectileEntity::ProjectileEntity()
 	: SpriteEntity("Projectile", "Projectile")
-	, pTarget(NULL)
 	, fSleepConfig(SLEEP_TIME)
 	, fSleep(SLEEP_TIME)
 	, fSpeedFactor(1.0f)
@@ -64,11 +63,12 @@ void ProjectileEntity::Update(f32 dt)
 	}
 	else
 	{
+		/*
 		if (pTarget == NULL)
-			pTarget = static_cast<PlayerEntity *>(gWorldManager->FindEntityByClassName("Player"));
-
-		if (pTarget == NULL)
-			Log("No player to track");
+		{
+			Log("No target to track");
+			return;
+		}*/
 
 		b2Vec2 dir = b2Vec2(0,0); //pTarget->GetBodyPosition() - clSensor.GetBodyPosition();
 

@@ -29,7 +29,10 @@ PlayerEntity::PlayerEntity()
 	, uQuantityAmmoRockets(0)
 	, uQuantityAmmoShock(0)
 	, pEnemyTarget(nullptr)
+	, pProjectileSprite(nullptr)
+	, pProjectileBody(nullptr)
 	, bCanMove(true)
+
 {
 }
 
@@ -50,6 +53,8 @@ PlayerEntity::PlayerEntity(const char *className, const char *spriteName)
 	, uQuantityAmmoRockets(0)
 	, uQuantityAmmoShock(0)
 	, pEnemyTarget(nullptr)
+	, pProjectileSprite(nullptr)
+	, pProjectileBody(nullptr)
 	, bCanMove(true)
 {
 }
@@ -57,6 +62,7 @@ PlayerEntity::PlayerEntity(const char *className, const char *spriteName)
 PlayerEntity::~PlayerEntity()
 {
 	pInput->RemoveKeyboardListener(this);
+	sdDelete(pProjectileSprite);
 	gPhysics->DestroyBody(pBody);
 	pBody = nullptr;
 }
@@ -136,6 +142,8 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 {
 	Key k = ev->GetKey();
 	vLastPlayerPos = b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y);
+
+	Log("x:%f y:%f", pBody->GetTransform().p.x, pBody->GetTransform().p.y);
 
 	if ((k == eKey::Up || k == eKey::W) && iCurrentState != Jump)
 	{
@@ -221,6 +229,15 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 
 			// Instantiate the projectile entity
 
+			SceneNode *sprites = (SceneNode *) gScene->GetChildByName("Sprites");
+
+			pProjectileSprite = sdNew(Sprite(*static_cast<Sprite *>(sprites->GetChildByName("RocketProjectile"))));
+			pProjectileSprite->SetPosition(pBody->GetTransform().p.x * M2PIX, pBody->GetTransform().p.y * M2PIX);
+			gScene->Add(pProjectileSprite);
+
+			pProjectileSprite->SetZ(-10);
+			pProjectileBody = gPhysics->CreateBody(pProjectileSprite);
+			pProjectileBody->SetFixedRotation(true);
 
 			// Apply force to the enemy
 		}

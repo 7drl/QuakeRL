@@ -34,7 +34,7 @@ SOURCES += source/main.cpp \
 	source/entity/armorentity.cpp \
 	source/entity/weaponentity.cpp \
 	source/entity/ammoentity.cpp \
-    source/entity/projectileentity.cpp
+	source/entity/projectileentity.cpp
 
 HEADERS += \
 	source/defines.h \
@@ -74,7 +74,7 @@ HEADERS += \
 	source/entity/armorentity.h \
 	source/entity/weaponentity.h \
 	source/entity/ammoentity.h \
-    source/entity/projectileentity.h
+	source/entity/projectileentity.h
 
 OTHER_FILES_CONFIG = \
 #Configs
@@ -132,7 +132,8 @@ OTHER_FILES_TEXTURE = \
 	resources/textures/quakerl_objects_tileset.png \
 	resources/textures/quakerl_weapons_tileset.png \
 	resources/textures/ibar.png \
-	resources/textures/sbar.png
+	resources/textures/sbar.png \
+	resources/textures/rocketProjectile.png
 
 #Gui
 OTHER_FILES_GUI_STYLE = \

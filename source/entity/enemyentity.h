@@ -6,6 +6,8 @@
 #include "playerentity.h"
 #include <map/pathfind/Path.h>
 
+class PlayerEntity;
+
 class EnemyEntity: public SpriteEntity
 {
 	public:
@@ -40,6 +42,7 @@ class EnemyEntity: public SpriteEntity
 		void SetLife(u32 life);
 
 		void FindPathToPlayer();
+		b2Vec2 GetBodyPosition() const;
 
 	private:
 		PlayerEntity *pTarget;
