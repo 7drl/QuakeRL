@@ -19,7 +19,8 @@ class EnemyEntity: public SpriteEntity
 
 		virtual void OnCollision(const CollisionEvent &event);
 
-		bool OnDamage(u32 amount);
+		virtual bool ReceiveDamage(u32 amount, ItemTypes::Weapons weapon);
+		virtual void LoadEnemyIdleAnimation();
 
 		struct EnemyData
 		{
@@ -53,9 +54,6 @@ class EnemyEntity: public SpriteEntity
 		bool bIsDead;
 		bool bIsPlayerFound;
 		Path cPath;
-
-		f32 fMove;
-		f32 fUpDownMove;
 };
 
 #endif

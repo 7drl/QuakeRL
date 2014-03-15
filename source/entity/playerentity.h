@@ -9,13 +9,23 @@
 
 namespace ItemTypes
 {
-	enum Enum
+	enum Consumables
 	{
 		None,
-		Text,
 		HealthPotion,
-		StaminaPotion,
-		Gold
+		Armor
+	};
+
+	enum Weapons
+	{
+		Axe,
+		Rifle,
+		Shotgun,
+		Nailgun,
+		HeavyNailgun,
+		GrenadeLauncher,
+		RocketLauncher,
+		Shockgun
 	};
 }
 
@@ -46,12 +56,15 @@ class PlayerEntity: public SpriteEntity,
 		Sprite *GetSprite() const;
 		b2Vec2 GetBodyPosition() const;
 
-		void SetItem(ItemTypes::Enum item);
-		ItemTypes::Enum GetItem() const;
+		void SetItem(ItemTypes::Consumables item);
+		ItemTypes::Consumables GetItem() const;
+
+		void SetWeapon(ItemTypes::Weapons weapon);
+		ItemTypes::Weapons GetWeapon() const;
 
 		void Teleport(const b2Vec2 &position);
 		bool OnDamage(u32 amount);
-		void OnCollect(ItemTypes::Enum item, u32 amount);
+		void OnCollect(ItemTypes::Consumables item, u32 amount);
 
 		void StopPlayerMovement();
 		void ChangePlayer();
@@ -115,7 +128,8 @@ class PlayerEntity: public SpriteEntity,
 		b2Vec2 vLastPlayerPos;
 		Vector3f vPlayerVectorDirection;
 
-		ItemTypes::Enum eItem;
+		ItemTypes::Consumables eItem;
+		ItemTypes::Weapons eWeapon;
 
 		enum eAnimationStates {Idle = 0, Run = 1, Jump = 2, Land = 3};
 		s32 iPreviousState;
@@ -144,10 +158,6 @@ class PlayerEntity: public SpriteEntity,
 
 		// Enemy Target
 		EnemyEntity *pEnemyTarget;
-
-		// Projectile
-		Sprite *pProjectileSprite;
-		b2Body *pProjectileBody;
 
 		bool bCanMove;
 		void SetState(int newState);
