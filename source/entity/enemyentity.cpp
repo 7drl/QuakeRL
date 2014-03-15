@@ -21,7 +21,6 @@ EnemyEntity::EnemyEntity()
 	, cPath()
 	, fMove(0.0f)
 	, fUpDownMove(0.0f)
-	, fVelocity(2.0f)
 {
 	sEnemy.displayName = "Enemy";
 }
@@ -75,6 +74,16 @@ void EnemyEntity::Load(MetadataObject &metadata, SceneNode *sprites)
 
 	b2Vec2 customSize(40, 40);
 
+	// Change enemy sprites
+	if (sEnemy.iEnemyId == 1)
+		pSprite->SetAnimation("EnemyGrunt");
+	else if (sEnemy.iEnemyId == 2)
+		pSprite->SetAnimation("EnemyOgre");
+	else if (sEnemy.iEnemyId == 3)
+		pSprite->SetAnimation("EnemyKnight");
+	else
+		pSprite->SetAnimation("EnemyGrunt");
+
 	pBody = gPhysics->CreateKinematicBody(pSprite, &customSize);
 	pBody->SetFixedRotation(true);
 	pBody->GetFixtureList()->SetUserData(this);
@@ -84,8 +93,6 @@ void EnemyEntity::Update(f32 dt)
 {
 	if (!pBody)
 		return;
-
-	b2Vec2 vel = pBody->GetLinearVelocity();
 
 	if (fInvicibleTime > 0)
 	{
@@ -174,18 +181,10 @@ void EnemyEntity::Update(f32 dt)
 
 	if (pTarget != nullptr)
 	{
-		// Change enemy sprites
-		if (sEnemy.iEnemyId == 1)
-			pSprite->SetAnimation("EnemyGrunt");
-		else if (sEnemy.iEnemyId == 2)
-			pSprite->SetAnimation("EnemyOgre");
-		else if (sEnemy.iEnemyId == 3)
-			pSprite->SetAnimation("EnemyKnight");
-		else
-			pSprite->SetAnimation("EnemyGrunt");
+		// Register himself to the player as target
+		pTarget->SetEnemyTarget(this);
 
 		b2Vec2 dir = pTarget->GetBodyPosition() - pBody->GetPosition();
-
 		f32 distance = dir.Normalize();
 
 		if (distance <= 1.0f && !bPlayerLock)

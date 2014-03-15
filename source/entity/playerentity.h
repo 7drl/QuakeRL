@@ -18,12 +18,15 @@ namespace ItemTypes
 	};
 }
 
+// Forward declaration of EnemyEntity.
+class EnemyEntity;
+
 class PlayerEntity: public SpriteEntity,
 					public IEventInputKeyboardListener
 {
 	public:
 		PlayerEntity();
-		PlayerEntity(const char *className, const char *spriteName, bool bIsActive);
+		PlayerEntity(const char *className, const char *spriteName);
 
 		virtual ~PlayerEntity();
 
@@ -88,6 +91,8 @@ class PlayerEntity: public SpriteEntity,
 		u32 GetDefensePower() const;
 		void SetDefensePower(u32 defensePower);
 
+		void SetEnemyTarget(EnemyEntity *enemyTarget);
+
 		struct PlayerData
 		{
 			String displayName;
@@ -115,11 +120,13 @@ class PlayerEntity: public SpriteEntity,
 		s32 iPreviousState;
 		s32 iCurrentState;
 
+		// Movement members
 		f32 fVelocity;
 		f32 fMove;
 		f32 fUpDownMove;
 		f32 fInvicibleTime;
 
+		// Ammo for the player
 		u32 uQuantityAmmoShells;
 		u32 uQuantityAmmoNails;
 		u32 uQuantityAmmoRockets;
@@ -133,6 +140,9 @@ class PlayerEntity: public SpriteEntity,
 		WeaponEntity cGrenadeWeapon;
 		WeaponEntity cRocketWeapon;
 		WeaponEntity cShockWeapon;
+
+		// Enemy Target
+		EnemyEntity *pEnemyTarget;
 
 		bool bCanMove;
 		void SetState(int newState);

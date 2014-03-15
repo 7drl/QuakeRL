@@ -1,16 +1,14 @@
-#ifndef _DEATHENTITY_H
-#define _DEATHENTITY_H
+#ifndef _PROJECTILE_ENTITY_H
+#define _PROJECTILE_ENTITY_H
 
 #include "spriteentity.h"
 #include "../util/collisionsensor.h"
 
-class PlayerEntity;
-
-class DeathEntity: public SpriteEntity
+class ProjectileEntity: public SpriteEntity
 {
 	public:
-		DeathEntity();
-		virtual ~DeathEntity();
+		ProjectileEntity();
+		virtual ~ProjectileEntity();
 
 		virtual void Load(MetadataObject &metadata, SceneNode *sprites);
 		virtual void Update(f32 dt);
@@ -18,10 +16,13 @@ class DeathEntity: public SpriteEntity
 		Vector3f GetPosition();
 		Sprite *GetSprite() const;
 
+		//virtual void SetTarget(SpriteEntity *target);
 		virtual void OnCollision(const CollisionEvent &event);
 		virtual void Activate();
 
 	private:
+
+		SpriteEntity *pTarget;
 		CollisionSensor clSensor;
 		f32 fSleepConfig;
 		f32 fSleep;
@@ -29,4 +30,4 @@ class DeathEntity: public SpriteEntity
 
 };
 
-#endif
+#endif // _PROJECTILE_ENTITY_H

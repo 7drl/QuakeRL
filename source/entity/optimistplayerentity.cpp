@@ -5,7 +5,7 @@
 ENTITY_CREATOR("OptimistPlayer", OptimistPlayerEntity)
 
 OptimistPlayerEntity::OptimistPlayerEntity()
-	: PlayerEntity("OptimistPlayer", "OptimistPlayer", true)
+	: PlayerEntity("OptimistPlayer", "OptimistPlayer")
 {
 	fVelocity = 2.5f;
 

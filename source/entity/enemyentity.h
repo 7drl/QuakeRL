@@ -53,7 +53,6 @@ class EnemyEntity: public SpriteEntity
 
 		f32 fMove;
 		f32 fUpDownMove;
-		f32 fVelocity;
 };
 
 #endif

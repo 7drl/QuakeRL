@@ -9,7 +9,6 @@ SOURCES += source/main.cpp \
 	source/entity/itementity.cpp \
 	source/entity/heartentity.cpp \
 	source/entity/triggerentity.cpp \
-	source/entity/deathentity.cpp \
 	source/entity/teleportentity.cpp \
 	source/manager/guimanager.cpp \
 	source/manager/worldmanager.cpp \
@@ -34,7 +33,8 @@ SOURCES += source/main.cpp \
 	source/manager/proceduralmanager.cpp \
 	source/entity/armorentity.cpp \
 	source/entity/weaponentity.cpp \
-	source/entity/ammoentity.cpp
+	source/entity/ammoentity.cpp \
+    source/entity/projectileentity.cpp
 
 HEADERS += \
 	source/defines.h \
@@ -48,7 +48,6 @@ HEADERS += \
 	source/entity/itementity.h \
 	source/entity/heartentity.h \
 	source/entity/triggerentity.h \
-	source/entity/deathentity.h \
 	source/entity/teleportentity.h \
 	source/manager/guimanager.h \
 	source/manager/worldmanager.h \
@@ -74,7 +73,8 @@ HEADERS += \
 	source/manager/proceduralmanager.h \
 	source/entity/armorentity.h \
 	source/entity/weaponentity.h \
-	source/entity/ammoentity.h
+	source/entity/ammoentity.h \
+    source/entity/projectileentity.h
 
 OTHER_FILES_CONFIG = \
 #Configs

@@ -28,11 +28,12 @@ PlayerEntity::PlayerEntity()
 	, uQuantityAmmoNails(0)
 	, uQuantityAmmoRockets(0)
 	, uQuantityAmmoShock(0)
+	, pEnemyTarget(nullptr)
 	, bCanMove(true)
 {
 }
 
-PlayerEntity::PlayerEntity(const char *className, const char *spriteName, bool bIsActive)
+PlayerEntity::PlayerEntity(const char *className, const char *spriteName)
 	: SpriteEntity(className, spriteName)
 	, pBody(nullptr)
 	, vLastPlayerPos(b2Vec2(0,0))
@@ -48,6 +49,7 @@ PlayerEntity::PlayerEntity(const char *className, const char *spriteName, bool b
 	, uQuantityAmmoNails(0)
 	, uQuantityAmmoRockets(0)
 	, uQuantityAmmoShock(0)
+	, pEnemyTarget(nullptr)
 	, bCanMove(true)
 {
 }
@@ -206,6 +208,22 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 	if (k == eKey::Space)
 	{
 		gGameScene->EnemyFindPath();
+	}
+
+	if (k == eKey::LeftCtrl || k == eKey::RightCtrl)
+	{
+		if (pEnemyTarget != nullptr)
+		{
+			Log("Enemy: %s", pEnemyTarget->GetName().c_str());
+
+			// Play shot sound
+			// TODO
+
+			// Instantiate the projectile entity
+
+
+			// Apply force to the enemy
+		}
 	}
 
 	return true;
@@ -379,6 +397,11 @@ u32 PlayerEntity::GetDefensePower() const
 void PlayerEntity::SetDefensePower(u32 defensePower)
 {
 	sPlayer.iDefensePower = defensePower;
+}
+
+void PlayerEntity::SetEnemyTarget(EnemyEntity *enemyTarget)
+{
+	pEnemyTarget = enemyTarget;
 }
 
 bool PlayerEntity::OnDamage(u32 amount)
