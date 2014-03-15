@@ -99,6 +99,152 @@ div#character_ammo_div
 	height:77;
 }
 
+div#armor_aparence_div
+{
+	display: block;
+	position: absolute;
+	float: left;
+	left: 9px;
+	top: 9px;
+	width: 60px;
+	height: 60px;
+}
+
+.armor_aparence_0
+{
+}
+
+.armor_aparence_100
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 0px 284px 60px 344px;
+}
+
+.armor_aparence_150
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 0px 344px 60px 404px;
+}
+
+.armor_aparence_200
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 0px 404px 60px 464px;
+}
+
+div#armor_durability_div
+{
+	display: block;
+	position: absolute;
+	float: left;
+	left: 80px;
+	top: 4px;
+	width: 100%;
+	height: 100%;
+	text-align: left;
+}
+
+div#character_aparence_div
+{
+	display: block;
+	position: absolute;
+	float: left;
+	left: 4px;
+	top: 4px;
+	width: 73px;
+	height: 73px;
+}
+
+.character_aparence_100
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 510px 0px 583px 73px;
+}
+
+.character_aparence_80
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 510px 73px 583px 146px;
+}
+
+.character_aparence_60
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 510px 146px 583px 219px;
+}
+
+.character_aparence_40
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 510px 219px 583px 292px;
+}
+
+.character_aparence_20
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 510px 292px 583px 365px;
+}
+
+div#character_aparence_health_div
+{
+	display: block;
+	position: absolute;
+	float: left;
+	left: 80px;
+	top: 4px;
+	width: 100%;
+	height: 100%;
+	text-align: left;
+}
+
+div#ammo_aparence_div
+{
+	display: block;
+	position: absolute;
+	float: left;
+	left: 5px;
+	top: 9px;
+	width: 60px;
+	height: 60px;
+}
+
+.ammo_aparence_shells
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 60px 284px 120px 344px;
+}
+
+.ammo_aparence_nails
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 60px 344px 120px 404px;
+}
+
+.ammo_aparence_rockets
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 60px 404px 120px 464px;
+}
+
+.ammo_aparence_cells
+{
+	background-decorator: image;
+	background-image: /textures/rocket_invader.png 60px 464px 120px 524px;
+}
+
+div#ammo_quantity_div
+{
+	display: block;
+	position: absolute;
+	float: left;
+	left: 80px;
+	top: 4px;
+	width: 100%;
+	height: 100%;
+	text-align: left;
+}
+-----------------------------------------
+
 p#levelxp, p#levelxp_enemy
 {
 	text-align: left;

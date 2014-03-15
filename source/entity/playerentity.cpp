@@ -396,7 +396,7 @@ u32 PlayerEntity::GetLife() const
 void PlayerEntity::SetLife(const u32 life)
 {
 	sPlayer.iLife = life;
-	//gGui->SetLife(life, this->sPlayer.iLifeTotal);
+	gGui->SetLife(life);
 }
 void PlayerEntity::RemoveLife()
 {
@@ -474,6 +474,9 @@ bool PlayerEntity::OnDamage(u32 amount)
 
 	// Receive the damage
 	u32 life = this->GetLife() - amount;
+
+	// Change avatar based on life
+	gGui->OnDamageAvatar(life);
 
 	if ((int)life > 1)
 		this->SetLife(life);

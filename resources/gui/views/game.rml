@@ -8,9 +8,24 @@
 			<div id="weapon_div">
 			</div>
 			<div id="character_div">
-				<div id="character_armor_div"/>
-				<div id="character_avatar_div"/>
-				<div id="character_ammo_div"/>
+				<div id="character_armor_div">
+					<div id="armor_aparence_div" class="armor_aparence_0"/>
+					<div id="armor_durability_div">
+						<span id="armor"></span>
+					</div>
+				</div>
+				<div id="character_avatar_div">
+					<div id="character_aparence_div" class="character_aparence_100"/>
+					<div id="character_aparence_health_div">
+						<span id="life">100</span>
+					</div>
+				</div>
+				<div id="character_ammo_div">
+					<div id="ammo_aparence_div" class="ammo_aparence_cells"/>
+					<div id="ammo_quantity_div">
+						<span id="ammo">10</span>
+					</div>
+				</div>
 			</div>
 		</game>
 	</body>
