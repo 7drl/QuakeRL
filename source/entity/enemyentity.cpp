@@ -174,6 +174,10 @@ bool EnemyEntity::ReceiveDamage(u32 amount, ItemTypes::Weapons weapon)
 	{
 		pSprite->SetAnimation("EnemyOgreExplosion");
 	}
+	else if (weapon == ItemTypes::Weapons::Shockgun)
+	{
+		pSprite->SetAnimation("EnemyOgreShock");
+	}
 	else
 	{
 		pSprite->SetAnimation("EnemyOgreBlood");

@@ -134,7 +134,8 @@ OTHER_FILES_TEXTURE = \
 	resources/textures/rocketProjectile.png \
 	resources/textures/face1.png \
 	resources/textures/enemy_ogre_explosion.png \
-	resources/textures/enemy_ogre_blood.png
+	resources/textures/enemy_ogre_blood.png \
+	resources/textures/enemy_ogre_shock.png
 
 #Gui
 OTHER_FILES_GUI_STYLE = \
