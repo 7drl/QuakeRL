@@ -150,6 +150,8 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				bCanMove = false;
 			}
 		}
+
+		gGameScene->EnemyFindPath();
 	}
 
 	if (k == eKey::Left || k == eKey::A)
@@ -167,6 +169,8 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				bCanMove = false;
 			}
 		}
+
+		gGameScene->EnemyFindPath();
 	}
 
 	if (k == eKey::Right || k == eKey::D)
@@ -184,6 +188,8 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				bCanMove = false;
 			}
 		}
+
+		gGameScene->EnemyFindPath();
 	}
 
 	if (k == eKey::Down || k == eKey::S)
@@ -201,10 +207,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				bCanMove = false;
 			}
 		}
-	}
 
-	if (k == eKey::Space)
-	{
 		gGameScene->EnemyFindPath();
 	}
 

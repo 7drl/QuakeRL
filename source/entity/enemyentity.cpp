@@ -3,7 +3,7 @@
 #include "../scene/gamescene.h"
 #include "../util/sounds.h"
 #include "../manager/guimanager.h"
-#include <cmath>
+#include "MathUtil.h"
 
 #define PIX2M		0.01f
 #define M2PIX		(1.0f / PIX2M)
@@ -98,75 +98,6 @@ void EnemyEntity::Update(f32 dt)
 			fInvicibleTime = 0;
 		}
 	}
-
-	/*
-	if(bIsPlayerFound)
-	{
-		Vector3f dir = cPath.GetDirectionSteps().top();
-
-		if (dir.getX() == VECTOR_UP.getX() && dir.getY() == VECTOR_UP.getY())
-		{
-			fUpDownMove = -1;
-		}
-
-		if (dir.getX() == VECTOR_LEFT.getX() && dir.getY() == VECTOR_LEFT.getY())
-		{
-			fMove = -1;
-		}
-
-		if (dir.getX() == VECTOR_RIGHT.getX() && dir.getY() == VECTOR_RIGHT.getY())
-		{
-			fMove = 1;
-		}
-
-		if (dir.getX() == VECTOR_DOWN.getX() && dir.getY() == VECTOR_DOWN.getY())
-		{
-			fUpDownMove = 1;
-		}
-
-		////////////
-
-		if (dir.getX() == VECTOR_UP_LEFT.getX() && dir.getY() == VECTOR_UP_LEFT.getY())
-		{
-			fUpDownMove = -1;
-			fMove = -1;
-		}
-		if (dir.getX() == VECTOR_UP_RIGHT.getX() && dir.getY() == VECTOR_UP_RIGHT.getY())
-		{
-			fUpDownMove = -1;
-			fMove = 1;
-		}
-		if (dir.getX() == VECTOR_DOWN_RIGHT.getX() && dir.getY() == VECTOR_DOWN_RIGHT.getY())
-		{
-			fUpDownMove = 1;
-			fMove = 1;
-		}
-		if (dir.getX() == VECTOR_DOWN_LEFT.getX() && dir.getY() == VECTOR_DOWN_LEFT.getY())
-		{
-			fUpDownMove = 1;
-			fMove = -1;
-		}
-
-		if (fMove != 0)
-		{
-			Log("fMove: %f", fMove);
-			vel.x = fVelocity * fMove;
-			pBody->SetLinearVelocity(vel);
-			fMove = 0;
-		}
-
-		if (fUpDownMove != 0)
-		{
-			Log("fUpDownMove: %f", fUpDownMove);
-			vel.y = fVelocity * fUpDownMove;
-			pBody->SetLinearVelocity(vel);
-			fMove = 0;
-		}
-
-		if(cPath.GetDirectionSteps().empty())
-			bIsPlayerFound = false;
-	}
-	*/
 
 	// Search a nerby player
 	if (pTarget == nullptr)
@@ -298,75 +229,25 @@ void EnemyEntity::FindPathToPlayer()
 	gPathfinderManager->Findpath(pSprite->GetPosition(), pTarget->GetSprite()->GetPosition(), cPath);
 	bIsPlayerFound = false;
 
-	while(!cPath.GetDirectionSteps().empty())
+	Vector3f dir = cPath.GetDirectionSteps().top();
+
+
+	if (dir.getX() != 0.0f)
 	{
-		Vector3f dir = cPath.GetDirectionSteps().top();
-
-		if (dir.getX() == VECTOR_UP.getX() && dir.getY() == VECTOR_UP.getY())
-		{
-			fUpDownMove = -1;
-		}
-
-		if (dir.getX() == VECTOR_LEFT.getX() && dir.getY() == VECTOR_LEFT.getY())
-		{
-			fMove = -1;
-		}
-
-		if (dir.getX() == VECTOR_RIGHT.getX() && dir.getY() == VECTOR_RIGHT.getY())
-		{
-			fMove = 1;
-		}
-
-		if (dir.getX() == VECTOR_DOWN.getX() && dir.getY() == VECTOR_DOWN.getY())
-		{
-			fUpDownMove = 1;
-		}
-
-		////////////
-
-		if (dir.getX() == VECTOR_UP_LEFT.getX() && dir.getY() == VECTOR_UP_LEFT.getY())
-		{
-			fUpDownMove = -1;
-			fMove = -1;
-		}
-		if (dir.getX() == VECTOR_UP_RIGHT.getX() && dir.getY() == VECTOR_UP_RIGHT.getY())
-		{
-			fUpDownMove = -1;
-			fMove = 1;
-		}
-		if (dir.getX() == VECTOR_DOWN_RIGHT.getX() && dir.getY() == VECTOR_DOWN_RIGHT.getY())
-		{
-			fUpDownMove = 1;
-			fMove = 1;
-		}
-		if (dir.getX() == VECTOR_DOWN_LEFT.getX() && dir.getY() == VECTOR_DOWN_LEFT.getY())
-		{
-			fUpDownMove = 1;
-			fMove = -1;
-		}
-
-		if (fMove != 0)
-		{
-			Log("fMove: %f", fMove);
-			if (fMove > 0)
-				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x + (PIX2M * 40), pBody->GetTransform().p.y), 0);
-			else
-				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x - (PIX2M * 40), pBody->GetTransform().p.y), 0);
-			fMove = 0;
-		}
-
-		if (fUpDownMove != 0)
-		{
-			Log("fUpDownMove: %f", fUpDownMove);
-			if (fUpDownMove > 0)
-				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y + (PIX2M * 40)), 0);
-			else
-				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y - (PIX2M * 40)), 0);
-			fMove = 0;
-		}
-
-		cPath.GetDirectionSteps().pop();
+		if (dir.getX() > 0.0)
+			pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x + (PIX2M * 40), pBody->GetTransform().p.y), 0);
+		else
+			pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x - (PIX2M * 40), pBody->GetTransform().p.y), 0);
 	}
 
-	pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x - (PIX2M * 40), pBody->GetTransform().p.y), 0);
+	if (dir.getY() != 0.0f)
+	{
+		if (dir.getY() > 0.0f)
+			pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y + (PIX2M * 40)), 0);
+		else
+			pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y - (PIX2M * 40)), 0);
+	}
+
+	while(!cPath.GetDirectionSteps().empty())
+		cPath.GetDirectionSteps().pop();
 }

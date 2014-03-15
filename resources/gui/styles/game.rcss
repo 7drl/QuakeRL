@@ -74,14 +74,29 @@ div#character_div
 
 div#character_armor_div
 {
+	position:fixed;
+	bottom:0;
+	left:0;
+	width: 358;
+	height:77;
 }
 
 div#character_avatar_div
 {
+	position:fixed;
+	bottom:0;
+	left:358;
+	width: 365;
+	height:77;
 }
 
 div#character_ammo_div
 {
+	position:fixed;
+	bottom:0;
+	left:723;
+	width: 301;
+	height:77;
 }
 
 p#levelxp, p#levelxp_enemy
