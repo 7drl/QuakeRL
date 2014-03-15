@@ -156,7 +156,10 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 			}
 		}
 
-		gGameScene->EnemyFindPath();
+		if (pEnemyTarget != nullptr)
+		{
+			pEnemyTarget->FindPathToPlayer();
+		}
 	}
 
 	if (k == eKey::Left || k == eKey::A)
@@ -175,7 +178,10 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 			}
 		}
 
-		gGameScene->EnemyFindPath();
+		if (pEnemyTarget != nullptr)
+		{
+			pEnemyTarget->FindPathToPlayer();
+		}
 	}
 
 	if (k == eKey::Right || k == eKey::D)
@@ -194,7 +200,10 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 			}
 		}
 
-		gGameScene->EnemyFindPath();
+		if (pEnemyTarget != nullptr)
+		{
+			pEnemyTarget->FindPathToPlayer();
+		}
 	}
 
 	if (k == eKey::Down || k == eKey::S)
@@ -213,7 +222,10 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 			}
 		}
 
-		gGameScene->EnemyFindPath();
+		if (pEnemyTarget != nullptr)
+		{
+			pEnemyTarget->FindPathToPlayer();
+		}
 	}
 
 	if (k == eKey::LeftCtrl || k == eKey::RightCtrl)
@@ -456,6 +468,11 @@ void PlayerEntity::SetDefensePower(u32 defensePower)
 void PlayerEntity::SetEnemyTarget(EnemyEntity *enemyTarget)
 {
 	pEnemyTarget = enemyTarget;
+}
+
+EnemyEntity *PlayerEntity::GetEnemyTarget()
+{
+	return pEnemyTarget;
 }
 
 bool PlayerEntity::OnDamage(u32 amount)

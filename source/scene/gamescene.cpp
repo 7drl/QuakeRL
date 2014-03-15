@@ -388,8 +388,3 @@ GameMap& GameScene::GetGameMap()
 {
 	return *pGameMap;
 }
-
-void GameScene::EnemyFindPath()
-{
-	pEnemyEntity->FindPathToPlayer();
-}

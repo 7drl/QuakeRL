@@ -109,13 +109,17 @@ void EnemyEntity::Update(f32 dt)
 
 		if (distance <= 1.0f && !bPlayerLock)
 		{
-			// Register himself to the player as target
-			pTarget->SetEnemyTarget(this);
+			// Verify if the player has a target
+			if (pTarget->GetEnemyTarget() == nullptr)
+			{
+				// Register himself to the player as target
+				pTarget->SetEnemyTarget(this);
 
-			bPlayerLock = true;
-			this->SetDisplayName(this->GetDisplayName());
-			this->SetLevel(this->GetLevel());
-			this->SetLife(this->GetLife());
+				bPlayerLock = true;
+				this->SetDisplayName(this->GetDisplayName());
+				this->SetLevel(this->GetLevel());
+				this->SetLife(this->GetLife());
+			}
 		}
 		else if (bPlayerLock && distance >= 1.0f)
 		{
@@ -198,6 +202,9 @@ bool EnemyEntity::ReceiveDamage(u32 amount, ItemTypes::Weapons weapon)
 		gPhysics->AddBodyToRemove(pBody);
 		pBody = nullptr;
 		bIsDead = true;
+
+		// Remove from the players target
+		pTarget->SetEnemyTarget(nullptr);
 	}
 	else
 		fInvicibleTime = 0.6;
