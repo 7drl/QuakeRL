@@ -369,6 +369,12 @@ ItemTypes::Consumables PlayerEntity::GetItem() const
 void PlayerEntity::SetWeapon(ItemTypes::Weapons weapon)
 {
 	eWeapon = weapon;
+
+	if(GetWeapon() == ItemTypes::Rifle || GetWeapon() == ItemTypes::Shotgun) gGui->SetAmmoSelected(uQuantityAmmoShells);
+	else if(GetWeapon() == ItemTypes::Nailgun || GetWeapon() == ItemTypes::HeavyNailgun) gGui->SetAmmoSelected(uQuantityAmmoNails);
+	else if(GetWeapon() == ItemTypes::GrenadeLauncher || GetWeapon() == ItemTypes::RocketLauncher) gGui->SetAmmoSelected(uQuantityAmmoRockets);
+	else gGui->SetAmmoSelected(uQuantityAmmoShock);
+
 	gGui->OnChangeWeapon(weapon, bWeponsGotten);
 }
 
@@ -626,7 +632,7 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		gGui->SetAmmoNails(uQuantityAmmoNails);
 
 		if(GetWeapon() == ItemTypes::Nailgun)
-			gGui->SetAmmoSelected(uQuantityAmmoShells);
+			gGui->SetAmmoSelected(uQuantityAmmoNails);
 	}
 
 	if(item == ItemTypes::Weapons::HeavyNailgun)
@@ -643,7 +649,7 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		gGui->SetAmmoNails(uQuantityAmmoNails);
 
 		if(GetWeapon() == ItemTypes::HeavyNailgun)
-			gGui->SetAmmoSelected(uQuantityAmmoShells);
+			gGui->SetAmmoSelected(uQuantityAmmoNails);
 	}
 
 	if(item == ItemTypes::Weapons::GrenadeLauncher)
@@ -660,7 +666,7 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		gGui->SetAmmoRockets(uQuantityAmmoRockets);
 
 		if(GetWeapon() == ItemTypes::GrenadeLauncher)
-			gGui->SetAmmoSelected(uQuantityAmmoShells);
+			gGui->SetAmmoSelected(uQuantityAmmoRockets);
 	}
 
 	if(item == ItemTypes::Weapons::RocketLauncher)
@@ -677,7 +683,7 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		gGui->SetAmmoRockets(uQuantityAmmoRockets);
 
 		if(GetWeapon() == ItemTypes::RocketLauncher)
-			gGui->SetAmmoSelected(uQuantityAmmoShells);
+			gGui->SetAmmoSelected(uQuantityAmmoRockets);
 	}
 
 	if(item == ItemTypes::Weapons::Shockgun)
@@ -694,13 +700,17 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		gGui->SetAmmoCells(uQuantityAmmoShock);
 
 		if(GetWeapon() == ItemTypes::Shockgun)
-			gGui->SetAmmoSelected(uQuantityAmmoShells);
+			gGui->SetAmmoSelected(uQuantityAmmoShock);
 	}
 
 	if(item == ItemTypes::HealthPotion)
 	{
 		// Play sound
 		gSoundManager->Play(SND_PICKUP_HEALTH);
+
+		u32 life = GetLife() + amount;
+		SetLife(life);
+		gGui->OnDamageAvatar(life);
 
 		SetLife(amount);
 		gGui->OnDamageAvatar(amount);
