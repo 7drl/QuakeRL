@@ -53,7 +53,9 @@ div#weapon_div
 p#weapon_ammo
 {
 	width: 100%;
-	font-size: 16;
+	font-family: dpquake;
+	font-size: 22;
+	line-height: 36px;
 	color:rgb(111,101,52);
 	text-align: right;
 	height: 30;
