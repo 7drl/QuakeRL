@@ -890,6 +890,24 @@
 					fVolume: 1.0
 					sResource: sounds/pickuphealth.ogg
 				}
+				{
+					sType: SoundSource
+					sName: Death
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/death.ogg
+				}
+				{
+					sType: SoundSource
+					sName: StuckStep
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/stuckstep.ogg
+				}
 			]
 		}
 		{

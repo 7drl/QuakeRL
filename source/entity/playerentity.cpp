@@ -147,6 +147,10 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 		{
 			gGameScene->ChangeLevel();
 		}
+		else
+		{
+			gSoundManager->Play(SND_STUCK_STEP);
+		}
 
 		if (pEnemyTarget != nullptr)
 		{
@@ -172,6 +176,10 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 		else if (tileId == ProceduralManager::eTiles::tileDownStairs)
 		{
 			gGameScene->ChangeLevel();
+		}
+		else
+		{
+			gSoundManager->Play(SND_STUCK_STEP);
 		}
 
 		if (pEnemyTarget != nullptr)
@@ -199,6 +207,10 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 		{
 			gGameScene->ChangeLevel();
 		}
+		else
+		{
+			gSoundManager->Play(SND_STUCK_STEP);
+		}
 
 		if (pEnemyTarget != nullptr)
 		{
@@ -224,6 +236,10 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 		else if (tileId == ProceduralManager::eTiles::tileDownStairs)
 		{
 			gGameScene->ChangeLevel();
+		}
+		else
+		{
+			gSoundManager->Play(SND_STUCK_STEP);
 		}
 
 		if (pEnemyTarget != nullptr)
@@ -571,7 +587,10 @@ bool PlayerEntity::OnDamage(u32 amount)
 		if ((int)life > 1)
 			this->SetLife(life);
 		else
+		{
+			gSoundManager->Play(SND_DEATH);
 			gGameData->SetIsGameOver(true);
+		}
 	}
 	else
 	{

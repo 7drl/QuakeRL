@@ -189,7 +189,9 @@ OTHER_FILES_SOUND = \
 	resources/sounds/pickupgun.ogg \
 	resources/sounds/pickupammo.ogg \
 	resources/sounds/pickuparmor.ogg \
-	resources/sounds/pickuphealth.ogg
+	resources/sounds/pickuphealth.ogg \
+	resources/sounds/death.ogg \
+	resources/sounds/stuckstep.ogg
 
 
 #Maps
