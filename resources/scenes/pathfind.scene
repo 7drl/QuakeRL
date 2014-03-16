@@ -854,7 +854,42 @@
 					fVolume: 1.0
 					sResource: sounds/explosionshot.ogg
 				}
-
+				{
+					sType: SoundSource
+					sName: PickupGun
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/pickupgun.ogg
+				}
+				{
+					sType: SoundSource
+					sName: PickupAmmo
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/pickupammo.ogg
+				}
+				{
+					sType: SoundSource
+					sName: PickupArmor
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/pickuparmor.ogg
+				}
+				{
+					sType: SoundSource
+					sName: PickupHealth
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/pickuphealth.ogg
+				}
 			]
 		}
 		{

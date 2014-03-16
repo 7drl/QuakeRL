@@ -561,11 +561,11 @@ bool PlayerEntity::OnDamage(u32 amount)
 
 void PlayerEntity::OnCollect(u32 item, u32 amount)
 {
-	// Play collect sound
-	gSoundManager->Play(SND_POWERUP);
-
 	if(item == ItemTypes::Weapons::Rifle)
 	{
+		// Play sound
+		gSoundManager->Play(SND_PICKUP_GUN);
+
 		bWeponsGotten[ItemTypes::Weapons::Rifle] = true;
 		uQuantityAmmoShells += 15;
 		SetWeapon(ItemTypes::Weapons::Rifle);
@@ -580,6 +580,9 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 	if(item == ItemTypes::Weapons::Shotgun)
 	{
+		// Play sound
+		gSoundManager->Play(SND_PICKUP_GUN);
+
 		bWeponsGotten[ItemTypes::Weapons::Shotgun] = true;
 		uQuantityAmmoShells += 15;
 		SetWeapon(ItemTypes::Weapons::Shotgun);
@@ -594,6 +597,9 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 	if(item == ItemTypes::Weapons::Nailgun)
 	{
+		// Play sound
+		gSoundManager->Play(SND_PICKUP_GUN);
+
 		bWeponsGotten[ItemTypes::Weapons::Nailgun] = true;
 		uQuantityAmmoNails += 25;
 		SetWeapon(ItemTypes::Weapons::Nailgun);
@@ -608,6 +614,9 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 	if(item == ItemTypes::Weapons::HeavyNailgun)
 	{
+		// Play sound
+		gSoundManager->Play(SND_PICKUP_GUN);
+
 		bWeponsGotten[ItemTypes::Weapons::HeavyNailgun] = true;
 		uQuantityAmmoNails += 25;
 		SetWeapon(ItemTypes::Weapons::HeavyNailgun);
@@ -622,6 +631,9 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 	if(item == ItemTypes::Weapons::GrenadeLauncher)
 	{
+		// Play sound
+		gSoundManager->Play(SND_PICKUP_GUN);
+
 		bWeponsGotten[ItemTypes::Weapons::GrenadeLauncher] = true;
 		uQuantityAmmoRockets += 5;
 		SetWeapon(ItemTypes::Weapons::GrenadeLauncher);
@@ -636,6 +648,9 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 	if(item == ItemTypes::Weapons::RocketLauncher)
 	{
+		// Play sound
+		gSoundManager->Play(SND_PICKUP_GUN);
+
 		bWeponsGotten[ItemTypes::Weapons::RocketLauncher] = true;
 		uQuantityAmmoRockets += 5;
 		SetWeapon(ItemTypes::Weapons::RocketLauncher);
@@ -650,6 +665,9 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 	if(item == ItemTypes::Weapons::Shockgun)
 	{
+		// Play sound
+		gSoundManager->Play(SND_PICKUP_GUN);
+
 		bWeponsGotten[ItemTypes::Weapons::Shockgun] = true;
 		uQuantityAmmoShock += 5;
 		SetWeapon(ItemTypes::Weapons::Shockgun);
@@ -664,8 +682,8 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 	if(item == ItemTypes::HealthPotion)
 	{
-		//TODO play health pickup item
-		//gSoundManager->Play(SND_POWERUP);
+		// Play sound
+		gSoundManager->Play(SND_PICKUP_HEALTH);
 
 		SetLife(amount);
 		gGui->OnDamageAvatar(amount);
@@ -673,24 +691,36 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 	if(item == ItemTypes::LightArmor)
 	{
+		// Play sound
+		gSoundManager->Play(SND_PICKUP_ARMOR);
+
 		SetArmor(amount);
 		gGui->OnGetArmor(amount);
 	}
 
 	if(item == ItemTypes::MediumArmor)
 	{
+		// Play sound
+		gSoundManager->Play(SND_PICKUP_ARMOR);
+
 		SetArmor(amount);
 		gGui->OnGetArmor(amount);
 	}
 
 	if(item == ItemTypes::HeavyArmor)
 	{
+		// Play sound
+		gSoundManager->Play(SND_PICKUP_ARMOR);
+
 		SetArmor(amount);
 		gGui->OnGetArmor(amount);
 	}
 
 	if(item == ItemTypes::ShellsAmmo)
 	{
+		// Play sound
+		gSoundManager->Play(SND_PICKUP_AMMO);
+
 		uQuantityAmmoShells += amount;
 		gGui->SetAmmoShells(uQuantityAmmoShells);
 
@@ -700,6 +730,9 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 	if(item == ItemTypes::NailsAmmo)
 	{
+		// Play sound
+		gSoundManager->Play(SND_PICKUP_AMMO);
+
 		uQuantityAmmoNails += amount;
 		gGui->SetAmmoNails(uQuantityAmmoNails);
 
@@ -709,6 +742,9 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 	if(item == ItemTypes::RocketsAmmo)
 	{
+		// Play sound
+		gSoundManager->Play(SND_PICKUP_AMMO);
+
 		uQuantityAmmoRockets += amount;
 		gGui->SetAmmoRockets(uQuantityAmmoRockets);
 
@@ -719,6 +755,9 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 	if(item == ItemTypes::ShockAmmo)
 	{
+		// Play sound
+		gSoundManager->Play(SND_PICKUP_AMMO);
+
 		uQuantityAmmoShock += amount;
 		gGui->SetAmmoCells(uQuantityAmmoShock);
 
@@ -896,6 +935,15 @@ u32 PlayerEntity::CalculateDamage()
 void PlayerEntity::OnCollision(const CollisionEvent &event)
 {
 	if (event.GetType() == CollisionEventType::OnEnter)
+	{
+		Entity *other = event.GetOtherEntity();
+		if (other != nullptr && other->GetClassName() == "Trigger")
+		{
+			gGameScene->ChangeLevel();
+		}
+	}
+
+	if (event.GetType() == CollisionEventType::OnLeave)
 	{
 		Entity *other = event.GetOtherEntity();
 		if (other != nullptr && other->GetClassName() == "Trigger")

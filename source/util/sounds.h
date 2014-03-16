@@ -18,5 +18,9 @@
 #define SND_ROCKET_LAUCHER_SHOT "RocketLauncherShot"
 #define SND_SHOCKGUN_SHOT "ShockgunShot"
 #define SND_EXPLOSION_SHOT "ExplosionShot"
+#define SND_PICKUP_GUN "PickupGun"
+#define SND_PICKUP_AMMO "PickupAmmo"
+#define SND_PICKUP_ARMOR "PickupArmor"
+#define SND_PICKUP_HEALTH "PickupHealth"
 
 #endif
