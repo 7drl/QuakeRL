@@ -22,5 +22,7 @@
 #define SND_PICKUP_AMMO "PickupAmmo"
 #define SND_PICKUP_ARMOR "PickupArmor"
 #define SND_PICKUP_HEALTH "PickupHealth"
+#define SND_DEATH "Death"
+#define SND_STUCK_STEP "StuckStep"
 
 #endif

@@ -5,6 +5,7 @@
 #include "../util/sounds.h"
 #include "../manager/guimanager.h"
 #include "../gameflow.h"
+#include "../manager/proceduralmanager.h"
 #include <math.h>
 
 #define PIX2M		0.01f
@@ -133,7 +134,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 		Vector3f movePos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) - 40), -10);
 		auto tileId = map->GetTileAt(movePos);
 
-		if (tileId != 3) // Wall
+		if (tileId != ProceduralManager::eTiles::tileStoneWall) // Wall
 		{
 			if (bCanMove)
 			{
@@ -141,6 +142,14 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y - (PIX2M * 40)), 0);
 				bCanMove = false;
 			}
+		}
+		else if (tileId == ProceduralManager::eTiles::tileDownStairs)
+		{
+			gGameScene->ChangeLevel();
+		}
+		else
+		{
+			gSoundManager->Play(SND_STUCK_STEP);
 		}
 
 		if (pEnemyTarget != nullptr)
@@ -155,7 +164,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 		Vector3f movePos = Vector3f(ceil((pBody->GetTransform().p.x * M2PIX) - 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
 		auto tileId = map->GetTileAt(movePos);
 
-		if (tileId != 3) // Wall
+		if (tileId != ProceduralManager::eTiles::tileStoneWall) // Wall
 		{
 			if (bCanMove)
 			{
@@ -163,6 +172,14 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x - (PIX2M * 40), pBody->GetTransform().p.y), 0);
 				bCanMove = false;
 			}
+		}
+		else if (tileId == ProceduralManager::eTiles::tileDownStairs)
+		{
+			gGameScene->ChangeLevel();
+		}
+		else
+		{
+			gSoundManager->Play(SND_STUCK_STEP);
 		}
 
 		if (pEnemyTarget != nullptr)
@@ -177,7 +194,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 		Vector3f movePos = Vector3f(ceil((pBody->GetTransform().p.x * M2PIX) + 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
 		auto tileId = map->GetTileAt(movePos);
 
-		if (tileId != 3) // Wall
+		if (tileId != ProceduralManager::eTiles::tileStoneWall) // Wall
 		{
 			if (bCanMove)
 			{
@@ -185,6 +202,14 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x + (PIX2M * 40), pBody->GetTransform().p.y), 0);
 				bCanMove = false;
 			}
+		}
+		else if (tileId == ProceduralManager::eTiles::tileDownStairs)
+		{
+			gGameScene->ChangeLevel();
+		}
+		else
+		{
+			gSoundManager->Play(SND_STUCK_STEP);
 		}
 
 		if (pEnemyTarget != nullptr)
@@ -199,7 +224,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 		Vector3f movePos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) + 40 ), -10);
 		auto tileId = map->GetTileAt(movePos);
 
-		if (tileId != 3) // Wall
+		if (tileId != ProceduralManager::eTiles::tileStoneWall) // Wall
 		{
 			if (bCanMove)
 			{
@@ -207,6 +232,14 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y + (PIX2M * 40)), 0);
 				bCanMove = false;
 			}
+		}
+		else if (tileId == ProceduralManager::eTiles::tileDownStairs)
+		{
+			gGameScene->ChangeLevel();
+		}
+		else
+		{
+			gSoundManager->Play(SND_STUCK_STEP);
 		}
 
 		if (pEnemyTarget != nullptr)
@@ -554,7 +587,10 @@ bool PlayerEntity::OnDamage(u32 amount)
 		if ((int)life > 1)
 			this->SetLife(life);
 		else
+		{
+			gSoundManager->Play(SND_DEATH);
 			gGameData->SetIsGameOver(true);
+		}
 	}
 	else
 	{
