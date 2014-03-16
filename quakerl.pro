@@ -185,7 +185,11 @@ OTHER_FILES_SOUND = \
 	resources/sounds/grenadeshot.ogg \
 	resources/sounds/rocketlaunchershot.ogg \
 	resources/sounds/shockgunshot.ogg \
-	resources/sounds/explosionshot.ogg
+	resources/sounds/explosionshot.ogg \
+	resources/sounds/pickupgun.ogg \
+	resources/sounds/pickupammo.ogg \
+	resources/sounds/pickuparmor.ogg \
+	resources/sounds/pickuphealth.ogg
 
 
 #Maps
