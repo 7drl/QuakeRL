@@ -581,6 +581,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Weapon");
+									writer.WriteString( "id", "2");
 									writer.WriteString(	"AnimationName", "Rifle");
 									writer.WriteString(	"Amount", "1");
 
@@ -607,6 +608,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Weapon");
+									writer.WriteString( "id", "3");
 									writer.WriteString(	"AnimationName", "Shotgun");
 									writer.WriteString(	"Amount", "1");
 
@@ -633,6 +635,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Weapon");
+									writer.WriteString( "id", "4");
 									writer.WriteString(	"AnimationName", "Nailgun");
 									writer.WriteString(	"Amount", "1");
 
@@ -659,6 +662,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Weapon");
+									writer.WriteString( "id", "5");
 									writer.WriteString(	"AnimationName", "HeavyNailgun");
 									writer.WriteString(	"Amount", "1");
 
@@ -685,6 +689,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Weapon");
+									writer.WriteString( "id", "6");
 									writer.WriteString(	"AnimationName", "GrenadeLauncher");
 									writer.WriteString(	"Amount", "1");
 
@@ -711,6 +716,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Weapon");
+									writer.WriteString( "id", "7");
 									writer.WriteString(	"AnimationName", "RocketLauncher");
 									writer.WriteString(	"Amount", "1");
 
@@ -737,6 +743,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Weapon");
+									writer.WriteString( "id", "8");
 									writer.WriteString(	"AnimationName", "Shockgun");
 									writer.WriteString(	"Amount", "1");
 

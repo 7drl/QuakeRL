@@ -12,6 +12,8 @@ class WeaponEntity: public ItemEntity
 		virtual void Load(MetadataObject &metadata, SceneNode *sprites);
 		virtual void OnCollision(const CollisionEvent &event);
 
+	private:
+		u32 uWeaponId;
 };
 
 #endif // _WEAPON_ENTITY_H

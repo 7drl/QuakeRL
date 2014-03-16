@@ -7,13 +7,13 @@
 		<game id="game">
 			<div id="weapon_div">
 				<p id="weapon_ammo">
-					<h1 id="weapon_ammo_shells">10</h1>
-					<h1 id="weapon_ammo_nails">20</h1>
-					<h1 id="weapon_ammo_rockets">10</h1>
-					<h1 id="weapon_ammo_cells">10</h1>
+					<h1 id="weapon_ammo_shells">25</h1>
+					<h1 id="weapon_ammo_nails">0</h1>
+					<h1 id="weapon_ammo_rockets">0</h1>
+					<h1 id="weapon_ammo_cells">0</h1>
 				</p>
 				<p id="weapon_arsenal">
-					<div id="weapon_shotgun_div" class="weapon_inactive"/>
+					<div id="weapon_shotgun_div" class="weapon_shotgun_on"/>
 					<div id="weapon_super_shotgun_div" class="weapon_inactive"/>
 					<div id="weapon_nailgun_div" class="weapon_inactive"/>
 					<div id="weapon_super_nailgun_div" class="weapon_inactive"/>
@@ -36,9 +36,9 @@
 					</div>
 				</div>
 				<div id="character_ammo_div">
-					<div id="ammo_aparence_div" class="ammo_aparence_cells"/>
+					<div id="ammo_aparence_div" class="ammo_aparence_shells"/>
 					<div id="ammo_quantity_div">
-						<span id="ammo">10</span>
+						<span id="weapon_ammo_shells">25</span>
 					</div>
 				</div>
 			</div>

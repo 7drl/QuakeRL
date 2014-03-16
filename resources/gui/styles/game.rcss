@@ -443,6 +443,10 @@ div#ammo_aparence_div
 	height: 60px;
 }
 
+.ammo_aparence_none
+{
+}
+
 .ammo_aparence_shells
 {
 	background-decorator: image;

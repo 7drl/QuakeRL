@@ -27,7 +27,6 @@ SOURCES += source/main.cpp \
 	source/entity/optimistplayerentity.cpp \
 	source/entity/enemyentity.cpp \
 	source/entity/healthpotionentity.cpp \
-	source/entity/staminapotionentity.cpp \
 	source/manager/pathfindermanager.cpp \
 	source/manager/proceduralmanager.cpp \
 	source/entity/armorentity.cpp \
@@ -66,7 +65,6 @@ HEADERS += \
 	source/entity/optimistplayerentity.h \
 	source/entity/enemyentity.h \
 	source/entity/healthpotionentity.h \
-	source/entity/staminapotionentity.h \
 	source/manager/pathfindermanager.h \
 	source/manager/proceduralmanager.h \
 	source/entity/armorentity.h \

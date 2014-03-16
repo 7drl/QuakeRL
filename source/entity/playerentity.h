@@ -9,12 +9,6 @@
 
 namespace ItemTypes
 {
-	enum Consumables
-	{
-		None,
-		HealthPotion,
-		Armor
-	};
 
 	enum Weapons
 	{
@@ -27,6 +21,15 @@ namespace ItemTypes
 		GrenadeLauncher		= 6,
 		RocketLauncher		= 7,
 		Shockgun			= 8
+	};
+
+	enum Consumables
+	{
+		None				= 9,
+		HealthPotion		= 10,
+		LightArmor			= 11,
+		MediumArmor			= 12,
+		HeavyArmor			= 13,
 	};
 }
 
@@ -68,7 +71,7 @@ class PlayerEntity: public SpriteEntity,
 
 		void Teleport(const b2Vec2 &position);
 		bool OnDamage(u32 amount);
-		void OnCollect(ItemTypes::Consumables item, u32 amount);
+		void OnCollect(u32 item, u32 amount);
 
 		void StopPlayerMovement();
 		void ChangePlayer();
@@ -114,6 +117,7 @@ class PlayerEntity: public SpriteEntity,
 
 		void PlayShotSound();
 		void LoadPlayerDamageAnimation();
+		bool DecreaseAmmo();
 
 		struct PlayerData
 		{

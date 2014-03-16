@@ -25,7 +25,7 @@ PlayerEntity::PlayerEntity()
 	, fMove(0.0f)
 	, fUpDownMove(0.0f)
 	, fInvicibleTime(0.0f)
-	, uQuantityAmmoShells(0)
+	, uQuantityAmmoShells(25)
 	, uQuantityAmmoNails(0)
 	, uQuantityAmmoRockets(0)
 	, uQuantityAmmoShock(0)
@@ -47,7 +47,7 @@ PlayerEntity::PlayerEntity(const char *className, const char *spriteName)
 	, fMove(0.0f)
 	, fUpDownMove(0.0f)
 	, fInvicibleTime(0.0f)
-	, uQuantityAmmoShells(0)
+	, uQuantityAmmoShells(25)
 	, uQuantityAmmoNails(0)
 	, uQuantityAmmoRockets(0)
 	, uQuantityAmmoShock(0)
@@ -219,13 +219,16 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 	{
 		if (pEnemyTarget != nullptr)
 		{
-			Log("Enemy: %s", pEnemyTarget->GetName().c_str());
+			// Verify if player has ammo
+			if(DecreaseAmmo())
+			{
+				// Play shot sound
+				PlayShotSound();
 
-			// Play shot sound
-			PlayShotSound();
+				// Do Damage to the enemy
+				pEnemyTarget->ReceiveDamage(1, GetWeapon());
+			}
 
-			// Do Damage to the enemy
-			pEnemyTarget->ReceiveDamage(1, GetWeapon());
 		}
 	}
 
@@ -528,7 +531,7 @@ bool PlayerEntity::OnDamage(u32 amount)
 	return true;
 }
 
-void PlayerEntity::OnCollect(ItemTypes::Consumables item, u32 amount)
+void PlayerEntity::OnCollect(u32 item, u32 amount)
 {
 	// Play collect sound
 	gSoundManager->Play(SND_POWERUP);
@@ -540,6 +543,83 @@ void PlayerEntity::OnCollect(ItemTypes::Consumables item, u32 amount)
 
 		if ((this->GetLife() + amount) < this->GetLifeTotal())
 			this->SetLife(this->GetLife() + amount);
+	}
+
+	if(item == ItemTypes::Weapons::Rifle)
+	{
+		bWeponsGotten[ItemTypes::Weapons::Rifle] = true;
+		uQuantityAmmoShells += 15;
+		SetWeapon(ItemTypes::Weapons::Rifle);
+
+		// UI
+		gGui->OnChangeWeapon(ItemTypes::Weapons::Rifle, bWeponsGotten);
+		gGui->SetAmmoShells(uQuantityAmmoShells);
+	}
+
+	if(item == ItemTypes::Weapons::Shotgun)
+	{
+		bWeponsGotten[ItemTypes::Weapons::Shotgun] = true;
+		uQuantityAmmoShells += 15;
+		SetWeapon(ItemTypes::Weapons::Shotgun);
+
+		// UI
+		gGui->OnChangeWeapon(ItemTypes::Weapons::Shotgun, bWeponsGotten);
+		gGui->SetAmmoShells(uQuantityAmmoShells);
+	}
+
+	if(item == ItemTypes::Weapons::Nailgun)
+	{
+		bWeponsGotten[ItemTypes::Weapons::Nailgun] = true;
+		uQuantityAmmoNails += 25;
+		SetWeapon(ItemTypes::Weapons::Nailgun);
+
+		// UI
+		gGui->OnChangeWeapon(ItemTypes::Weapons::Nailgun, bWeponsGotten);
+		gGui->SetAmmoNails(uQuantityAmmoNails);
+	}
+
+	if(item == ItemTypes::Weapons::HeavyNailgun)
+	{
+		bWeponsGotten[ItemTypes::Weapons::HeavyNailgun] = true;
+		uQuantityAmmoNails += 25;
+		SetWeapon(ItemTypes::Weapons::HeavyNailgun);
+
+		// UI
+		gGui->OnChangeWeapon(ItemTypes::Weapons::HeavyNailgun, bWeponsGotten);
+		gGui->SetAmmoNails(uQuantityAmmoNails);
+	}
+
+	if(item == ItemTypes::Weapons::GrenadeLauncher)
+	{
+		bWeponsGotten[ItemTypes::Weapons::GrenadeLauncher] = true;
+		uQuantityAmmoRockets += 5;
+		SetWeapon(ItemTypes::Weapons::GrenadeLauncher);
+
+		// UI
+		gGui->OnChangeWeapon(ItemTypes::Weapons::GrenadeLauncher, bWeponsGotten);
+		gGui->SetAmmoRockets(uQuantityAmmoRockets);
+	}
+
+	if(item == ItemTypes::Weapons::RocketLauncher)
+	{
+		bWeponsGotten[ItemTypes::Weapons::RocketLauncher] = true;
+		uQuantityAmmoRockets += 5;
+		SetWeapon(ItemTypes::Weapons::RocketLauncher);
+
+		// UI
+		gGui->OnChangeWeapon(ItemTypes::Weapons::RocketLauncher, bWeponsGotten);
+		gGui->SetAmmoRockets(uQuantityAmmoRockets);
+	}
+
+	if(item == ItemTypes::Weapons::Shockgun)
+	{
+		bWeponsGotten[ItemTypes::Weapons::Shockgun] = true;
+		uQuantityAmmoShock += 5;
+		SetWeapon(ItemTypes::Weapons::Shockgun);
+
+		// UI
+		gGui->OnChangeWeapon(ItemTypes::Weapons::Shockgun, bWeponsGotten);
+		gGui->SetAmmoCells(uQuantityAmmoShock);
 	}
 }
 
@@ -575,6 +655,58 @@ void PlayerEntity::LoadPlayerDamageAnimation()
 		pSprite->SetAnimation("Blood");
 }
 
+bool PlayerEntity::DecreaseAmmo()
+{
+	if(GetWeapon() == ItemTypes::Rifle || GetWeapon() == ItemTypes::Shotgun)
+	{
+		if(uQuantityAmmoShells)
+		{
+			uQuantityAmmoShells--;
+			gGui->SetAmmoShells(uQuantityAmmoShells);
+			return true;
+		}
+		else
+			return false;
+	}
+	else if(GetWeapon() == ItemTypes::Nailgun || GetWeapon() == ItemTypes::HeavyNailgun)
+	{
+		if(uQuantityAmmoNails)
+		{
+			uQuantityAmmoNails--;
+			gGui->SetAmmoNails(uQuantityAmmoNails);
+			return true;
+		}
+		else
+			return false;
+	}
+	else if(GetWeapon() == ItemTypes::GrenadeLauncher
+			|| GetWeapon() == ItemTypes::RocketLauncher)
+	{
+		if(uQuantityAmmoRockets)
+		{
+			uQuantityAmmoRockets--;
+			gGui->SetAmmoRockets(uQuantityAmmoRockets);
+			return true;
+		}
+		else
+			return false;
+	}
+	else if(GetWeapon() == ItemTypes::Shockgun)
+	{
+		if(uQuantityAmmoShock)
+		{
+			uQuantityAmmoShock--;
+			gGui->SetAmmoCells(uQuantityAmmoShock);
+			return true;
+		}
+		else
+			return false;
+	}
+	// Axe damage
+	else
+		return true;
+}
+
 void PlayerEntity::OnCollision(const CollisionEvent &event)
 {
 	if (event.GetType() == CollisionEventType::OnEnter)
@@ -586,3 +718,4 @@ void PlayerEntity::OnCollision(const CollisionEvent &event)
 		}
 	}
 }
+

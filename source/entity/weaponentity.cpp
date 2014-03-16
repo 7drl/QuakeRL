@@ -6,6 +6,7 @@ ENTITY_CREATOR("Weapon", WeaponEntity);
 
 WeaponEntity::WeaponEntity()
 	: ItemEntity("Weapon", "Weapon")
+	, uWeaponId(0)
 {
 
 }
@@ -24,10 +25,13 @@ void WeaponEntity::Load(MetadataObject &metadata, SceneNode *sprites)
 
 	clSensor.Load(metadata, this);
 
+	uWeaponId = std::stoi(metadata.GetProperty("id"));
+
 	if (!metadata.GetProperty("Amount").empty())
 		iAmount = std::stoi(metadata.GetProperty("Amount"));
 	else
 		iAmount = 1;
+
 }
 
 void WeaponEntity::OnCollision(const CollisionEvent &event)
@@ -46,7 +50,7 @@ void WeaponEntity::OnCollision(const CollisionEvent &event)
 			this->clSensor.Disable();
 
 			//Collect Item
-			player->OnCollect(ItemTypes::HealthPotion, this->iAmount);
+			player->OnCollect(uWeaponId, this->iAmount);
 
 		}
 	}

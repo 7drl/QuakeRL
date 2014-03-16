@@ -137,8 +137,17 @@ bool GuiManager::LoadGUI(const String &doc)
 			if (pDoc->GetElementById("life") != nullptr)
 				pElementLife = pDoc->GetElementById("life");
 
-			if (pDoc->GetElementById("ammo") != nullptr)
-				pElementAmmo = pDoc->GetElementById("ammo");
+			if (pDoc->GetElementById("weapon_ammo_shells") != nullptr)
+				pElementAmmoShells = pDoc->GetElementById("weapon_ammo_shells");
+
+			if (pDoc->GetElementById("weapon_ammo_nails") != nullptr)
+				pElementAmmoNails = pDoc->GetElementById("weapon_ammo_nails");
+
+			if (pDoc->GetElementById("weapon_ammo_rockets") != nullptr)
+				pElementAmmoRockets = pDoc->GetElementById("weapon_ammo_rockets");
+
+			if (pDoc->GetElementById("weapon_ammo_cells") != nullptr)
+				pElementAmmoCells = pDoc->GetElementById("weapon_ammo_cells");
 
 			if (pDoc->GetElementById("sfx") != nullptr && gGameData->IsSfxEnabled())
 				pDoc->GetElementById("sfx")->SetAttribute("checked", "");
@@ -302,7 +311,7 @@ void GuiManager::OnGetArmor(const u32 armor)
 	if(armor == 0)			pArmorPicture->SetClassNames("armor_aparence_0");
 	else if(armor == 100)	pArmorPicture->SetClassNames("armor_aparence_100");
 	else if(armor == 150)	pArmorPicture->SetClassNames("armor_aparence_150");
-	else					pArmorPicture->SetClassNames("armor_aparence_200");
+	else if(armor == 200)	pArmorPicture->SetClassNames("armor_aparence_200");
 }
 
 void GuiManager::OnChangeWeapon(const u32 weapon, bool* weaponsGotten)
@@ -399,7 +408,7 @@ void GuiManager::OnGetAmmo(const String &ammoName)
 	if(ammoName == "shells")		pAmmoPicture->SetClassNames("ammo_aparence_shells");
 	else if(ammoName == "nails")	pAmmoPicture->SetClassNames("ammo_aparence_nails");
 	else if(ammoName == "rockets")	pAmmoPicture->SetClassNames("ammo_aparence_rockets");
-	else							pAmmoPicture->SetClassNames("ammo_aparence_cells");
+	else if(ammoName == "cells")	pAmmoPicture->SetClassNames("ammo_aparence_cells");
 }
 
 void GuiManager::SetArmor(u32 armor)
@@ -417,13 +426,33 @@ void GuiManager::SetLife(u32 life)
 }
 
 
-void GuiManager::SetAmmo(u32 quantity)
+void GuiManager::SetAmmoShells(u32 quantity)
 {
 	char x[100];
 	snprintf(x, 100, "%d", quantity);
-	pElementAmmo->SetInnerRML(Rocket::Core::String(x));
+	pElementAmmoShells->SetInnerRML(Rocket::Core::String(x));
 }
 
+void GuiManager::SetAmmoNails(u32 quantity)
+{
+	char x[100];
+	snprintf(x, 100, "%d", quantity);
+	pElementAmmoNails->SetInnerRML(Rocket::Core::String(x));
+}
+
+void GuiManager::SetAmmoRockets(u32 quantity)
+{
+	char x[100];
+	snprintf(x, 100, "%d", quantity);
+	pElementAmmoRockets->SetInnerRML(Rocket::Core::String(x));
+}
+
+void GuiManager::SetAmmoCells(u32 quantity)
+{
+	char x[100];
+	snprintf(x, 100, "%d", quantity);
+	pElementAmmoCells->SetInnerRML(Rocket::Core::String(x));
+}
 
 ISceneObject *GuiManager::GetSceneObject() const
 {
