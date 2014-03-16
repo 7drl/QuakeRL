@@ -93,6 +93,9 @@ void EnemyEntity::Update(f32 dt)
 			// Change enemy sprites to idle
 			LoadEnemyIdleAnimation();
 
+			// Do Damage to the player
+			pTarget->OnDamage(10);
+
 			// Reset invicible time
 			fInvicibleTime = 0;
 		}
@@ -107,15 +110,22 @@ void EnemyEntity::Update(f32 dt)
 		b2Vec2 dir = pTarget->GetBodyPosition() - pBody->GetPosition();
 		f32 distance = dir.Normalize();
 
-		if (distance <= 1.0f && !bPlayerLock)
+		if (distance <= 1.5f && !bPlayerLock)
 		{
-			// Register himself to the player as target
-			pTarget->SetEnemyTarget(this);
+			// Verify if the player has a target
+			if (pTarget->GetEnemyTarget() == nullptr)
+			{
+				// Register himself to the player as target
+				pTarget->SetEnemyTarget(this);
 
-			bPlayerLock = true;
-			this->SetDisplayName(this->GetDisplayName());
-			this->SetLevel(this->GetLevel());
-			this->SetLife(this->GetLife());
+				// Play the awake sound
+				PlayEnemyAwakeSound();
+
+				bPlayerLock = true;
+				this->SetDisplayName(this->GetDisplayName());
+				this->SetLevel(this->GetLevel());
+				this->SetLife(this->GetLife());
+			}
 		}
 		else if (bPlayerLock && distance >= 1.0f)
 		{
@@ -161,22 +171,23 @@ void EnemyEntity::OnCollision(const CollisionEvent &event)
 
 bool EnemyEntity::ReceiveDamage(u32 amount, ItemTypes::Weapons weapon)
 {
-	// Play damage sound
-	gSoundManager->Play(SND_DAMAGE);
-
 	// Change animation
 	if (weapon == ItemTypes::Weapons::Rifle || weapon == ItemTypes::Weapons::Shotgun ||
 		weapon == ItemTypes::Weapons::Nailgun || weapon == ItemTypes::Weapons::HeavyNailgun)
 	{
-		pSprite->SetAnimation("EnemyOgreBlood");
+		LoadEnemyBloodAnimation();
 	}
 	else if (weapon == ItemTypes::Weapons::RocketLauncher || weapon == ItemTypes::Weapons::GrenadeLauncher)
 	{
-		pSprite->SetAnimation("EnemyOgreExplosion");
+		LoadEnemyExplosionAnimation();
+	}
+	else if (weapon == ItemTypes::Weapons::Shockgun)
+	{
+		LoadEnemyShockAnimation();
 	}
 	else
 	{
-		pSprite->SetAnimation("EnemyOgreBlood");
+		LoadEnemyBloodAnimation();
 	}
 
 	if (fInvicibleTime > 0)
@@ -194,6 +205,9 @@ bool EnemyEntity::ReceiveDamage(u32 amount, ItemTypes::Weapons weapon)
 		gPhysics->AddBodyToRemove(pBody);
 		pBody = nullptr;
 		bIsDead = true;
+
+		// Remove from the players target
+		pTarget->SetEnemyTarget(nullptr);
 	}
 	else
 		fInvicibleTime = 0.6;
@@ -280,3 +294,53 @@ void EnemyEntity::LoadEnemyIdleAnimation()
 	else
 		pSprite->SetAnimation("EnemyGrunt");
 }
+
+void EnemyEntity::LoadEnemyBloodAnimation()
+{
+	if (sEnemy.iEnemyId == 1)
+		pSprite->SetAnimation("EnemyGruntBlood");
+	else if (sEnemy.iEnemyId == 2)
+		pSprite->SetAnimation("EnemyOgreBlood");
+	else if (sEnemy.iEnemyId == 3)
+		pSprite->SetAnimation("EnemyKnightBlood");
+	else
+		pSprite->SetAnimation("EnemyGruntBlood");
+}
+
+void EnemyEntity::LoadEnemyExplosionAnimation()
+{
+	if (sEnemy.iEnemyId == 1)
+		pSprite->SetAnimation("EnemyGruntExplosion");
+	else if (sEnemy.iEnemyId == 2)
+		pSprite->SetAnimation("EnemyOgreExplosion");
+	else if (sEnemy.iEnemyId == 3)
+		pSprite->SetAnimation("EnemyKnightExplosion");
+	else
+		pSprite->SetAnimation("EnemyGruntExplosion");
+
+}
+
+void EnemyEntity::LoadEnemyShockAnimation()
+{
+	if (sEnemy.iEnemyId == 1)
+		pSprite->SetAnimation("EnemyGruntShock");
+	else if (sEnemy.iEnemyId == 2)
+		pSprite->SetAnimation("EnemyOgreShock");
+	else if (sEnemy.iEnemyId == 3)
+		pSprite->SetAnimation("EnemyKnightShock");
+	else
+		pSprite->SetAnimation("EnemyGruntShock");
+}
+
+void EnemyEntity::PlayEnemyAwakeSound()
+{
+	if (sEnemy.iEnemyId == 1)
+		gSoundManager->Play(SND_GRUNT_WAKE);
+	else if (sEnemy.iEnemyId == 2)
+		gSoundManager->Play(SND_OGRE_WAKE);
+	else if (sEnemy.iEnemyId == 3)
+		gSoundManager->Play(SND_KNIGHT_WAKE);
+	else
+		gSoundManager->Play(SND_GRUNT_WAKE);
+}
+

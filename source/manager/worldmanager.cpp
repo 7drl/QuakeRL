@@ -91,8 +91,12 @@ String WorldManager::GenerateProceduralMap()
 	mapFileName.append("proceduralmap.json");
 
 	// Upstairs posistion
-	int upStairsX = 0;
-	int upStairsY = 0;
+	u32 upStairsX = 0;
+	u32 upStairsY = 0;
+
+	// Downstairs position
+	u32 downStairsX = 0;
+	u32 downStairsY = 0;
 
 	Writer writer;
 
@@ -109,7 +113,7 @@ String WorldManager::GenerateProceduralMap()
 	// Open node Properties
 	writer.OpenNode("properties");
 
-		writer.WriteString("NextLevel", "dungeon.scene");
+		writer.WriteString("NextLevel", "pathfind.scene");
 
 	// Close node Properties
 	writer.CloseNode();
@@ -141,6 +145,12 @@ String WorldManager::GenerateProceduralMap()
 					{
 						upStairsX = x;
 						upStairsY = y;
+					}
+
+					if (proceduralManager.GetTile(x, y) == ProceduralManager::eTiles::tileDownStairs)
+					{
+						downStairsX = x;
+						downStairsY = y;
 					}
 				}
 			}
@@ -214,8 +224,8 @@ String WorldManager::GenerateProceduralMap()
 
 					writer.WriteString("name"	, "OptimistPlayer");
 					writer.WriteString("type"	, "");
-					writer.WriteU32("height"	, 0);
-					writer.WriteU32("width"		, 0);
+					writer.WriteU32("height"	, 40);
+					writer.WriteU32("width"		, 40);
 					writer.WriteU32("x"			, upStairsX * 40 + 20);
 					writer.WriteU32("y"			, upStairsY * 40 + 20);
 					writer.WriteBool("visible"	, true);
@@ -229,6 +239,29 @@ String WorldManager::GenerateProceduralMap()
 					writer.CloseNode();
 
 				// Close node OptimistPlayer
+				writer.CloseNode();
+
+				// Open node DownStairs to the Next level
+				writer.OpenNode();
+
+					writer.WriteString("name"	, "NextLevel");
+					writer.WriteString("type"	, "");
+					writer.WriteU32("height"	, 40);
+					writer.WriteU32("width"		, 40);
+					writer.WriteU32("x"			, downStairsX * 40);
+					writer.WriteU32("y"			, downStairsY * 40);
+					writer.WriteBool("visible"	, true);
+
+					// Open node Properties
+					writer.OpenNode("properties");
+
+						writer.WriteString(	"Class", "Trigger");
+						writer.WriteBool("Once", true);
+
+					// Close node Properties
+					writer.CloseNode();
+
+				// Close node DownStairs to the Next level
 				writer.CloseNode();
 
 				// Here we will open a lot of nodes to create enemies and objects
@@ -330,8 +363,8 @@ String WorldManager::GenerateProceduralMap()
 
 							writer.WriteString("name"	, "HealthPotion");
 							writer.WriteString("type"	, "");
-							writer.WriteU32("height"	, 40);
-							writer.WriteU32("width"		, 40);
+							writer.WriteU32("height"	, 20);
+							writer.WriteU32("width"		, 20);
 							writer.WriteU32("x"			, x * 40 + 20);
 							writer.WriteU32("y"			, y * 40 + 20);
 							writer.WriteBool("visible"	, true);
@@ -355,8 +388,8 @@ String WorldManager::GenerateProceduralMap()
 
 							writer.WriteString("name"	, "Armor");
 							writer.WriteString("type"	, "");
-							writer.WriteU32("height"	, 40);
-							writer.WriteU32("width"		, 40);
+							writer.WriteU32("height"	, 20);
+							writer.WriteU32("width"		, 20);
 							writer.WriteU32("x"			, x * 40 + 20);
 							writer.WriteU32("y"			, y * 40 + 20);
 							writer.WriteBool("visible"	, true);
@@ -381,8 +414,8 @@ String WorldManager::GenerateProceduralMap()
 
 							writer.WriteString("name"	, "Armor");
 							writer.WriteString("type"	, "");
-							writer.WriteU32("height"	, 40);
-							writer.WriteU32("width"		, 40);
+							writer.WriteU32("height"	, 20);
+							writer.WriteU32("width"		, 20);
 							writer.WriteU32("x"			, x * 40 + 20);
 							writer.WriteU32("y"			, y * 40 + 20);
 							writer.WriteBool("visible"	, true);
@@ -407,8 +440,8 @@ String WorldManager::GenerateProceduralMap()
 
 							writer.WriteString("name"	, "Armor");
 							writer.WriteString("type"	, "");
-							writer.WriteU32("height"	, 40);
-							writer.WriteU32("width"		, 40);
+							writer.WriteU32("height"	, 20);
+							writer.WriteU32("width"		, 20);
 							writer.WriteU32("x"			, x * 40 + 20);
 							writer.WriteU32("y"			, y * 40 + 20);
 							writer.WriteBool("visible"	, true);
@@ -433,8 +466,8 @@ String WorldManager::GenerateProceduralMap()
 
 							writer.WriteString("name"	, "Ammo");
 							writer.WriteString("type"	, "");
-							writer.WriteU32("height"	, 40);
-							writer.WriteU32("width"		, 40);
+							writer.WriteU32("height"	, 20);
+							writer.WriteU32("width"		, 20);
 							writer.WriteU32("x"			, x * 40 + 20);
 							writer.WriteU32("y"			, y * 40 + 20);
 							writer.WriteBool("visible"	, true);
@@ -459,8 +492,8 @@ String WorldManager::GenerateProceduralMap()
 
 							writer.WriteString("name"	, "Ammo");
 							writer.WriteString("type"	, "");
-							writer.WriteU32("height"	, 40);
-							writer.WriteU32("width"		, 40);
+							writer.WriteU32("height"	, 20);
+							writer.WriteU32("width"		, 20);
 							writer.WriteU32("x"			, x * 40 + 20);
 							writer.WriteU32("y"			, y * 40 + 20);
 							writer.WriteBool("visible"	, true);
@@ -485,8 +518,8 @@ String WorldManager::GenerateProceduralMap()
 
 							writer.WriteString("name"	, "Ammo");
 							writer.WriteString("type"	, "");
-							writer.WriteU32("height"	, 40);
-							writer.WriteU32("width"		, 40);
+							writer.WriteU32("height"	, 20);
+							writer.WriteU32("width"		, 20);
 							writer.WriteU32("x"			, x * 40 + 20);
 							writer.WriteU32("y"			, y * 40 + 20);
 							writer.WriteBool("visible"	, true);
@@ -511,8 +544,8 @@ String WorldManager::GenerateProceduralMap()
 
 							writer.WriteString("name"	, "Ammo");
 							writer.WriteString("type"	, "");
-							writer.WriteU32("height"	, 40);
-							writer.WriteU32("width"		, 40);
+							writer.WriteU32("height"	, 20);
+							writer.WriteU32("width"		, 20);
 							writer.WriteU32("x"			, x * 40 + 20);
 							writer.WriteU32("y"			, y * 40 + 20);
 							writer.WriteBool("visible"	, true);
@@ -538,8 +571,8 @@ String WorldManager::GenerateProceduralMap()
 
 							writer.WriteString("name"	, "Weapon");
 							writer.WriteString("type"	, "");
-							writer.WriteU32("height"	, 40);
-							writer.WriteU32("width"		, 40);
+							writer.WriteU32("height"	, 20);
+							writer.WriteU32("width"		, 20);
 							writer.WriteU32("x"			, x * 40 + 20);
 							writer.WriteU32("y"			, y * 40 + 20);
 							writer.WriteBool("visible"	, true);
@@ -564,8 +597,8 @@ String WorldManager::GenerateProceduralMap()
 
 							writer.WriteString("name"	, "Weapon");
 							writer.WriteString("type"	, "");
-							writer.WriteU32("height"	, 40);
-							writer.WriteU32("width"		, 40);
+							writer.WriteU32("height"	, 20);
+							writer.WriteU32("width"		, 20);
 							writer.WriteU32("x"			, x * 40 + 20);
 							writer.WriteU32("y"			, y * 40 + 20);
 							writer.WriteBool("visible"	, true);
@@ -590,8 +623,8 @@ String WorldManager::GenerateProceduralMap()
 
 							writer.WriteString("name"	, "Weapon");
 							writer.WriteString("type"	, "");
-							writer.WriteU32("height"	, 40);
-							writer.WriteU32("width"		, 40);
+							writer.WriteU32("height"	, 20);
+							writer.WriteU32("width"		, 20);
 							writer.WriteU32("x"			, x * 40 + 20);
 							writer.WriteU32("y"			, y * 40 + 20);
 							writer.WriteBool("visible"	, true);
@@ -616,8 +649,8 @@ String WorldManager::GenerateProceduralMap()
 
 							writer.WriteString("name"	, "Weapon");
 							writer.WriteString("type"	, "");
-							writer.WriteU32("height"	, 40);
-							writer.WriteU32("width"		, 40);
+							writer.WriteU32("height"	, 20);
+							writer.WriteU32("width"		, 20);
 							writer.WriteU32("x"			, x * 40 + 20);
 							writer.WriteU32("y"			, y * 40 + 20);
 							writer.WriteBool("visible"	, true);
@@ -642,8 +675,8 @@ String WorldManager::GenerateProceduralMap()
 
 							writer.WriteString("name"	, "Weapon");
 							writer.WriteString("type"	, "");
-							writer.WriteU32("height"	, 40);
-							writer.WriteU32("width"		, 40);
+							writer.WriteU32("height"	, 20);
+							writer.WriteU32("width"		, 20);
 							writer.WriteU32("x"			, x * 40 + 20);
 							writer.WriteU32("y"			, y * 40 + 20);
 							writer.WriteBool("visible"	, true);
@@ -668,8 +701,8 @@ String WorldManager::GenerateProceduralMap()
 
 							writer.WriteString("name"	, "Weapon");
 							writer.WriteString("type"	, "");
-							writer.WriteU32("height"	, 40);
-							writer.WriteU32("width"		, 40);
+							writer.WriteU32("height"	, 20);
+							writer.WriteU32("width"		, 20);
 							writer.WriteU32("x"			, x * 40 + 20);
 							writer.WriteU32("y"			, y * 40 + 20);
 							writer.WriteBool("visible"	, true);
@@ -694,8 +727,8 @@ String WorldManager::GenerateProceduralMap()
 
 							writer.WriteString("name"	, "Weapon");
 							writer.WriteString("type"	, "");
-							writer.WriteU32("height"	, 40);
-							writer.WriteU32("width"		, 40);
+							writer.WriteU32("height"	, 20);
+							writer.WriteU32("width"		, 20);
 							writer.WriteU32("x"			, x * 40 + 20);
 							writer.WriteU32("y"			, y * 40 + 20);
 							writer.WriteBool("visible"	, true);

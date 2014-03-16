@@ -16,8 +16,8 @@ OptimistPlayerEntity::OptimistPlayerEntity()
 	sPlayer.iAttackPower = 15;
 	sPlayer.iDefensePower = 5;
 	sPlayer.iGold = 10;
-	sPlayer.iLife = 22;
-	sPlayer.iLifeTotal = 22;
+	sPlayer.iLife = 100;
+	sPlayer.iLifeTotal = 100;
 	sPlayer.iStamina = 5;
 	sPlayer.iStaminaTotal = 5;
 }

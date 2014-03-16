@@ -175,11 +175,11 @@ bool GameScene::Update(f32 dt)
 
 	if (bChangeLevel)
 	{
-		fTimeToNextLevel -= dt;
-		if (fTimeToNextLevel <= 0)
-		{
+		//fTimeToNextLevel -= dt;
+		//if (fTimeToNextLevel <= 0)
+		//{
 			gFlow->LoadSceneFile(strNextLevel);
-		}
+		//}
 	}
 
 	if (gGameData->sGamePlay.bIsGameOver == true)
@@ -387,9 +387,4 @@ void GameScene::RemoveLife()
 GameMap& GameScene::GetGameMap()
 {
 	return *pGameMap;
-}
-
-void GameScene::EnemyFindPath()
-{
-	pEnemyEntity->FindPathToPlayer();
 }

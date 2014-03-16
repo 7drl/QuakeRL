@@ -18,7 +18,7 @@ PlayerEntity::PlayerEntity()
 	, vLastPlayerPos(b2Vec2(0,0))
 	, vPlayerVectorDirection()
 	, eItem(ItemTypes::Consumables::None)
-	, eWeapon(ItemTypes::Weapons::Axe)
+	, eWeapon(ItemTypes::Weapons::Rifle)
 	, iPreviousState(Idle)
 	, iCurrentState(Idle)
 	, fVelocity(0.0f)
@@ -40,7 +40,7 @@ PlayerEntity::PlayerEntity(const char *className, const char *spriteName)
 	, vLastPlayerPos(b2Vec2(0,0))
 	, vPlayerVectorDirection()
 	, eItem(ItemTypes::Consumables::None)
-	, eWeapon(ItemTypes::Weapons::Axe)
+	, eWeapon(ItemTypes::Weapons::Rifle)
 	, iPreviousState(Idle)
 	, iCurrentState(Idle)
 	, fVelocity(0.0f)
@@ -108,30 +108,18 @@ void PlayerEntity::Update(f32 dt)
 {
 	if (fInvicibleTime > 0)
 	{
-		pSprite->SetVisible(!pSprite->IsVisible());
 
 		fInvicibleTime -= dt;
 		if (fInvicibleTime <= 0)
 		{
-			pSprite->SetVisible(true);
 			fInvicibleTime = 0;
 			SetState(Idle);
+			pSprite->SetAnimation("Idle");
+
+			// Add the ability to move again
+			bCanMove = true;
 		}
 	}
-
-	if (iCurrentState == iPreviousState)
-		return;
-
-	if (iCurrentState == Run)
-	{
-		pSprite->SetAnimation("Run");
-	}
-	else
-	{
-		pSprite->SetAnimation("Idle");
-	}
-
-	iPreviousState = iCurrentState;
 }
 
 bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
@@ -155,7 +143,10 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 			}
 		}
 
-		gGameScene->EnemyFindPath();
+		if (pEnemyTarget != nullptr)
+		{
+			pEnemyTarget->FindPathToPlayer();
+		}
 	}
 
 	if (k == eKey::Left || k == eKey::A)
@@ -174,7 +165,10 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 			}
 		}
 
-		gGameScene->EnemyFindPath();
+		if (pEnemyTarget != nullptr)
+		{
+			pEnemyTarget->FindPathToPlayer();
+		}
 	}
 
 	if (k == eKey::Right || k == eKey::D)
@@ -193,7 +187,10 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 			}
 		}
 
-		gGameScene->EnemyFindPath();
+		if (pEnemyTarget != nullptr)
+		{
+			pEnemyTarget->FindPathToPlayer();
+		}
 	}
 
 	if (k == eKey::Down || k == eKey::S)
@@ -212,7 +209,10 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 			}
 		}
 
-		gGameScene->EnemyFindPath();
+		if (pEnemyTarget != nullptr)
+		{
+			pEnemyTarget->FindPathToPlayer();
+		}
 	}
 
 	if (k == eKey::LeftCtrl || k == eKey::RightCtrl)
@@ -222,7 +222,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 			Log("Enemy: %s", pEnemyTarget->GetName().c_str());
 
 			// Play shot sound
-			// TODO
+			PlayShotSound();
 
 			// Do Damage to the enemy
 			pEnemyTarget->ReceiveDamage(1, GetWeapon());
@@ -284,21 +284,45 @@ bool PlayerEntity::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 	if (k == eKey::Up|| k == eKey::W)
 	{
 		bCanMove = true;
+
+		//Receive damage
+		if (pEnemyTarget != nullptr)
+		{
+			OnDamage(10);
+		}
 	}
 
 	if (k == eKey::Left|| k == eKey::A)
 	{
 		bCanMove = true;
+
+		//Receive damage
+		if (pEnemyTarget != nullptr)
+		{
+			OnDamage(10);
+		}
 	}
 
 	if (k == eKey::Right|| k == eKey::D)
 	{
 		bCanMove = true;
+
+		//Receive damage
+		if (pEnemyTarget != nullptr)
+		{
+			OnDamage(10);
+		}
 	}
 
 	if (k == eKey::Down|| k == eKey::S)
 	{
 		bCanMove = true;
+
+		//Receive damage
+		if (pEnemyTarget != nullptr)
+		{
+			OnDamage(10);
+		}
 	}
 
 	if (fUpDownMove == 0 && fMove == 0)
@@ -468,19 +492,27 @@ void PlayerEntity::SetEnemyTarget(EnemyEntity *enemyTarget)
 	pEnemyTarget = enemyTarget;
 }
 
+EnemyEntity *PlayerEntity::GetEnemyTarget()
+{
+	return pEnemyTarget;
+}
+
 bool PlayerEntity::OnDamage(u32 amount)
 {
-	// Play damage sound
-	gSoundManager->Play(SND_DAMAGE);
-
 	// Move Player to last tile position
-	pBody->SetTransform(vLastPlayerPos, 0);
+	//pBody->SetTransform(vLastPlayerPos, 0);
+
+	// Load player damage animation
+	LoadPlayerDamageAnimation();
 
 	// Create the ghost effect
 	if (fInvicibleTime > 0)
 		return false;
 
-	fInvicibleTime = 1.0f;
+	// Play damage sound
+	gSoundManager->Play(SND_DAMAGE);
+
+	fInvicibleTime = 0.6f;
 
 	// Receive the damage
 	u32 life = this->GetLife() - amount;
@@ -492,9 +524,6 @@ bool PlayerEntity::OnDamage(u32 amount)
 		this->SetLife(life);
 	else
 		gGameData->SetIsGameOver(true);
-
-	// Add the ability to move again
-	bCanMove = true;
 
 	return true;
 }
@@ -526,6 +555,26 @@ void PlayerEntity::ReceiveKey(u32 key)
 	sPlayer.iKey = key;
 }
 
+void PlayerEntity::PlayShotSound()
+{
+	if (GetWeapon() == ItemTypes::Weapons::Rifle)
+	{
+		gSoundManager->Play(SND_RIFLE_SHOT);
+	}
+}
+
+void PlayerEntity::LoadPlayerDamageAnimation()
+{
+	if (pEnemyTarget->sEnemy.iEnemyId == 1)
+		pSprite->SetAnimation("Blood");
+	else if (pEnemyTarget->sEnemy.iEnemyId == 2)
+		pSprite->SetAnimation("Explosion");
+	else if (pEnemyTarget->sEnemy.iEnemyId == 3)
+		pSprite->SetAnimation("Blood");
+	else
+		pSprite->SetAnimation("Blood");
+}
+
 void PlayerEntity::OnCollision(const CollisionEvent &event)
 {
 	if (event.GetType() == CollisionEventType::OnEnter)
@@ -533,7 +582,7 @@ void PlayerEntity::OnCollision(const CollisionEvent &event)
 		Entity *other = event.GetOtherEntity();
 		if (other != nullptr && other->GetClassName() == "Trigger")
 		{
-			gGameScene->UseKey(this->GiveKey());
+			gGameScene->ChangeLevel();
 		}
 	}
 }

@@ -42,6 +42,64 @@
 								}
 							]
 						}
+						{
+							sName: "Blood"
+							bAnimated: true
+							bLoop: true
+							iFps: 8
+							aFrames:
+							[
+								{
+									sResource: textures/player_blood.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/player_blood.png
+									cBoundary: {iX: 40, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/player_blood.png
+									cBoundary: {iX: 80, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/player_blood.png
+									cBoundary: {iX: 120, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/player_blood.png
+									cBoundary: {iX: 160, iY: 0, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "Explosion"
+							bAnimated: true
+							bLoop: true
+							iFps: 8
+							aFrames:
+							[
+								{
+									sResource: textures/player_explosion.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/player_explosion.png
+									cBoundary: {iX: 40, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/player_explosion.png
+									cBoundary: {iX: 80, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/player_explosion.png
+									cBoundary: {iX: 120, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/player_explosion.png
+									cBoundary: {iX: 160, iY: 0, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
 					]
 				}
 				{
@@ -64,6 +122,93 @@
 								{
 									sResource: textures/quakerl_enemy_tileset.png
 									cBoundary: {iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "EnemyGruntExplosion"
+							bAnimated: true
+							bLoop: true
+							iFps: 8
+							aFrames:
+							[
+								{
+									sResource: textures/enemy_grunt_explosion.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_explosion.png
+									cBoundary: {iX: 40, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_explosion.png
+									cBoundary: {iX: 80, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_explosion.png
+									cBoundary: {iX: 120, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_explosion.png
+									cBoundary: {iX: 160, iY: 0, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "EnemyGruntBlood"
+							bAnimated: true
+							bLoop: true
+							iFps: 8
+							aFrames:
+							[
+								{
+									sResource: textures/enemy_grunt_blood.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_blood.png
+									cBoundary: {iX: 40, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_blood.png
+									cBoundary: {iX: 80, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_blood.png
+									cBoundary: {iX: 120, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_blood.png
+									cBoundary: {iX: 160, iY: 0, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "EnemyGruntShock"
+							bAnimated: true
+							bLoop: true
+							iFps: 8
+							aFrames:
+							[
+								{
+									sResource: textures/enemy_grunt_shock.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_shock.png
+									cBoundary: {iX: 40, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_shock.png
+									cBoundary: {iX: 80, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_shock.png
+									cBoundary: {iX: 120, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_grunt_shock.png
+									cBoundary: {iX: 160, iY: 0, iWidth: 40, iHeight: 40}
 								}
 							]
 						}
@@ -139,6 +284,35 @@
 							]
 						}
 						{
+							sName: "EnemyOgreShock"
+							bAnimated: true
+							bLoop: true
+							iFps: 8
+							aFrames:
+							[
+								{
+									sResource: textures/enemy_ogre_shock.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_ogre_shock.png
+									cBoundary: {iX: 40, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_ogre_shock.png
+									cBoundary: {iX: 80, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_ogre_shock.png
+									cBoundary: {iX: 120, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_ogre_shock.png
+									cBoundary: {iX: 160, iY: 0, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
 							sName: "EnemyKnight"
 							bAnimated: true
 							bLoop: true
@@ -148,6 +322,93 @@
 								{
 									sResource: textures/quakerl_enemy_tileset.png
 									cBoundary: {iX: 0, iY: 80, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "EnemyKnightExplosion"
+							bAnimated: true
+							bLoop: true
+							iFps: 8
+							aFrames:
+							[
+								{
+									sResource: textures/enemy_knight_explosion.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_explosion.png
+									cBoundary: {iX: 40, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_explosion.png
+									cBoundary: {iX: 80, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_explosion.png
+									cBoundary: {iX: 120, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_explosion.png
+									cBoundary: {iX: 160, iY: 0, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "EnemyKnightBlood"
+							bAnimated: true
+							bLoop: true
+							iFps: 8
+							aFrames:
+							[
+								{
+									sResource: textures/enemy_knight_blood.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_blood.png
+									cBoundary: {iX: 40, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_blood.png
+									cBoundary: {iX: 80, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_blood.png
+									cBoundary: {iX: 120, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_blood.png
+									cBoundary: {iX: 160, iY: 0, iWidth: 40, iHeight: 40}
+								}
+							]
+						}
+						{
+							sName: "EnemyKnightShock"
+							bAnimated: true
+							bLoop: true
+							iFps: 8
+							aFrames:
+							[
+								{
+									sResource: textures/enemy_knight_shock.png
+									cBoundary: {iX: 0, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_shock.png
+									cBoundary: {iX: 40, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_shock.png
+									cBoundary: {iX: 80, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_shock.png
+									cBoundary: {iX: 120, iY: 0, iWidth: 40, iHeight: 40}
+								}
+								{
+									sResource: textures/enemy_knight_shock.png
+									cBoundary: {iX: 160, iY: 0, iWidth: 40, iHeight: 40}
 								}
 							]
 						}
@@ -493,6 +754,42 @@
 					bLoop: false
 					fVolume: 1.0
 					sResource: sounds/teleport.ogg
+				}
+				{
+					sType: SoundSource
+					sName: OgreWake
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/ogrewake.ogg
+				}
+				{
+					sType: SoundSource
+					sName: GruntWake
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/gruntwake.ogg
+				}
+				{
+					sType: SoundSource
+					sName: KnightWake
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/knightwake.ogg
+				}
+				{
+					sType: SoundSource
+					sName: RifleShot
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/rifleshot.ogg
 				}
 			]
 		}

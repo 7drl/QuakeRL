@@ -21,6 +21,10 @@ class EnemyEntity: public SpriteEntity
 
 		virtual bool ReceiveDamage(u32 amount, ItemTypes::Weapons weapon);
 		virtual void LoadEnemyIdleAnimation();
+		virtual void LoadEnemyBloodAnimation();
+		virtual void LoadEnemyExplosionAnimation();
+		virtual void LoadEnemyShockAnimation();
+		virtual void PlayEnemyAwakeSound();
 
 		struct EnemyData
 		{

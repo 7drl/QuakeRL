@@ -110,6 +110,10 @@ class PlayerEntity: public SpriteEntity,
 		void SetDefensePower(u32 defensePower);
 
 		void SetEnemyTarget(EnemyEntity *enemyTarget);
+		EnemyEntity *GetEnemyTarget();
+
+		void PlayShotSound();
+		void LoadPlayerDamageAnimation();
 
 		struct PlayerData
 		{
