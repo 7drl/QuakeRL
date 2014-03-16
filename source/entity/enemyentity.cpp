@@ -201,7 +201,7 @@ bool EnemyEntity::ReceiveDamage(u32 amount, ItemTypes::Weapons weapon)
 	this->SetLife(this->GetLife() - amount);
 
 	// Set animation time
-	fInvicibleTime = 0.6;
+	fInvicibleTime = 0.6f;
 
 	if((int)this->GetLife() <= 0)
 	{

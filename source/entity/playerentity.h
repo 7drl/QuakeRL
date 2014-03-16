@@ -146,6 +146,9 @@ class PlayerEntity: public SpriteEntity,
 		} sPlayer;
 
 	protected:
+		void SetState(int newState);
+
+	protected:
 		b2Body *pBody;
 		b2Vec2 vLastPlayerPos;
 		Vector3f vPlayerVectorDirection;
@@ -169,7 +172,7 @@ class PlayerEntity: public SpriteEntity,
 		u32 uQuantityAmmoRockets;
 		u32 uQuantityAmmoShock;
 
-		bool bWeponsGotten[9] = {false, true, true , false, false, false, false, false, false};
+		bool bWeponsGotten[9];// = {false, true, true, false, false, false, false, false, false}; // VS2013 is almost C++03 standard compliant complete, imagine then C++11.
 
 		// Maybe in the future we could put that in a list, Then the player could manage weapons in an inventory
 		WeaponEntity cRifleWeapon;
@@ -184,7 +187,6 @@ class PlayerEntity: public SpriteEntity,
 		EnemyEntity *pEnemyTarget;
 
 		bool bCanMove;
-		void SetState(int newState);
 };
 
 #endif
