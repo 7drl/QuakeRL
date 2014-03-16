@@ -31,7 +31,6 @@ PlayerEntity::PlayerEntity()
 	, uQuantityAmmoShock(0)
 	, pEnemyTarget(nullptr)
 	, bCanMove(true)
-
 {
 }
 
@@ -323,11 +322,22 @@ ItemTypes::Consumables PlayerEntity::GetItem() const
 void PlayerEntity::SetWeapon(ItemTypes::Weapons weapon)
 {
 	eWeapon = weapon;
+	gGui->OnChangeWeapon(weapon, bWeponsGotten);
 }
 
 ItemTypes::Weapons PlayerEntity::GetWeapon() const
 {
 	return eWeapon;
+}
+
+void PlayerEntity::SetWeaponGot(ItemTypes::Weapons weapon)
+{
+	bWeponsGotten[weapon] = true;
+}
+
+bool* PlayerEntity::GetWeaponGot()
+{
+	return bWeponsGotten;
 }
 
 void PlayerEntity::StopPlayerMovement()

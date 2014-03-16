@@ -18,14 +18,15 @@ namespace ItemTypes
 
 	enum Weapons
 	{
-		Axe,
-		Rifle,
-		Shotgun,
-		Nailgun,
-		HeavyNailgun,
-		GrenadeLauncher,
-		RocketLauncher,
-		Shockgun
+		Empty				= 0,
+		Axe					= 1,
+		Rifle				= 2,
+		Shotgun				= 3,
+		Nailgun				= 4,
+		HeavyNailgun		= 5,
+		GrenadeLauncher		= 6,
+		RocketLauncher		= 7,
+		Shockgun			= 8
 	};
 }
 
@@ -61,6 +62,9 @@ class PlayerEntity: public SpriteEntity,
 
 		void SetWeapon(ItemTypes::Weapons weapon);
 		ItemTypes::Weapons GetWeapon() const;
+
+		void SetWeaponGot(ItemTypes::Weapons weapon);
+		bool *GetWeaponGot();
 
 		void Teleport(const b2Vec2 &position);
 		bool OnDamage(u32 amount);
@@ -146,6 +150,8 @@ class PlayerEntity: public SpriteEntity,
 		u32 uQuantityAmmoNails;
 		u32 uQuantityAmmoRockets;
 		u32 uQuantityAmmoShock;
+
+		bool bWeponsGotten[9] = {false, true, true , false, false, false, false, false, false};
 
 		// Maybe in the future we could put that in a list, Then the player could manage weapons in an inventory
 		WeaponEntity cRifleWeapon;

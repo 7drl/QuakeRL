@@ -110,6 +110,27 @@ bool GuiManager::LoadGUI(const String &doc)
 			if (pDoc->GetElementById("character_ammo_div") != nullptr)
 				pAmmoPicture = pDoc->GetElementById("character_ammo_div");
 
+			if (pDoc->GetElementById("weapon_shotgun_div") != nullptr)
+				pWeaponRifle = pDoc->GetElementById("weapon_shotgun_div");
+
+			if (pDoc->GetElementById("weapon_super_shotgun_div") != nullptr)
+				pWeaponShotgun = pDoc->GetElementById("weapon_super_shotgun_div");
+
+			if (pDoc->GetElementById("weapon_nailgun_div") != nullptr)
+				pWeaponNailgun = pDoc->GetElementById("weapon_nailgun_div");
+
+			if (pDoc->GetElementById("weapon_super_nailgun_div") != nullptr)
+				pWeaponHeavyNailgun = pDoc->GetElementById("weapon_super_nailgun_div");
+
+			if (pDoc->GetElementById("weapon_rocketgun_div") != nullptr)
+				pWeaponGrenadeLauchenr = pDoc->GetElementById("weapon_rocketgun_div");
+
+			if (pDoc->GetElementById("weapon_super_rocketgun_div") != nullptr)
+				pWeaponRocketLauncher = pDoc->GetElementById("weapon_super_rocketgun_div");
+
+			if (pDoc->GetElementById("weapon_railgun_div") != nullptr)
+				pWeaponShockgun = pDoc->GetElementById("weapon_railgun_div");
+
 			if (pDoc->GetElementById("armor") != nullptr)
 				pElementArmor = pDoc->GetElementById("armor");
 
@@ -282,6 +303,86 @@ void GuiManager::OnGetArmor(const u32 armor)
 	else if(armor == 100)	pArmorPicture->SetClassNames("armor_aparence_100");
 	else if(armor == 150)	pArmorPicture->SetClassNames("armor_aparence_150");
 	else					pArmorPicture->SetClassNames("armor_aparence_200");
+}
+
+void GuiManager::OnChangeWeapon(const u32 weapon, bool* weaponsGotten)
+{
+	switch (weapon)
+	{
+		case ItemTypes::Weapons::Rifle:
+			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_on" : "weapon_inactive");
+			pWeaponShotgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shotgun] ? "weapon_super_shotgun_off" : "weapon_inactive");
+			pWeaponNailgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Nailgun] ? "weapon_nailgun_off" : "weapon_inactive");
+			pWeaponHeavyNailgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::HeavyNailgun] ? "weapon_super_nailgun_off" : "weapon_inactive");
+			pWeaponGrenadeLauchenr->SetClassNames(weaponsGotten[ItemTypes::Weapons::GrenadeLauncher] ? "weapon_rocketgun_off" : "weapon_inactive");
+			pWeaponRocketLauncher->SetClassNames(weaponsGotten[ItemTypes::Weapons::RocketLauncher] ? "weapon_super_rocketgun_off" : "weapon_inactive");
+			pWeaponShockgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shockgun] ? "weapon_railgun_off" : "weapon_inactive");
+		break;
+		case ItemTypes::Weapons::Shotgun:
+			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
+			pWeaponShotgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shotgun] ? "weapon_super_shotgun_on" : "weapon_inactive");
+			pWeaponNailgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Nailgun] ? "weapon_nailgun_off" : "weapon_inactive");
+			pWeaponHeavyNailgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::HeavyNailgun] ? "weapon_super_nailgun_off" : "weapon_inactive");
+			pWeaponGrenadeLauchenr->SetClassNames(weaponsGotten[ItemTypes::Weapons::GrenadeLauncher] ? "weapon_rocketgun_off" : "weapon_inactive");
+			pWeaponRocketLauncher->SetClassNames(weaponsGotten[ItemTypes::Weapons::RocketLauncher] ? "weapon_super_rocketgun_off" : "weapon_inactive");
+			pWeaponShockgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shockgun] ? "weapon_railgun_off" : "weapon_inactive");
+		break;
+		case ItemTypes::Weapons::Nailgun:
+			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
+			pWeaponShotgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shotgun] ? "weapon_super_shotgun_off" : "weapon_inactive");
+			pWeaponNailgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Nailgun] ? "weapon_nailgun_on" : "weapon_inactive");
+			pWeaponHeavyNailgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::HeavyNailgun] ? "weapon_super_nailgun_off" : "weapon_inactive");
+			pWeaponGrenadeLauchenr->SetClassNames(weaponsGotten[ItemTypes::Weapons::GrenadeLauncher] ? "weapon_rocketgun_off" : "weapon_inactive");
+			pWeaponRocketLauncher->SetClassNames(weaponsGotten[ItemTypes::Weapons::RocketLauncher] ? "weapon_super_rocketgun_off" : "weapon_inactive");
+			pWeaponShockgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shockgun] ? "weapon_railgun_off" : "weapon_inactive");
+		break;
+		case ItemTypes::Weapons::HeavyNailgun:
+			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
+			pWeaponShotgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shotgun] ? "weapon_super_shotgun_off" : "weapon_inactive");
+			pWeaponNailgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Nailgun] ? "weapon_nailgun_off" : "weapon_inactive");
+			pWeaponHeavyNailgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::HeavyNailgun] ? "weapon_super_nailgun_on" : "weapon_inactive");
+			pWeaponGrenadeLauchenr->SetClassNames(weaponsGotten[ItemTypes::Weapons::GrenadeLauncher] ? "weapon_rocketgun_off" : "weapon_inactive");
+			pWeaponRocketLauncher->SetClassNames(weaponsGotten[ItemTypes::Weapons::RocketLauncher] ? "weapon_super_rocketgun_off" : "weapon_inactive");
+			pWeaponShockgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shockgun] ? "weapon_railgun_off" : "weapon_inactive");
+		break;
+		case ItemTypes::Weapons::GrenadeLauncher:
+			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
+			pWeaponShotgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shotgun] ? "weapon_super_shotgun_off" : "weapon_inactive");
+			pWeaponNailgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Nailgun] ? "weapon_nailgun_off" : "weapon_inactive");
+			pWeaponHeavyNailgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::HeavyNailgun] ? "weapon_super_nailgun_off" : "weapon_inactive");
+			pWeaponGrenadeLauchenr->SetClassNames(weaponsGotten[ItemTypes::Weapons::GrenadeLauncher] ? "weapon_rocketgun_on" : "weapon_inactive");
+			pWeaponRocketLauncher->SetClassNames(weaponsGotten[ItemTypes::Weapons::RocketLauncher] ? "weapon_super_rocketgun_off" : "weapon_inactive");
+			pWeaponShockgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shockgun] ? "weapon_railgun_off" : "weapon_inactive");
+		break;
+		case ItemTypes::Weapons::RocketLauncher:
+			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
+			pWeaponShotgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shotgun] ? "weapon_super_shotgun_off" : "weapon_inactive");
+			pWeaponNailgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Nailgun] ? "weapon_nailgun_off" : "weapon_inactive");
+			pWeaponHeavyNailgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::HeavyNailgun] ? "weapon_super_nailgun_off" : "weapon_inactive");
+			pWeaponGrenadeLauchenr->SetClassNames(weaponsGotten[ItemTypes::Weapons::GrenadeLauncher] ? "weapon_rocketgun_off" : "weapon_inactive");
+			pWeaponRocketLauncher->SetClassNames(weaponsGotten[ItemTypes::Weapons::RocketLauncher] ? "weapon_super_rocketgun_on" : "weapon_inactive");
+			pWeaponShockgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shockgun] ? "weapon_railgun_off" : "weapon_inactive");
+		break;
+		case ItemTypes::Weapons::Shockgun:
+			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
+			pWeaponShotgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shotgun] ? "weapon_super_shotgun_off" : "weapon_inactive");
+			pWeaponNailgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Nailgun] ? "weapon_nailgun_off" : "weapon_inactive");
+			pWeaponHeavyNailgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::HeavyNailgun] ? "weapon_super_nailgun_off" : "weapon_inactive");
+			pWeaponGrenadeLauchenr->SetClassNames(weaponsGotten[ItemTypes::Weapons::GrenadeLauncher] ? "weapon_rocketgun_off" : "weapon_inactive");
+			pWeaponRocketLauncher->SetClassNames(weaponsGotten[ItemTypes::Weapons::RocketLauncher] ? "weapon_super_rocketgun_off" : "weapon_inactive");
+			pWeaponShockgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shockgun] ? "weapon_railgun_on" : "weapon_inactive");
+		break;
+
+		default:
+			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
+			pWeaponShotgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shotgun] ? "weapon_super_shotgun_off" : "weapon_inactive");
+			pWeaponNailgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Nailgun] ? "weapon_nailgun_off" : "weapon_inactive");
+			pWeaponHeavyNailgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::HeavyNailgun] ? "weapon_super_nailgun_off" : "weapon_inactive");
+			pWeaponGrenadeLauchenr->SetClassNames(weaponsGotten[ItemTypes::Weapons::GrenadeLauncher] ? "weapon_rocketgun_off" : "weapon_inactive");
+			pWeaponRocketLauncher->SetClassNames(weaponsGotten[ItemTypes::Weapons::RocketLauncher] ? "weapon_super_rocketgun_off" : "weapon_inactive");
+			pWeaponShockgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shockgun] ? "weapon_railgun_off" : "weapon_inactive");
+		break;
+	}
 }
 
 void GuiManager::OnDamageAvatar(const u32 life)

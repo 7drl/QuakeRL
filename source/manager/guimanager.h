@@ -34,6 +34,7 @@ class GuiManager : public IRocketEventListener
 
 		void OnDamageAvatar(const u32 life);
 		void OnGetArmor(const u32 armor);
+		void OnChangeWeapon(const u32 weapon, bool *weaponsGotten);
 		void OnGetAmmo(const String &ammoName);
 
 		void SetArmor(u32 armor);
@@ -57,10 +58,27 @@ private:
 		Rocket::Core::ElementDocument *pDoc;
 		Rocket::Core::ElementDocument *pStackedDoc;
 
+		bool	isWeaponShotgunGotten;
+		bool	isWeaponRifleGotten;
+		bool	isWeaponNailgunGotten;
+		bool	isWeaponHeavyNailgunGotten;
+		bool	isWeaponGrenadeLauchenrGotten;
+		bool	isWeaponRocketLauncherGotten;
+		bool	isWeaponShockgunGotten;
+
 		// GUI Elements
 		Rocket::Core::Element	*pArmorPicture;
 		Rocket::Core::Element	*pAvatarPicture;
 		Rocket::Core::Element	*pAmmoPicture;
+
+		// Weapons
+		Rocket::Core::Element	*pWeaponShotgun;
+		Rocket::Core::Element	*pWeaponRifle;
+		Rocket::Core::Element	*pWeaponNailgun;
+		Rocket::Core::Element	*pWeaponHeavyNailgun;
+		Rocket::Core::Element	*pWeaponGrenadeLauchenr;
+		Rocket::Core::Element	*pWeaponRocketLauncher;
+		Rocket::Core::Element	*pWeaponShockgun;
 
 		Rocket::Core::Element	*pElementArmor;
 		Rocket::Core::Element	*pElementLife;
