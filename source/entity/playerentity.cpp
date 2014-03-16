@@ -121,6 +121,16 @@ void PlayerEntity::Update(f32 dt)
 			bCanMove = true;
 		}
 	}
+
+	// UGLY - This is used to by pass a problem with colliders
+	auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
+	Vector3f curPos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX)), -10);
+	auto tileId = map->GetTileAt(curPos);
+
+	if (tileId == ProceduralManager::eTiles::tileDownStairs)
+	{
+		gGameScene->ChangeLevel();
+	}
 }
 
 bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
@@ -142,10 +152,6 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y - (PIX2M * 40)), 0);
 				bCanMove = false;
 			}
-		}
-		else if (tileId == ProceduralManager::eTiles::tileDownStairs)
-		{
-			gGameScene->ChangeLevel();
 		}
 		else
 		{
@@ -173,10 +179,6 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				bCanMove = false;
 			}
 		}
-		else if (tileId == ProceduralManager::eTiles::tileDownStairs)
-		{
-			gGameScene->ChangeLevel();
-		}
 		else
 		{
 			gSoundManager->Play(SND_STUCK_STEP);
@@ -203,10 +205,6 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				bCanMove = false;
 			}
 		}
-		else if (tileId == ProceduralManager::eTiles::tileDownStairs)
-		{
-			gGameScene->ChangeLevel();
-		}
 		else
 		{
 			gSoundManager->Play(SND_STUCK_STEP);
@@ -232,10 +230,6 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y + (PIX2M * 40)), 0);
 				bCanMove = false;
 			}
-		}
-		else if (tileId == ProceduralManager::eTiles::tileDownStairs)
-		{
-			gGameScene->ChangeLevel();
 		}
 		else
 		{
