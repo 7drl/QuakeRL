@@ -24,6 +24,7 @@ class EnemyEntity: public SpriteEntity
 		virtual void LoadEnemyBloodAnimation();
 		virtual void LoadEnemyExplosionAnimation();
 		virtual void LoadEnemyShockAnimation();
+		virtual void PlayEnemyAwakeSound();
 
 		struct EnemyData
 		{

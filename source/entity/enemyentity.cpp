@@ -93,6 +93,9 @@ void EnemyEntity::Update(f32 dt)
 			// Change enemy sprites to idle
 			LoadEnemyIdleAnimation();
 
+			// Do Damage to the player
+			pTarget->OnDamage(10);
+
 			// Reset invicible time
 			fInvicibleTime = 0;
 		}
@@ -114,6 +117,9 @@ void EnemyEntity::Update(f32 dt)
 			{
 				// Register himself to the player as target
 				pTarget->SetEnemyTarget(this);
+
+				// Play the awake sound
+				PlayEnemyAwakeSound();
 
 				bPlayerLock = true;
 				this->SetDisplayName(this->GetDisplayName());
@@ -165,9 +171,6 @@ void EnemyEntity::OnCollision(const CollisionEvent &event)
 
 bool EnemyEntity::ReceiveDamage(u32 amount, ItemTypes::Weapons weapon)
 {
-	// Play damage sound
-	gSoundManager->Play(SND_DAMAGE);
-
 	// Change animation
 	if (weapon == ItemTypes::Weapons::Rifle || weapon == ItemTypes::Weapons::Shotgun ||
 		weapon == ItemTypes::Weapons::Nailgun || weapon == ItemTypes::Weapons::HeavyNailgun)
@@ -327,6 +330,17 @@ void EnemyEntity::LoadEnemyShockAnimation()
 		pSprite->SetAnimation("EnemyKnightShock");
 	else
 		pSprite->SetAnimation("EnemyGruntShock");
+}
 
+void EnemyEntity::PlayEnemyAwakeSound()
+{
+	if (sEnemy.iEnemyId == 1)
+		gSoundManager->Play(SND_GRUNT_WAKE);
+	else if (sEnemy.iEnemyId == 2)
+		gSoundManager->Play(SND_OGRE_WAKE);
+	else if (sEnemy.iEnemyId == 3)
+		gSoundManager->Play(SND_KNIGHT_WAKE);
+	else
+		gSoundManager->Play(SND_GRUNT_WAKE);
 }
 

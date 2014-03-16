@@ -108,6 +108,9 @@ class PlayerEntity: public SpriteEntity,
 		void SetEnemyTarget(EnemyEntity *enemyTarget);
 		EnemyEntity *GetEnemyTarget();
 
+		void PlayShotSound();
+		void LoadPlayerDamageAnimation();
+
 		struct PlayerData
 		{
 			String displayName;

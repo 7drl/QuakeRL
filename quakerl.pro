@@ -141,7 +141,10 @@ OTHER_FILES_TEXTURE = \
 	resources/textures/enemy_grunt_shock.png \
 	resources/textures/enemy_knight_explosion.png \
 	resources/textures/enemy_knight_blood.png \
-	resources/textures/enemy_knight_shock.png
+	resources/textures/enemy_knight_shock.png \
+	resources/textures/player_shock.png \
+	resources/textures/player_blood.png \
+	resources/textures/player_explosion.png
 
 #Gui
 OTHER_FILES_GUI_STYLE = \
@@ -174,7 +177,11 @@ OTHER_FILES_SOUND = \
 	resources/sounds/damage.ogg \
 	resources/sounds/metal_game_over.ogg \
 	resources/sounds/jump.ogg \
-	resources/sounds/teleport.ogg
+	resources/sounds/teleport.ogg \
+	resources/sounds/gruntwake.ogg \
+	resources/sounds/ogrewake.ogg \
+	resources/sounds/knightwake.ogg \
+	resources/sounds/rifleshot.ogg
 
 #Maps
 OTHER_FILES_MAPS = \
