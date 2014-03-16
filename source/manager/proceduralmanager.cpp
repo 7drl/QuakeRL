@@ -14,7 +14,10 @@ ProceduralManager::ProceduralManager()
 	, iChanceCorridor(0)
 	, clRand()
 {
-
+	// Initialize rand component
+	time_t seed;
+	seed = time(NULL);
+	clRand.Initialize(u32(seed));
 }
 
 ProceduralManager::~ProceduralManager()
@@ -26,9 +29,6 @@ ProceduralManager::~ProceduralManager()
 
 void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeonObjects)
 {
-	// Initialize rand component
-	clRand.Initialize();
-
 	// Initialize common values
 	iChanceRoom = 75;
 	iChanceCorridor = 25;
@@ -93,7 +93,7 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 	u32 currentFeatures = 1; //+1 for the first room we just made
 
 	// Then we sart the main loop to build the world
-	for (int countingTries = 0; countingTries < 1000; countingTries++)
+	for (s32 countingTries = 0; countingTries < 1000; countingTries++)
 	{
 		//check if we've reached our quota
 		if (currentFeatures == iObjects)
@@ -106,7 +106,7 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 		u32 xmod = 0;
 		u32 newy = 0;
 		u32 ymod = 0;
-		int validTile = -1;
+		s32 validTile = -1;
 		//1000 chances to find a suitable object (room or corridor)..
 		//(yea, i know it's kinda ugly with a for-loop... -_-')
 		for (u32 testing = 0; testing < 1000; testing++)
@@ -121,7 +121,7 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 				{
 					validTile = 0; //
 					xmod = 0;
-					ymod = -1;
+					ymod = -1;// BUG HERE.. u32??
 				}
 				else if (GetTile(newx-1, newy) == tileBrickRoomFloor)
 				{
@@ -138,7 +138,7 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 				else if (GetTile(newx+1, newy) == tileBrickRoomFloor)
 				{
 					validTile = 3; //
-					xmod = -1;
+					xmod = -1;//BUG HERE.. u32??
 					ymod = 0;
 				}
 
@@ -163,7 +163,7 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 		if (validTile > -1)
 		{
 			//choose what to build now at our newly found place, and at what direction
-			u32 feature = clRand.Get((u32)0, (u32)100);
+			u32 feature = clRand.Get(0u, 100u);
 			if (feature <= iChanceRoom){ //a new room
 				if (MakeRoom((newx+xmod), (newy+ymod), 8, 6, validTile))
 				{
@@ -192,8 +192,8 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 
 	// UpStairs
 	bool upStairsPlaced = false;
-	int upStairsX = 0;
-	int upStairsY = 0;
+	s32 upStairsX = 0;
+	s32 upStairsY = 0;
 
 	while (!upStairsPlaced)
 	{
@@ -211,8 +211,8 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 
 	// DownStairs
 	bool downStairsPlaced = false;
-	int downStairsX = 0;
-	int downStairsY = 0;
+	s32 downStairsX = 0;
+	s32 downStairsY = 0;
 
 	while (!downStairsPlaced)
 	{
@@ -254,7 +254,7 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 				tileToVerify != tileStoneWall &&
 				enemyToVerify == enemyNull)
 		{
-			SetEnemy(xEnemyPlace, yEnemyPlace, clRand.Get((u32)enemyGrunt, (u32)enemyKnight));
+			SetEnemy(xEnemyPlace, yEnemyPlace, clRand.Get(u32(enemyGrunt), u32(enemyKnight)));
 			quantityEnemies--;
 		}
 	}
@@ -277,7 +277,7 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 				enemyToVerify == enemyNull &&
 				itemToVerify == itemNull)
 		{
-			SetItem(xItemPlace, yItemPlace, clRand.Get((u32)itemHealth, (u32)itemWeaponShockgun));
+			SetItem(xItemPlace, yItemPlace, clRand.Get(u32(itemHealth), u32(itemWeaponShockgun)));
 			quantityItems--;
 		}
 	}
@@ -335,8 +335,9 @@ bool ProceduralManager::MakeRoom(u32 x, u32 y, u32 xlength, u32 ylength, u32 dir
 	u32 wall = tileStoneWall;
 
 	// Choose the way it's pointing at
-	int dir = 0;
-	if (direction > 0 && direction < 4) dir = direction;
+	s32 dir = 0;
+	if (direction > 0 && direction < 4) 
+		dir = direction;
 
 	switch(dir)
 	{
