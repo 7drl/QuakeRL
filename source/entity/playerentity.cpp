@@ -574,10 +574,15 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 		bWeponsGotten[ItemTypes::Weapons::Rifle] = true;
 		uQuantityAmmoShells += 15;
-		SetWeapon(ItemTypes::Weapons::Rifle);
+
+		// Change weapon only if its better then the player
+		if(GetWeapon() < ItemTypes::Weapons::Rifle)
+		{
+			SetWeapon(ItemTypes::Weapons::Rifle);
+			gGui->OnChangeWeapon(ItemTypes::Weapons::Rifle, bWeponsGotten);
+		}
 
 		// UI
-		gGui->OnChangeWeapon(ItemTypes::Weapons::Rifle, bWeponsGotten);
 		gGui->SetAmmoShells(uQuantityAmmoShells);
 
 		if(GetWeapon() == ItemTypes::Rifle)
@@ -591,10 +596,15 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 		bWeponsGotten[ItemTypes::Weapons::Shotgun] = true;
 		uQuantityAmmoShells += 15;
-		SetWeapon(ItemTypes::Weapons::Shotgun);
+
+		// Change weapon only if its better then the player
+		if(GetWeapon() < ItemTypes::Weapons::Shotgun)
+		{
+			SetWeapon(ItemTypes::Weapons::Shotgun);
+			gGui->OnChangeWeapon(ItemTypes::Weapons::Shotgun, bWeponsGotten);
+		}
 
 		// UI
-		gGui->OnChangeWeapon(ItemTypes::Weapons::Shotgun, bWeponsGotten);
 		gGui->SetAmmoShells(uQuantityAmmoShells);
 
 		if(GetWeapon() == ItemTypes::Shotgun)
@@ -608,10 +618,15 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 		bWeponsGotten[ItemTypes::Weapons::Nailgun] = true;
 		uQuantityAmmoNails += 25;
-		SetWeapon(ItemTypes::Weapons::Nailgun);
+
+		// Change weapon only if its better then the player
+		if(GetWeapon() < ItemTypes::Weapons::Nailgun)
+		{
+			SetWeapon(ItemTypes::Weapons::Nailgun);
+			gGui->OnChangeWeapon(ItemTypes::Weapons::Nailgun, bWeponsGotten);
+		}
 
 		// UI
-		gGui->OnChangeWeapon(ItemTypes::Weapons::Nailgun, bWeponsGotten);
 		gGui->SetAmmoNails(uQuantityAmmoNails);
 
 		if(GetWeapon() == ItemTypes::Nailgun)
@@ -625,10 +640,15 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 		bWeponsGotten[ItemTypes::Weapons::HeavyNailgun] = true;
 		uQuantityAmmoNails += 25;
-		SetWeapon(ItemTypes::Weapons::HeavyNailgun);
+
+		// Change weapon only if its better then the player
+		if(GetWeapon() < ItemTypes::Weapons::HeavyNailgun)
+		{
+			SetWeapon(ItemTypes::Weapons::HeavyNailgun);
+			gGui->OnChangeWeapon(ItemTypes::Weapons::HeavyNailgun, bWeponsGotten);
+		}
 
 		// UI
-		gGui->OnChangeWeapon(ItemTypes::Weapons::HeavyNailgun, bWeponsGotten);
 		gGui->SetAmmoNails(uQuantityAmmoNails);
 
 		if(GetWeapon() == ItemTypes::HeavyNailgun)
@@ -642,10 +662,15 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 		bWeponsGotten[ItemTypes::Weapons::GrenadeLauncher] = true;
 		uQuantityAmmoRockets += 5;
-		SetWeapon(ItemTypes::Weapons::GrenadeLauncher);
+
+		// Change weapon only if its better then the player
+		if(GetWeapon() < ItemTypes::Weapons::GrenadeLauncher)
+		{
+			SetWeapon(ItemTypes::Weapons::GrenadeLauncher);
+			gGui->OnChangeWeapon(ItemTypes::Weapons::GrenadeLauncher, bWeponsGotten);
+		}
 
 		// UI
-		gGui->OnChangeWeapon(ItemTypes::Weapons::GrenadeLauncher, bWeponsGotten);
 		gGui->SetAmmoRockets(uQuantityAmmoRockets);
 
 		if(GetWeapon() == ItemTypes::GrenadeLauncher)
@@ -659,10 +684,15 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 		bWeponsGotten[ItemTypes::Weapons::RocketLauncher] = true;
 		uQuantityAmmoRockets += 5;
-		SetWeapon(ItemTypes::Weapons::RocketLauncher);
+
+		// Change weapon only if its better then the player
+		if(GetWeapon() < ItemTypes::Weapons::RocketLauncher)
+		{
+			SetWeapon(ItemTypes::Weapons::RocketLauncher);
+			gGui->OnChangeWeapon(ItemTypes::Weapons::RocketLauncher, bWeponsGotten);
+		}
 
 		// UI
-		gGui->OnChangeWeapon(ItemTypes::Weapons::RocketLauncher, bWeponsGotten);
 		gGui->SetAmmoRockets(uQuantityAmmoRockets);
 
 		if(GetWeapon() == ItemTypes::RocketLauncher)
@@ -676,10 +706,15 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 		bWeponsGotten[ItemTypes::Weapons::Shockgun] = true;
 		uQuantityAmmoShock += 5;
-		SetWeapon(ItemTypes::Weapons::Shockgun);
+
+		// Change weapon only if its better then the player
+		if(GetWeapon() < ItemTypes::Weapons::Shockgun)
+		{
+			SetWeapon(ItemTypes::Weapons::Shockgun);
+			gGui->OnChangeWeapon(ItemTypes::Weapons::Shockgun, bWeponsGotten);
+		}
 
 		// UI
-		gGui->OnChangeWeapon(ItemTypes::Weapons::Shockgun, bWeponsGotten);
 		gGui->SetAmmoCells(uQuantityAmmoShock);
 
 		if(GetWeapon() == ItemTypes::Shockgun)
@@ -694,9 +729,6 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		u32 life = GetLife() + amount;
 		SetLife(life);
 		gGui->OnDamageAvatar(life);
-
-		SetLife(amount);
-		gGui->OnDamageAvatar(amount);
 	}
 
 	if(item == ItemTypes::LightArmor)

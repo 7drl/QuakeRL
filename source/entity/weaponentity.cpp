@@ -51,7 +51,6 @@ void WeaponEntity::OnCollision(const CollisionEvent &event)
 
 			//Collect Item
 			player->OnCollect(uWeaponId, this->iAmount);
-
 		}
 	}
 }

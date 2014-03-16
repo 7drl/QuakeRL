@@ -1,5 +1,6 @@
 #include "pathfindermanager.h"
 #include "map/pathfind/AStarPathfinder.h"
+#include "proceduralmanager.h"
 
 PathfinderManager::PathfinderManager()
 	: pPathfinder(nullptr)
@@ -13,7 +14,7 @@ PathfinderManager::~PathfinderManager()
 
 void PathfinderManager::Init(MapLayerTiled *mapBackground)
 {
-	pPathfinder = sdNew(AStarPathfinder(false, false, 40, 3, mapBackground));
+	pPathfinder = sdNew(AStarPathfinder(false, false, 40, ProceduralManager::eTiles::tileStoneWall, mapBackground));
 }
 
 
