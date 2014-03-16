@@ -791,6 +791,70 @@
 					fVolume: 1.0
 					sResource: sounds/rifleshot.ogg
 				}
+				{
+					sType: SoundSource
+					sName: ShotgunShot
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/shotgunshot.ogg
+				}
+				{
+					sType: SoundSource
+					sName: NailgunShot
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/nailgunshot.ogg
+				}
+				{
+					sType: SoundSource
+					sName: HeavyNailgunShot
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/heavynailgunshot.ogg
+				}
+				{
+					sType: SoundSource
+					sName: GrenadeLauncherShot
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/grenadelaunchershot.ogg
+				}
+				{
+					sType: SoundSource
+					sName: RocketLauncherShot
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/rocketlaunchershot.ogg
+				}
+				{
+					sType: SoundSource
+					sName: ShockgunShot
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/shockgunshot.ogg
+				}
+				{
+					sType: SoundSource
+					sName: ExplosionShot
+					cPosition: {x: 0, y: 0, z: 0}
+					bAutoPlay: false
+					bLoop: false
+					fVolume: 1.0
+					sResource: sounds/explosionshot.ogg
+				}
+
 			]
 		}
 		{

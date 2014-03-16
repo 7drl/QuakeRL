@@ -31,8 +31,7 @@ SOURCES += source/main.cpp \
 	source/manager/proceduralmanager.cpp \
 	source/entity/armorentity.cpp \
 	source/entity/weaponentity.cpp \
-	source/entity/ammoentity.cpp \
-	source/entity/projectileentity.cpp
+	source/entity/ammoentity.cpp
 
 HEADERS += \
 	source/defines.h \
@@ -69,8 +68,7 @@ HEADERS += \
 	source/manager/proceduralmanager.h \
 	source/entity/armorentity.h \
 	source/entity/weaponentity.h \
-	source/entity/ammoentity.h \
-	source/entity/projectileentity.h
+	source/entity/ammoentity.h
 
 OTHER_FILES_CONFIG = \
 #Configs
@@ -179,7 +177,15 @@ OTHER_FILES_SOUND = \
 	resources/sounds/gruntwake.ogg \
 	resources/sounds/ogrewake.ogg \
 	resources/sounds/knightwake.ogg \
-	resources/sounds/rifleshot.ogg
+	resources/sounds/rifleshot.ogg \
+	resources/sounds/shotgunshot.ogg \
+	resources/sounds/nailgunshot.ogg \
+	resources/sounds/heavynailgunshot.ogg \
+	resources/sounds/grenadeshot.ogg \
+	resources/sounds/rocketlaunchershot.ogg \
+	resources/sounds/shockgunshot.ogg \
+	resources/sounds/explosionshot.ogg
+
 
 #Maps
 OTHER_FILES_MAPS = \

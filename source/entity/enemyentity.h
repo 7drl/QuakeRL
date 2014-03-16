@@ -49,6 +49,8 @@ class EnemyEntity: public SpriteEntity
 		void FindPathToPlayer();
 		b2Vec2 GetBodyPosition() const;
 
+		bool IsDead() const;
+
 	private:
 		PlayerEntity *pTarget;
 		b2Body *pBody;
