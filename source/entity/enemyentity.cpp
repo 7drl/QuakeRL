@@ -82,8 +82,6 @@ void EnemyEntity::Load(MetadataObject &metadata, SceneNode *sprites)
 
 void EnemyEntity::Update(f32 dt)
 {
-	if (!pBody)
-		return;
 
 	if (fInvicibleTime > 0)
 	{
@@ -94,12 +92,18 @@ void EnemyEntity::Update(f32 dt)
 			LoadEnemyIdleAnimation();
 
 			// Do Damage to the player
-			pTarget->OnDamage(10);
+			pTarget->OnDamage(sEnemy.iAttackPower);
 
 			// Reset invicible time
 			fInvicibleTime = 0;
+
+			if (bIsDead)
+				this->pSprite->SetVisible(false);
 		}
 	}
+
+	if (!pBody)
+		return;
 
 	// Search a nerby player
 	if (pTarget == nullptr)
@@ -196,11 +200,11 @@ bool EnemyEntity::ReceiveDamage(u32 amount, ItemTypes::Weapons weapon)
 	// Receive the damage
 	this->SetLife(this->GetLife() - amount);
 
+	// Set animation time
+	fInvicibleTime = 0.6;
+
 	if((int)this->GetLife() <= 0)
 	{
-		// Disable item
-		this->pSprite->SetVisible(false);
-
 		// Add body to a list to remove
 		gPhysics->AddBodyToRemove(pBody);
 		pBody = nullptr;
@@ -209,8 +213,6 @@ bool EnemyEntity::ReceiveDamage(u32 amount, ItemTypes::Weapons weapon)
 		// Remove from the players target
 		pTarget->SetEnemyTarget(nullptr);
 	}
-	else
-		fInvicibleTime = 0.6;
 
 	return true;
 }
@@ -344,3 +346,7 @@ void EnemyEntity::PlayEnemyAwakeSound()
 		gSoundManager->Play(SND_GRUNT_WAKE);
 }
 
+bool EnemyEntity::IsDead() const
+{
+	return bIsDead;
+}

@@ -287,10 +287,11 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Enemy");
-									writer.WriteString(	"AttackPower", "2");
-									writer.WriteString(	"DefensePower", "3y");
+									writer.WriteString(	"AttackPower", "6");
+									writer.WriteString(	"DefensePower", "3");
 									writer.WriteString(	"EnemyId", "1");
-									writer.WriteString(	"Level", "1");
+									writer.WriteString(	"Life", "4");
+									writer.WriteString(	"LifeTotal", "4");
 
 								// Close node Properties
 								writer.CloseNode();
@@ -315,10 +316,12 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Enemy");
-									writer.WriteString(	"AttackPower", "2");
-									writer.WriteString(	"DefensePower", "3y");
+									writer.WriteString(	"AttackPower", "10");
+									writer.WriteString(	"DefensePower", "3");
 									writer.WriteString(	"EnemyId", "2");
 									writer.WriteString(	"Level", "1");
+									writer.WriteString(	"Life", "8");
+									writer.WriteString(	"LifeTotal", "8");
 
 								// Close node Properties
 								writer.CloseNode();
@@ -343,10 +346,12 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Enemy");
-									writer.WriteString(	"AttackPower", "2");
-									writer.WriteString(	"DefensePower", "3y");
+									writer.WriteString(	"AttackPower", "8");
+									writer.WriteString(	"DefensePower", "3");
 									writer.WriteString(	"EnemyId", "3");
 									writer.WriteString(	"Level", "1");
+									writer.WriteString(	"Life", "6");
+									writer.WriteString(	"LifeTotal", "6");
 
 								// Close node Properties
 								writer.CloseNode();

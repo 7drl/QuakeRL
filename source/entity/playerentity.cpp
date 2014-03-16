@@ -225,8 +225,11 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 				// Play shot sound
 				PlayShotSound();
 
+				// Calculate Damage
+				u32 damage = CalculateDamage();
+
 				// Do Damage to the enemy
-				pEnemyTarget->ReceiveDamage(1, GetWeapon());
+				pEnemyTarget->ReceiveDamage(damage, GetWeapon());
 			}
 
 		}
@@ -291,7 +294,7 @@ bool PlayerEntity::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		//Receive damage
 		if (pEnemyTarget != nullptr)
 		{
-			OnDamage(10);
+			OnDamage(pEnemyTarget->sEnemy.iAttackPower);
 		}
 	}
 
@@ -302,7 +305,7 @@ bool PlayerEntity::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		//Receive damage
 		if (pEnemyTarget != nullptr)
 		{
-			OnDamage(10);
+			OnDamage(pEnemyTarget->sEnemy.iAttackPower);
 		}
 	}
 
@@ -313,7 +316,7 @@ bool PlayerEntity::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		//Receive damage
 		if (pEnemyTarget != nullptr)
 		{
-			OnDamage(10);
+			OnDamage(pEnemyTarget->sEnemy.iAttackPower);
 		}
 	}
 
@@ -322,9 +325,9 @@ bool PlayerEntity::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 		bCanMove = true;
 
 		//Receive damage
-		if (pEnemyTarget != nullptr)
+		if (pEnemyTarget != nullptr && !pEnemyTarget->IsDead())
 		{
-			OnDamage(10);
+			OnDamage(pEnemyTarget->sEnemy.iAttackPower);
 		}
 	}
 
@@ -529,7 +532,7 @@ bool PlayerEntity::OnDamage(u32 amount)
 		return false;
 
 	// Play damage sound
-	gSoundManager->Play(SND_DAMAGE);
+	LoadPlayerDamageSound();
 
 	fInvicibleTime = 0.6f;
 
@@ -742,18 +745,61 @@ void PlayerEntity::PlayShotSound()
 	{
 		gSoundManager->Play(SND_RIFLE_SHOT);
 	}
+	else if (GetWeapon() == ItemTypes::Weapons::Shotgun)
+	{
+		gSoundManager->Play(SND_SHOTGUN_SHOT);
+	}
+	else if (GetWeapon() == ItemTypes::Weapons::Nailgun)
+	{
+		gSoundManager->Play(SND_NAILGUN_SHOT);
+	}
+	else if (GetWeapon() == ItemTypes::Weapons::HeavyNailgun)
+	{
+		gSoundManager->Play(SND_HEAVY_NAILGUN_SHOT);
+	}
+	else if (GetWeapon() == ItemTypes::Weapons::GrenadeLauncher)
+	{
+		gSoundManager->Play(SND_EXPLOSION_SHOT);
+	}
+	else if (GetWeapon() == ItemTypes::Weapons::RocketLauncher)
+	{
+		gSoundManager->Play(SND_EXPLOSION_SHOT);
+	}
+	else if (GetWeapon() == ItemTypes::Weapons::Shockgun)
+	{
+		gSoundManager->Play(SND_SHOCKGUN_SHOT);
+	}
+
 }
 
 void PlayerEntity::LoadPlayerDamageAnimation()
 {
-	if (pEnemyTarget->sEnemy.iEnemyId == 1)
-		pSprite->SetAnimation("Blood");
-	else if (pEnemyTarget->sEnemy.iEnemyId == 2)
-		pSprite->SetAnimation("Explosion");
-	else if (pEnemyTarget->sEnemy.iEnemyId == 3)
-		pSprite->SetAnimation("Blood");
-	else
-		pSprite->SetAnimation("Blood");
+	if (pEnemyTarget != nullptr)
+	{
+		if (pEnemyTarget->sEnemy.iEnemyId == 1)
+			pSprite->SetAnimation("Blood");
+		else if (pEnemyTarget->sEnemy.iEnemyId == 2)
+			pSprite->SetAnimation("Explosion");
+		else if (pEnemyTarget->sEnemy.iEnemyId == 3)
+			pSprite->SetAnimation("Blood");
+		else
+			pSprite->SetAnimation("Blood");
+	}
+}
+
+void PlayerEntity::LoadPlayerDamageSound()
+{
+	if (pEnemyTarget != nullptr)
+	{
+		if (pEnemyTarget->sEnemy.iEnemyId == 1)
+			gSoundManager->Play(SND_RIFLE_SHOT);
+		else if (pEnemyTarget->sEnemy.iEnemyId == 2)
+			gSoundManager->Play(SND_EXPLOSION_SHOT);
+		else if (pEnemyTarget->sEnemy.iEnemyId == 3)
+			gSoundManager->Play(SND_RIFLE_SHOT);
+		else
+			gSoundManager->Play(SND_RIFLE_SHOT);
+	}
 }
 
 bool PlayerEntity::DecreaseAmmo()
@@ -812,6 +858,41 @@ bool PlayerEntity::DecreaseAmmo()
 		return true;
 }
 
+u32 PlayerEntity::CalculateDamage()
+{
+	if(GetWeapon() == ItemTypes::Rifle)
+	{
+		return 2;
+	}
+	else if(GetWeapon() == ItemTypes::Shotgun)
+	{
+		return 3;
+	}
+	else if(GetWeapon() == ItemTypes::Nailgun)
+	{
+		return 4;
+	}
+	else if (GetWeapon() == ItemTypes::HeavyNailgun)
+	{
+		return 5;
+	}
+	else if(GetWeapon() == ItemTypes::GrenadeLauncher)
+	{
+		return 8;
+	}
+	else if (GetWeapon() == ItemTypes::RocketLauncher)
+	{
+		return 8;
+	}
+	else if(GetWeapon() == ItemTypes::Shockgun)
+	{
+		return 9;
+	}
+	// Axe damage
+	else
+		return 1;
+}
+
 void PlayerEntity::OnCollision(const CollisionEvent &event)
 {
 	if (event.GetType() == CollisionEventType::OnEnter)
@@ -823,4 +904,3 @@ void PlayerEntity::OnCollision(const CollisionEvent &event)
 		}
 	}
 }
-

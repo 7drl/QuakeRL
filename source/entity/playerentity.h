@@ -5,7 +5,6 @@
 #include "../defines.h"
 #include "spriteentity.h"
 #include "weaponentity.h"
-#include "projectileentity.h"
 
 namespace ItemTypes
 {
@@ -125,7 +124,9 @@ class PlayerEntity: public SpriteEntity,
 
 		void PlayShotSound();
 		void LoadPlayerDamageAnimation();
+		void LoadPlayerDamageSound();
 		bool DecreaseAmmo();
+		u32 CalculateDamage();
 
 		struct PlayerData
 		{

@@ -11,5 +11,12 @@
 #define SND_OGRE_WAKE "OgreWake"
 #define SND_KNIGHT_WAKE "KnightWake"
 #define SND_RIFLE_SHOT "RifleShot"
+#define SND_SHOTGUN_SHOT "ShotgunShot"
+#define SND_NAILGUN_SHOT "NailgunShot"
+#define SND_HEAVY_NAILGUN_SHOT "HeavyNailgunShot"
+#define SND_GRENADE_LAUNCHER_SHOT "GrenadeLauncherShot"
+#define SND_ROCKET_LAUCHER_SHOT "RocketLauncherShot"
+#define SND_SHOCKGUN_SHOT "ShockgunShot"
+#define SND_EXPLOSION_SHOT "ExplosionShot"
 
 #endif
