@@ -25,7 +25,7 @@ void HealthPotionEntity::OnCollision(const CollisionEvent &event)
 			this->clSensor.Disable();
 
 			//Collect Item
-			player->OnCollect(ItemTypes::HealthPotion, this->iAmount);
+			player->OnCollect(uItemId, this->iAmount);
 
 		}
 	}

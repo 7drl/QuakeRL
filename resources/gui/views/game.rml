@@ -38,7 +38,7 @@
 				<div id="character_ammo_div">
 					<div id="ammo_aparence_div" class="ammo_aparence_shells"/>
 					<div id="ammo_quantity_div">
-						<span id="weapon_ammo_shells">25</span>
+						<span id="weapon_ammo_selected">25</span>
 					</div>
 				</div>
 			</div>

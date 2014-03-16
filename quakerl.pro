@@ -82,7 +82,8 @@ OTHER_FILES_FONT = \
 	resources/fonts/Delicious-Roman.otf \
 	resources/fonts/Delicious-Italic.otf \
 	resources/fonts/Delicious-Bold.otf \
-	resources/fonts/Delicious-BoldItalic.otf
+	resources/fonts/Delicious-BoldItalic.otf \
+	resources/fonts/dpquake_.ttf
 
 OTHER_FILES_SCENE = \
 #Scenes

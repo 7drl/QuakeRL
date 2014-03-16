@@ -107,8 +107,8 @@ bool GuiManager::LoadGUI(const String &doc)
 			if (pDoc->GetElementById("character_aparence_div") != nullptr)
 				pAvatarPicture = pDoc->GetElementById("character_aparence_div");
 
-			if (pDoc->GetElementById("character_ammo_div") != nullptr)
-				pAmmoPicture = pDoc->GetElementById("character_ammo_div");
+			if (pDoc->GetElementById("ammo_aparence_div") != nullptr)
+				pAmmoPicture = pDoc->GetElementById("ammo_aparence_div");
 
 			if (pDoc->GetElementById("weapon_shotgun_div") != nullptr)
 				pWeaponRifle = pDoc->GetElementById("weapon_shotgun_div");
@@ -149,6 +149,9 @@ bool GuiManager::LoadGUI(const String &doc)
 			if (pDoc->GetElementById("weapon_ammo_cells") != nullptr)
 				pElementAmmoCells = pDoc->GetElementById("weapon_ammo_cells");
 
+			if (pDoc->GetElementById("weapon_ammo_selected") != nullptr)
+				pElementAmmoSelected = pDoc->GetElementById("weapon_ammo_selected");
+
 			if (pDoc->GetElementById("sfx") != nullptr && gGameData->IsSfxEnabled())
 				pDoc->GetElementById("sfx")->SetAttribute("checked", "");
 
@@ -183,11 +186,12 @@ bool GuiManager::InitializeGUI()
 		return false;
 	}
 
-	Rocket::Core::String fonts[4];
+	Rocket::Core::String fonts[5];
 	fonts[0] = "fonts/Delicious-Roman.otf";
 	fonts[1] = "fonts/Delicious-Italic.otf";
 	fonts[2] = "fonts/Delicious-Bold.otf";
 	fonts[3] = "fonts/Delicious-BoldItalic.otf";
+	fonts[4] = "fonts/dpquake_.ttf";
 
 	for (unsigned int i = 0; i < sizeof(fonts) / sizeof(Rocket::Core::String); i++)
 		Rocket::Core::FontDatabase::LoadFontFace(fonts[i]);
@@ -326,6 +330,8 @@ void GuiManager::OnChangeWeapon(const u32 weapon, bool* weaponsGotten)
 			pWeaponGrenadeLauchenr->SetClassNames(weaponsGotten[ItemTypes::Weapons::GrenadeLauncher] ? "weapon_rocketgun_off" : "weapon_inactive");
 			pWeaponRocketLauncher->SetClassNames(weaponsGotten[ItemTypes::Weapons::RocketLauncher] ? "weapon_super_rocketgun_off" : "weapon_inactive");
 			pWeaponShockgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shockgun] ? "weapon_railgun_off" : "weapon_inactive");
+
+			pAmmoPicture->SetClassNames("ammo_aparence_shells");
 		break;
 		case ItemTypes::Weapons::Shotgun:
 			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
@@ -335,6 +341,8 @@ void GuiManager::OnChangeWeapon(const u32 weapon, bool* weaponsGotten)
 			pWeaponGrenadeLauchenr->SetClassNames(weaponsGotten[ItemTypes::Weapons::GrenadeLauncher] ? "weapon_rocketgun_off" : "weapon_inactive");
 			pWeaponRocketLauncher->SetClassNames(weaponsGotten[ItemTypes::Weapons::RocketLauncher] ? "weapon_super_rocketgun_off" : "weapon_inactive");
 			pWeaponShockgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shockgun] ? "weapon_railgun_off" : "weapon_inactive");
+
+			pAmmoPicture->SetClassNames("ammo_aparence_shells");
 		break;
 		case ItemTypes::Weapons::Nailgun:
 			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
@@ -344,6 +352,8 @@ void GuiManager::OnChangeWeapon(const u32 weapon, bool* weaponsGotten)
 			pWeaponGrenadeLauchenr->SetClassNames(weaponsGotten[ItemTypes::Weapons::GrenadeLauncher] ? "weapon_rocketgun_off" : "weapon_inactive");
 			pWeaponRocketLauncher->SetClassNames(weaponsGotten[ItemTypes::Weapons::RocketLauncher] ? "weapon_super_rocketgun_off" : "weapon_inactive");
 			pWeaponShockgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shockgun] ? "weapon_railgun_off" : "weapon_inactive");
+
+			pAmmoPicture->SetClassNames("ammo_aparence_nails");
 		break;
 		case ItemTypes::Weapons::HeavyNailgun:
 			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
@@ -353,6 +363,8 @@ void GuiManager::OnChangeWeapon(const u32 weapon, bool* weaponsGotten)
 			pWeaponGrenadeLauchenr->SetClassNames(weaponsGotten[ItemTypes::Weapons::GrenadeLauncher] ? "weapon_rocketgun_off" : "weapon_inactive");
 			pWeaponRocketLauncher->SetClassNames(weaponsGotten[ItemTypes::Weapons::RocketLauncher] ? "weapon_super_rocketgun_off" : "weapon_inactive");
 			pWeaponShockgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shockgun] ? "weapon_railgun_off" : "weapon_inactive");
+
+			pAmmoPicture->SetClassNames("ammo_aparence_nails");
 		break;
 		case ItemTypes::Weapons::GrenadeLauncher:
 			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
@@ -362,6 +374,8 @@ void GuiManager::OnChangeWeapon(const u32 weapon, bool* weaponsGotten)
 			pWeaponGrenadeLauchenr->SetClassNames(weaponsGotten[ItemTypes::Weapons::GrenadeLauncher] ? "weapon_rocketgun_on" : "weapon_inactive");
 			pWeaponRocketLauncher->SetClassNames(weaponsGotten[ItemTypes::Weapons::RocketLauncher] ? "weapon_super_rocketgun_off" : "weapon_inactive");
 			pWeaponShockgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shockgun] ? "weapon_railgun_off" : "weapon_inactive");
+
+			pAmmoPicture->SetClassNames("ammo_aparence_rockets");
 		break;
 		case ItemTypes::Weapons::RocketLauncher:
 			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
@@ -371,6 +385,8 @@ void GuiManager::OnChangeWeapon(const u32 weapon, bool* weaponsGotten)
 			pWeaponGrenadeLauchenr->SetClassNames(weaponsGotten[ItemTypes::Weapons::GrenadeLauncher] ? "weapon_rocketgun_off" : "weapon_inactive");
 			pWeaponRocketLauncher->SetClassNames(weaponsGotten[ItemTypes::Weapons::RocketLauncher] ? "weapon_super_rocketgun_on" : "weapon_inactive");
 			pWeaponShockgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shockgun] ? "weapon_railgun_off" : "weapon_inactive");
+
+			pAmmoPicture->SetClassNames("ammo_aparence_rockets");
 		break;
 		case ItemTypes::Weapons::Shockgun:
 			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
@@ -380,6 +396,8 @@ void GuiManager::OnChangeWeapon(const u32 weapon, bool* weaponsGotten)
 			pWeaponGrenadeLauchenr->SetClassNames(weaponsGotten[ItemTypes::Weapons::GrenadeLauncher] ? "weapon_rocketgun_off" : "weapon_inactive");
 			pWeaponRocketLauncher->SetClassNames(weaponsGotten[ItemTypes::Weapons::RocketLauncher] ? "weapon_super_rocketgun_off" : "weapon_inactive");
 			pWeaponShockgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shockgun] ? "weapon_railgun_on" : "weapon_inactive");
+
+			pAmmoPicture->SetClassNames("ammo_aparence_cells");
 		break;
 
 		default:
@@ -403,19 +421,20 @@ void GuiManager::OnDamageAvatar(const u32 life)
 	else								pAvatarPicture->SetClassNames("character_aparence_20");
 }
 
-void GuiManager::OnGetAmmo(const String &ammoName)
-{
-	if(ammoName == "shells")		pAmmoPicture->SetClassNames("ammo_aparence_shells");
-	else if(ammoName == "nails")	pAmmoPicture->SetClassNames("ammo_aparence_nails");
-	else if(ammoName == "rockets")	pAmmoPicture->SetClassNames("ammo_aparence_rockets");
-	else if(ammoName == "cells")	pAmmoPicture->SetClassNames("ammo_aparence_cells");
-}
-
 void GuiManager::SetArmor(u32 armor)
 {
-	char x[100];
-	snprintf(x, 100, "%d", armor);
-	pElementArmor->SetInnerRML(Rocket::Core::String(x));
+	if(armor)
+	{
+		char x[100];
+		snprintf(x, 100, "%d", armor);
+		pElementArmor->SetInnerRML(Rocket::Core::String(x));
+	}
+	// Clean UI
+	else
+	{
+		OnGetArmor(0);
+		pElementArmor->SetInnerRML(Rocket::Core::String(""));
+	}
 }
 
 void GuiManager::SetLife(u32 life)
@@ -425,12 +444,13 @@ void GuiManager::SetLife(u32 life)
 	pElementLife->SetInnerRML(Rocket::Core::String(x));
 }
 
-
 void GuiManager::SetAmmoShells(u32 quantity)
 {
 	char x[100];
 	snprintf(x, 100, "%d", quantity);
 	pElementAmmoShells->SetInnerRML(Rocket::Core::String(x));
+
+	SetAmmoSelected(quantity);
 }
 
 void GuiManager::SetAmmoNails(u32 quantity)
@@ -452,6 +472,13 @@ void GuiManager::SetAmmoCells(u32 quantity)
 	char x[100];
 	snprintf(x, 100, "%d", quantity);
 	pElementAmmoCells->SetInnerRML(Rocket::Core::String(x));
+}
+
+void GuiManager::SetAmmoSelected(u32 quantity)
+{
+	char x[100];
+	snprintf(x, 100, "%d", quantity);
+	pElementAmmoSelected->SetInnerRML(Rocket::Core::String(x));
 }
 
 ISceneObject *GuiManager::GetSceneObject() const

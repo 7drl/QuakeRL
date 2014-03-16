@@ -24,6 +24,7 @@ void ArmorEntity::Load(MetadataObject &metadata, SceneNode *sprites)
 
 	clSensor.Load(metadata, this);
 
+	uItemId = std::stoi(metadata.GetProperty("id"));
 	if (!metadata.GetProperty("Amount").empty())
 		iAmount = std::stoi(metadata.GetProperty("Amount"));
 	else
@@ -46,7 +47,7 @@ void ArmorEntity::OnCollision(const CollisionEvent &event)
 			this->clSensor.Disable();
 
 			//Collect Item
-			player->OnCollect(ItemTypes::HealthPotion, this->iAmount);
+			player->OnCollect(uItemId, this->iAmount);
 
 		}
 	}

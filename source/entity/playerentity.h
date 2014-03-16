@@ -30,6 +30,10 @@ namespace ItemTypes
 		LightArmor			= 11,
 		MediumArmor			= 12,
 		HeavyArmor			= 13,
+		ShellsAmmo			= 14,
+		NailsAmmo			= 15,
+		RocketsAmmo			= 16,
+		ShockAmmo			= 17
 	};
 }
 
@@ -94,6 +98,10 @@ class PlayerEntity: public SpriteEntity,
 		void SetLife(u32);
 		void RemoveLife();
 
+		u32 GetArmor() const;
+		void SetArmor(u32);
+		void RemoveArmor();
+
 		u32 GetLifeTotal() const;
 		void SetLifeTotal(u32);
 		void RemoveLifeTotal();
@@ -132,6 +140,7 @@ class PlayerEntity: public SpriteEntity,
 			u32 iStamina;
 			u32 iStaminaTotal;
 			u32 iKey;
+			u32 iArmor;
 			bool bGameOver;
 		} sPlayer;
 

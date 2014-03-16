@@ -440,6 +440,22 @@ void PlayerEntity::RemoveLife()
 	sPlayer.iLife--;
 }
 
+u32 PlayerEntity::GetArmor() const
+{
+	return sPlayer.iArmor;
+}
+
+void PlayerEntity::SetArmor(u32 armor)
+{
+	sPlayer.iArmor = armor;
+	gGui->SetArmor(armor);
+}
+
+void PlayerEntity::RemoveArmor()
+{
+	sPlayer.iArmor--;
+}
+
 u32 PlayerEntity::GetLifeTotal() const
 {
 	return sPlayer.iLifeTotal;
@@ -517,16 +533,25 @@ bool PlayerEntity::OnDamage(u32 amount)
 
 	fInvicibleTime = 0.6f;
 
-	// Receive the damage
-	u32 life = this->GetLife() - amount;
+	// Verify the armor of the player
+	if(this->GetArmor() == 0)
+	{
+		// Receive the damage
+		u32 life = this->GetLife() - amount;
 
-	// Change avatar based on life
-	gGui->OnDamageAvatar(life);
+		// Change avatar based on life
+		gGui->OnDamageAvatar(life);
 
-	if ((int)life > 1)
-		this->SetLife(life);
+		if ((int)life > 1)
+			this->SetLife(life);
+		else
+			gGameData->SetIsGameOver(true);
+	}
 	else
-		gGameData->SetIsGameOver(true);
+	{
+		u32 armor = this->GetArmor() - amount;
+		this->SetArmor(armor);
+	}
 
 	return true;
 }
@@ -535,15 +560,6 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 {
 	// Play collect sound
 	gSoundManager->Play(SND_POWERUP);
-
-	if(item == ItemTypes::HealthPotion)
-	{
-		//TODO play health pickup item
-		//gSoundManager->Play(SND_POWERUP);
-
-		if ((this->GetLife() + amount) < this->GetLifeTotal())
-			this->SetLife(this->GetLife() + amount);
-	}
 
 	if(item == ItemTypes::Weapons::Rifle)
 	{
@@ -554,6 +570,9 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		// UI
 		gGui->OnChangeWeapon(ItemTypes::Weapons::Rifle, bWeponsGotten);
 		gGui->SetAmmoShells(uQuantityAmmoShells);
+
+		if(GetWeapon() == ItemTypes::Rifle)
+			gGui->SetAmmoSelected(uQuantityAmmoShells);
 	}
 
 	if(item == ItemTypes::Weapons::Shotgun)
@@ -565,6 +584,9 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		// UI
 		gGui->OnChangeWeapon(ItemTypes::Weapons::Shotgun, bWeponsGotten);
 		gGui->SetAmmoShells(uQuantityAmmoShells);
+
+		if(GetWeapon() == ItemTypes::Shotgun)
+			gGui->SetAmmoSelected(uQuantityAmmoShells);
 	}
 
 	if(item == ItemTypes::Weapons::Nailgun)
@@ -576,6 +598,9 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		// UI
 		gGui->OnChangeWeapon(ItemTypes::Weapons::Nailgun, bWeponsGotten);
 		gGui->SetAmmoNails(uQuantityAmmoNails);
+
+		if(GetWeapon() == ItemTypes::Nailgun)
+			gGui->SetAmmoSelected(uQuantityAmmoShells);
 	}
 
 	if(item == ItemTypes::Weapons::HeavyNailgun)
@@ -587,6 +612,9 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		// UI
 		gGui->OnChangeWeapon(ItemTypes::Weapons::HeavyNailgun, bWeponsGotten);
 		gGui->SetAmmoNails(uQuantityAmmoNails);
+
+		if(GetWeapon() == ItemTypes::HeavyNailgun)
+			gGui->SetAmmoSelected(uQuantityAmmoShells);
 	}
 
 	if(item == ItemTypes::Weapons::GrenadeLauncher)
@@ -598,6 +626,9 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		// UI
 		gGui->OnChangeWeapon(ItemTypes::Weapons::GrenadeLauncher, bWeponsGotten);
 		gGui->SetAmmoRockets(uQuantityAmmoRockets);
+
+		if(GetWeapon() == ItemTypes::GrenadeLauncher)
+			gGui->SetAmmoSelected(uQuantityAmmoShells);
 	}
 
 	if(item == ItemTypes::Weapons::RocketLauncher)
@@ -609,6 +640,9 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		// UI
 		gGui->OnChangeWeapon(ItemTypes::Weapons::RocketLauncher, bWeponsGotten);
 		gGui->SetAmmoRockets(uQuantityAmmoRockets);
+
+		if(GetWeapon() == ItemTypes::RocketLauncher)
+			gGui->SetAmmoSelected(uQuantityAmmoShells);
 	}
 
 	if(item == ItemTypes::Weapons::Shockgun)
@@ -620,6 +654,73 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		// UI
 		gGui->OnChangeWeapon(ItemTypes::Weapons::Shockgun, bWeponsGotten);
 		gGui->SetAmmoCells(uQuantityAmmoShock);
+
+		if(GetWeapon() == ItemTypes::Shockgun)
+			gGui->SetAmmoSelected(uQuantityAmmoShells);
+	}
+
+	if(item == ItemTypes::HealthPotion)
+	{
+		//TODO play health pickup item
+		//gSoundManager->Play(SND_POWERUP);
+
+		SetLife(amount);
+		gGui->OnDamageAvatar(amount);
+	}
+
+	if(item == ItemTypes::LightArmor)
+	{
+		SetArmor(amount);
+		gGui->OnGetArmor(amount);
+	}
+
+	if(item == ItemTypes::MediumArmor)
+	{
+		SetArmor(amount);
+		gGui->OnGetArmor(amount);
+	}
+
+	if(item == ItemTypes::HeavyArmor)
+	{
+		SetArmor(amount);
+		gGui->OnGetArmor(amount);
+	}
+
+	if(item == ItemTypes::ShellsAmmo)
+	{
+		uQuantityAmmoShells += amount;
+		gGui->SetAmmoShells(uQuantityAmmoShells);
+
+		if(GetWeapon() == ItemTypes::Rifle || GetWeapon() == ItemTypes::Shotgun)
+			gGui->SetAmmoSelected(uQuantityAmmoShells);
+	}
+
+	if(item == ItemTypes::NailsAmmo)
+	{
+		uQuantityAmmoNails += amount;
+		gGui->SetAmmoNails(uQuantityAmmoNails);
+
+		if(GetWeapon() == ItemTypes::Nailgun || GetWeapon() == ItemTypes::HeavyNailgun)
+			gGui->SetAmmoSelected(uQuantityAmmoShells);
+	}
+
+	if(item == ItemTypes::RocketsAmmo)
+	{
+		uQuantityAmmoRockets += amount;
+		gGui->SetAmmoRockets(uQuantityAmmoRockets);
+
+		if(GetWeapon() == ItemTypes::GrenadeLauncher
+				|| GetWeapon() == ItemTypes::RocketLauncher)
+			gGui->SetAmmoSelected(uQuantityAmmoShells);
+	}
+
+	if(item == ItemTypes::ShockAmmo)
+	{
+		uQuantityAmmoShock += amount;
+		gGui->SetAmmoCells(uQuantityAmmoShock);
+
+		if(GetWeapon() == ItemTypes::Shockgun)
+			gGui->SetAmmoSelected(uQuantityAmmoShells);
 	}
 }
 
@@ -663,6 +764,7 @@ bool PlayerEntity::DecreaseAmmo()
 		{
 			uQuantityAmmoShells--;
 			gGui->SetAmmoShells(uQuantityAmmoShells);
+			gGui->SetAmmoSelected(uQuantityAmmoShells);
 			return true;
 		}
 		else
@@ -674,6 +776,7 @@ bool PlayerEntity::DecreaseAmmo()
 		{
 			uQuantityAmmoNails--;
 			gGui->SetAmmoNails(uQuantityAmmoNails);
+			gGui->SetAmmoSelected(uQuantityAmmoShells);
 			return true;
 		}
 		else
@@ -686,6 +789,7 @@ bool PlayerEntity::DecreaseAmmo()
 		{
 			uQuantityAmmoRockets--;
 			gGui->SetAmmoRockets(uQuantityAmmoRockets);
+			gGui->SetAmmoSelected(uQuantityAmmoShells);
 			return true;
 		}
 		else
@@ -697,6 +801,7 @@ bool PlayerEntity::DecreaseAmmo()
 		{
 			uQuantityAmmoShock--;
 			gGui->SetAmmoCells(uQuantityAmmoShock);
+			gGui->SetAmmoSelected(uQuantityAmmoShells);
 			return true;
 		}
 		else

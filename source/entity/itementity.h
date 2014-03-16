@@ -18,6 +18,7 @@ class ItemEntity: public SpriteEntity
 	protected:
 		u32 iAmount;
 		CollisionSensor clSensor;
+		u32 uItemId;
 };
 
 #endif

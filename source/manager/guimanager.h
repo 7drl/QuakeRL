@@ -35,7 +35,6 @@ class GuiManager : public IRocketEventListener
 		void OnDamageAvatar(const u32 life);
 		void OnGetArmor(const u32 armor);
 		void OnChangeWeapon(const u32 weapon, bool *weaponsGotten);
-		void OnGetAmmo(const String &ammoName);
 
 		void SetArmor(u32 armor);
 		void SetLife(u32 life);
@@ -43,6 +42,7 @@ class GuiManager : public IRocketEventListener
 		void SetAmmoNails(u32 quantity);
 		void SetAmmoRockets(u32 quantity);
 		void SetAmmoCells(u32 quantity);
+		void SetAmmoSelected(u32 quantity);
 
 		// IRocketEventListener
 		virtual void OnGuiEvent(Rocket::Core::Event &ev, const Rocket::Core::String &script);
@@ -81,6 +81,7 @@ private:
 		Rocket::Core::Element	*pElementAmmoNails;
 		Rocket::Core::Element	*pElementAmmoRockets;
 		Rocket::Core::Element	*pElementAmmoCells;
+		Rocket::Core::Element	*pElementAmmoSelected;
 
 		Rocket::Core::Element	*pElementSfx;
 		Rocket::Core::Element	*pElementBgm;

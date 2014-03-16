@@ -373,6 +373,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "HealthPotion");
+									writer.WriteString( "id", "10");
 									writer.WriteString(	"Amount", "25");
 
 								// Close node Properties
@@ -398,6 +399,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Armor");
+									writer.WriteString( "id", "11");
 									writer.WriteString(	"AnimationName", "LightArmor");
 									writer.WriteString(	"Amount", "100");
 
@@ -424,6 +426,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Armor");
+									writer.WriteString( "id", "12");
 									writer.WriteString(	"AnimationName", "MediumArmor");
 									writer.WriteString(	"Amount", "150");
 
@@ -450,6 +453,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Armor");
+									writer.WriteString( "id", "13");
 									writer.WriteString(	"AnimationName", "HeavyArmor");
 									writer.WriteString(	"Amount", "200");
 
@@ -476,6 +480,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Ammo");
+									writer.WriteString( "id", "14");
 									writer.WriteString(	"AnimationName", "ShellsAmmo");
 									writer.WriteString(	"Amount", "20");
 
@@ -502,6 +507,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Ammo");
+									writer.WriteString( "id", "15");
 									writer.WriteString(	"AnimationName", "NailsAmmo");
 									writer.WriteString(	"Amount", "20");
 
@@ -528,6 +534,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Ammo");
+									writer.WriteString( "id", "16");
 									writer.WriteString(	"AnimationName", "RocketsAmmo");
 									writer.WriteString(	"Amount", "20");
 
@@ -554,6 +561,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Ammo");
+									writer.WriteString( "id", "17");
 									writer.WriteString(	"AnimationName", "ShockAmmo");
 									writer.WriteString(	"Amount", "20");
 

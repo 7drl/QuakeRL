@@ -20,4 +20,5 @@ OptimistPlayerEntity::OptimistPlayerEntity()
 	sPlayer.iLifeTotal = 100;
 	sPlayer.iStamina = 5;
 	sPlayer.iStaminaTotal = 5;
+	sPlayer.iArmor = 0;
 }
