@@ -570,7 +570,7 @@ bool PlayerEntity::OnDamage(u32 amount)
 	fInvicibleTime = 0.6f;
 
 	// Verify the armor of the player
-	if(this->GetArmor() == 0)
+	if(this->GetArmor() <= 0)
 	{
 		// Receive the damage
 		u32 life = this->GetLife() - amount;
@@ -715,7 +715,7 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		gSoundManager->Play(SND_PICKUP_HEALTH);
 
 		u32 life = GetLife() + amount;
-		SetLife(life);
+		SetLife(life <= 100 ? life : 100);
 		gGui->OnDamageAvatar(life);
 	}
 

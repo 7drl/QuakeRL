@@ -312,7 +312,7 @@ void GuiManager::OnGuiEvent(Rocket::Core::Event &ev, const Rocket::Core::String 
 
 void GuiManager::OnGetArmor(const u32 armor)
 {
-	if(armor == 0)			pArmorPicture->SetClassNames("armor_aparence_0");
+	if(armor <= 0)			pArmorPicture->SetClassNames("armor_aparence_0");
 	else if(armor == 100)	pArmorPicture->SetClassNames("armor_aparence_100");
 	else if(armor == 150)	pArmorPicture->SetClassNames("armor_aparence_150");
 	else if(armor == 200)	pArmorPicture->SetClassNames("armor_aparence_200");
@@ -423,7 +423,7 @@ void GuiManager::OnDamageAvatar(const u32 life)
 
 void GuiManager::SetArmor(u32 armor)
 {
-	if(armor)
+	if(armor > 0)
 	{
 		char x[100];
 		snprintf(x, 100, "%d", armor);
