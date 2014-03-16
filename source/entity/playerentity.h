@@ -116,6 +116,7 @@ class PlayerEntity: public SpriteEntity,
 
 		void PlayShotSound();
 		void LoadPlayerDamageAnimation();
+		void LoadPlayerDamageSound();
 		bool DecreaseAmmo();
 		u32 CalculateDamage();
 

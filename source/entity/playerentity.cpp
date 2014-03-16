@@ -516,7 +516,7 @@ bool PlayerEntity::OnDamage(u32 amount)
 		return false;
 
 	// Play damage sound
-	gSoundManager->Play(SND_DAMAGE);
+	LoadPlayerDamageSound();
 
 	fInvicibleTime = 0.6f;
 
@@ -683,6 +683,21 @@ void PlayerEntity::LoadPlayerDamageAnimation()
 			pSprite->SetAnimation("Blood");
 		else
 			pSprite->SetAnimation("Blood");
+	}
+}
+
+void PlayerEntity::LoadPlayerDamageSound()
+{
+	if (pEnemyTarget != nullptr)
+	{
+		if (pEnemyTarget->sEnemy.iEnemyId == 1)
+			gSoundManager->Play(SND_RIFLE_SHOT);
+		else if (pEnemyTarget->sEnemy.iEnemyId == 2)
+			gSoundManager->Play(SND_EXPLOSION_SHOT);
+		else if (pEnemyTarget->sEnemy.iEnemyId == 3)
+			gSoundManager->Play(SND_RIFLE_SHOT);
+		else
+			gSoundManager->Play(SND_RIFLE_SHOT);
 	}
 }
 

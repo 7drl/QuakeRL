@@ -287,7 +287,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Enemy");
-									writer.WriteString(	"AttackPower", "2");
+									writer.WriteString(	"AttackPower", "6");
 									writer.WriteString(	"DefensePower", "3");
 									writer.WriteString(	"EnemyId", "1");
 									writer.WriteString(	"Life", "4");
@@ -316,7 +316,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Enemy");
-									writer.WriteString(	"AttackPower", "2");
+									writer.WriteString(	"AttackPower", "10");
 									writer.WriteString(	"DefensePower", "3");
 									writer.WriteString(	"EnemyId", "2");
 									writer.WriteString(	"Level", "1");
@@ -346,7 +346,7 @@ String WorldManager::GenerateProceduralMap()
 								writer.OpenNode("properties");
 
 									writer.WriteString(	"Class", "Enemy");
-									writer.WriteString(	"AttackPower", "2");
+									writer.WriteString(	"AttackPower", "8");
 									writer.WriteString(	"DefensePower", "3");
 									writer.WriteString(	"EnemyId", "3");
 									writer.WriteString(	"Level", "1");
