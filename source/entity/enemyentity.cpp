@@ -222,7 +222,7 @@ String EnemyEntity::GetDisplayName() const
 	return sEnemy.displayName;
 }
 
-void EnemyEntity::SetDisplayName(const String &displayName)
+void EnemyEntity::SetDisplayName(const String &/*displayName*/)
 {
 	//gGui->SetEnemyName(displayName);
 }

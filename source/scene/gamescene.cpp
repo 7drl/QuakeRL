@@ -25,7 +25,7 @@ GameScene::GameScene(SceneNode *parent, Camera *mainCamera, const String &sceneF
 	, bInitialized(false)
 	, pMapTileset(nullptr)
 	, sSceneFile(sceneFile)
-	, fTimeToNextLevel(0.0f)
+//	, fTimeToNextLevel(0.0f)
 	, bChangeLevel(false)
 	, pGameOverImg(nullptr)
 	, vCameraFrom(0.0f, 0.0f, 0.0f)
