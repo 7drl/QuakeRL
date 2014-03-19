@@ -60,9 +60,6 @@
     <ClCompile Include="..\..\..\source\states\game\run_state.cpp">
       <Filter>states\game</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\entity\deathentity.cpp">
-      <Filter>entity</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\entity\doorentity.cpp">
       <Filter>entity</Filter>
     </ClCompile>
@@ -114,22 +111,25 @@
     <ClCompile Include="..\..\..\source\entity\optimistplayerentity.cpp">
       <Filter>entity</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\entity\pessimistplayerentity.cpp">
-      <Filter>entity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\entity\realistplayerentity.cpp">
-      <Filter>entity</Filter>
-    </ClCompile>
     <ClCompile Include="..\..\..\source\entity\enemyentity.cpp">
-      <Filter>entity</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\source\entity\goldentity.cpp">
       <Filter>entity</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\source\entity\healthpotionentity.cpp">
       <Filter>entity</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\source\entity\staminapotionentity.cpp">
+    <ClCompile Include="..\..\..\source\manager\pathfindermanager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\manager\proceduralmanager.cpp">
+      <Filter>manager</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\entity\ammoentity.cpp">
+      <Filter>entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\entity\armorentity.cpp">
+      <Filter>entity</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\source\entity\weaponentity.cpp">
       <Filter>entity</Filter>
     </ClCompile>
   </ItemGroup>
@@ -162,9 +162,6 @@
     </ClInclude>
     <ClInclude Include="..\..\..\source\states\game\run_state.h">
       <Filter>states\game</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\entity\deathentity.h">
-      <Filter>entity</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\source\entity\doorentity.h">
       <Filter>entity</Filter>
@@ -220,22 +217,25 @@
     <ClInclude Include="..\..\..\source\entity\optimistplayerentity.h">
       <Filter>entity</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\entity\pessimistplayerentity.h">
-      <Filter>entity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\entity\realistplayerentity.h">
-      <Filter>entity</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\source\entity\enemyentity.h">
-      <Filter>entity</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\source\entity\goldentity.h">
       <Filter>entity</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\source\entity\healthpotionentity.h">
       <Filter>entity</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\source\entity\staminapotionentity.h">
+    <ClInclude Include="..\..\..\source\manager\pathfindermanager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\manager\proceduralmanager.h">
+      <Filter>manager</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\entity\ammoentity.h">
+      <Filter>entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\entity\armorentity.h">
+      <Filter>entity</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\source\entity\weaponentity.h">
       <Filter>entity</Filter>
     </ClInclude>
   </ItemGroup>

@@ -33,6 +33,15 @@ PlayerEntity::PlayerEntity()
 	, pEnemyTarget(nullptr)
 	, bCanMove(true)
 {
+	bWeponsGotten[0] = false;
+	bWeponsGotten[1] = true;
+	bWeponsGotten[2] = true;
+	bWeponsGotten[3] = false;
+	bWeponsGotten[4] = false;
+	bWeponsGotten[5] = false;
+	bWeponsGotten[6] = false;
+	bWeponsGotten[7] = false;
+	bWeponsGotten[8] = false;
 }
 
 PlayerEntity::PlayerEntity(const char *className, const char *spriteName)
