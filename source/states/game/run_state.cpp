@@ -16,7 +16,7 @@ void RunState::OnStart(void *data)
 
 	if (data)
 	{
-		GameScene *g = static_cast<GameScene *>(data);
+		auto g = static_cast<GameScene *>(data);
 		g->Resume();
 	}
 	else

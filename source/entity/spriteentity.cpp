@@ -4,16 +4,16 @@
 
 ENTITY_CREATOR("Sprite", SpriteEntity)
 
-SpriteEntity::SpriteEntity():
-	Entity("Sprite"),
-	pSprite(NULL),
-	pszSpriteName(NULL)
+SpriteEntity::SpriteEntity()
+	: Entity("Sprite")
+	, pSprite(nullptr)
+	, pszSpriteName(nullptr)
 {
 }
 
 SpriteEntity::SpriteEntity(const char *className, const char *spriteName)
 	: Entity(className)
-	, pSprite(NULL)
+	, pSprite(nullptr)
 	, pszSpriteName(spriteName)
 {
 	SEED_ASSERT(spriteName);
@@ -29,12 +29,12 @@ void SpriteEntity::Load(MetadataObject &metadata, SceneNode *sprites)
 {
 	Entity::Load(metadata, sprites);
 
-	const char *spriteObject = pszSpriteName;
+	auto spriteObject = pszSpriteName;
 	String temp;
-	if(spriteObject == NULL)
+	if (spriteObject == nullptr)
 	{
 		temp = metadata.GetProperty("Sprite");
-		if(temp.empty())
+		if (temp.empty())
 		{
 			Log("No sprite for SpriteEntity");
 			return;

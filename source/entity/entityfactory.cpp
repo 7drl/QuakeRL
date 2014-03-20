@@ -18,9 +18,8 @@ void EntityFactory::AddCreator(const char *name, CreateEntityProc proc)
 
 Entity *EntityFactory::CreateEntity(const String &name)
 {
-	EntityCreatorMap &mapCreators = GetCreatorMap();
-
-	EntityCreatorMap::iterator it = mapCreators.find(name);
+	auto mapCreators = GetCreatorMap();
+	auto it = mapCreators.find(name);
 	if (it == mapCreators.end())
 	{
 		Log("Entity %s not found.", name.c_str());

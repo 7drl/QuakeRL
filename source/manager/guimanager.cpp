@@ -55,7 +55,7 @@ bool GuiManager::LoadStackedGUI(const String &doc)
 		pStackedDoc = pContext->LoadDocument(doc.c_str());
 		if (pStackedDoc != nullptr)
 		{
-			Rocket::Core::Element *title = pStackedDoc->GetElementById("title");
+			auto title = pStackedDoc->GetElementById("title");
 			if (title != nullptr)
 				title->SetInnerRML(pStackedDoc->GetTitle());
 
@@ -94,7 +94,7 @@ bool GuiManager::LoadGUI(const String &doc)
 		pDoc = pContext->LoadDocument(doc.c_str());
 		if (pDoc != nullptr)
 		{
-			Rocket::Core::Element *title = pDoc->GetElementById("title");
+			auto title = pDoc->GetElementById("title");
 			if (title != nullptr)
 				title->SetInnerRML(pDoc->GetTitle());
 
@@ -193,7 +193,7 @@ bool GuiManager::InitializeGUI()
 	fonts[3] = "fonts/Delicious-BoldItalic.otf";
 	fonts[4] = "fonts/dpquake_.ttf";
 
-	for (unsigned int i = 0; i < sizeof(fonts) / sizeof(Rocket::Core::String); i++)
+	for (auto i = 0; i < sizeof(fonts) / sizeof(Rocket::Core::String); i++)
 		Rocket::Core::FontDatabase::LoadFontFace(fonts[i]);
 
 	Rocket::Debugger::Initialise(pContext);
@@ -232,7 +232,7 @@ void GuiManager::OnGuiEvent(Rocket::Core::Event &ev, const Rocket::Core::String 
 	UNUSED(ev)
 	Rocket::Core::StringList commands;
 	Rocket::Core::StringUtilities::ExpandString(commands, script, ';');
-	for (size_t i = 0; i < commands.size(); ++i)
+	for (auto i = 0; i < commands.size(); ++i)
 	{
 		Rocket::Core::StringList values;
 		Rocket::Core::StringUtilities::ExpandString(values, commands[i], ' ');
@@ -312,10 +312,10 @@ void GuiManager::OnGuiEvent(Rocket::Core::Event &ev, const Rocket::Core::String 
 
 void GuiManager::OnGetArmor(const u32 armor)
 {
-	if(armor <= 0)			pArmorPicture->SetClassNames("armor_aparence_0");
-	else if(armor == 100)	pArmorPicture->SetClassNames("armor_aparence_100");
-	else if(armor == 150)	pArmorPicture->SetClassNames("armor_aparence_150");
-	else if(armor == 200)	pArmorPicture->SetClassNames("armor_aparence_200");
+	if (armor <= 0)			pArmorPicture->SetClassNames("armor_aparence_0");
+	else if (armor == 100)	pArmorPicture->SetClassNames("armor_aparence_100");
+	else if (armor == 150)	pArmorPicture->SetClassNames("armor_aparence_150");
+	else if (armor == 200)	pArmorPicture->SetClassNames("armor_aparence_200");
 }
 
 void GuiManager::OnChangeWeapon(const u32 weapon, bool* weaponsGotten)
@@ -333,6 +333,7 @@ void GuiManager::OnChangeWeapon(const u32 weapon, bool* weaponsGotten)
 
 			pAmmoPicture->SetClassNames("ammo_aparence_shells");
 		break;
+
 		case ItemTypes::Weapons::Shotgun:
 			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
 			pWeaponShotgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shotgun] ? "weapon_super_shotgun_on" : "weapon_inactive");
@@ -344,6 +345,7 @@ void GuiManager::OnChangeWeapon(const u32 weapon, bool* weaponsGotten)
 
 			pAmmoPicture->SetClassNames("ammo_aparence_shells");
 		break;
+
 		case ItemTypes::Weapons::Nailgun:
 			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
 			pWeaponShotgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shotgun] ? "weapon_super_shotgun_off" : "weapon_inactive");
@@ -355,6 +357,7 @@ void GuiManager::OnChangeWeapon(const u32 weapon, bool* weaponsGotten)
 
 			pAmmoPicture->SetClassNames("ammo_aparence_nails");
 		break;
+
 		case ItemTypes::Weapons::HeavyNailgun:
 			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
 			pWeaponShotgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shotgun] ? "weapon_super_shotgun_off" : "weapon_inactive");
@@ -366,6 +369,7 @@ void GuiManager::OnChangeWeapon(const u32 weapon, bool* weaponsGotten)
 
 			pAmmoPicture->SetClassNames("ammo_aparence_nails");
 		break;
+
 		case ItemTypes::Weapons::GrenadeLauncher:
 			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
 			pWeaponShotgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shotgun] ? "weapon_super_shotgun_off" : "weapon_inactive");
@@ -377,6 +381,7 @@ void GuiManager::OnChangeWeapon(const u32 weapon, bool* weaponsGotten)
 
 			pAmmoPicture->SetClassNames("ammo_aparence_rockets");
 		break;
+
 		case ItemTypes::Weapons::RocketLauncher:
 			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
 			pWeaponShotgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shotgun] ? "weapon_super_shotgun_off" : "weapon_inactive");
@@ -388,6 +393,7 @@ void GuiManager::OnChangeWeapon(const u32 weapon, bool* weaponsGotten)
 
 			pAmmoPicture->SetClassNames("ammo_aparence_rockets");
 		break;
+
 		case ItemTypes::Weapons::Shockgun:
 			pWeaponRifle->SetClassNames(weaponsGotten[ItemTypes::Weapons::Rifle] ? "weapon_shotgun_off" : "weapon_inactive");
 			pWeaponShotgun->SetClassNames(weaponsGotten[ItemTypes::Weapons::Shotgun] ? "weapon_super_shotgun_off" : "weapon_inactive");
@@ -414,16 +420,16 @@ void GuiManager::OnChangeWeapon(const u32 weapon, bool* weaponsGotten)
 
 void GuiManager::OnDamageAvatar(const u32 life)
 {
-	if(100 <= life && life > 80)		pAvatarPicture->SetClassNames("character_aparence_100");
-	else if(80 <= life && life > 60)	pAvatarPicture->SetClassNames("character_aparence_80");
-	else if(60 <= life && life > 40)	pAvatarPicture->SetClassNames("character_aparence_60");
-	else if(40 <= life && life > 20)	pAvatarPicture->SetClassNames("character_aparence_40");
+	if (100 <= life && life > 80)		pAvatarPicture->SetClassNames("character_aparence_100");
+	else if (80 <= life && life > 60)	pAvatarPicture->SetClassNames("character_aparence_80");
+	else if (60 <= life && life > 40)	pAvatarPicture->SetClassNames("character_aparence_60");
+	else if (40 <= life && life > 20)	pAvatarPicture->SetClassNames("character_aparence_40");
 	else								pAvatarPicture->SetClassNames("character_aparence_20");
 }
 
 void GuiManager::SetArmor(u32 armor)
 {
-	if(armor > 0)
+	if (armor > 0)
 	{
 		char x[100];
 		snprintf(x, 100, "%d", armor);

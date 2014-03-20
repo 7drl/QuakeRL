@@ -278,15 +278,15 @@ void GameScene::OnJobCompleted(FileLoader *job)
 		musTheme.SetVolume(1.0f);
 	}
 
-	SceneNode *sounds = (SceneNode *)cScene.GetChildByName("Sounds");
+	auto sounds = (SceneNode *)cScene.GetChildByName("Sounds");
 	clSoundManager.Init(*sounds);
 
-	SceneNode *sprites = (SceneNode *)cScene.GetChildByName("Sprites");
+	auto sprites = (SceneNode *)cScene.GetChildByName("Sprites");
 	pGameMap = (GameMap *)cScene.GetChildByName("Map");
 
 	strNextLevel = pGameMap->GetProperty("NextLevel");
 
-	MapLayerMetadata *game = pGameMap->GetLayerByName("Game")->AsMetadata();
+	auto game = pGameMap->GetLayerByName("Game")->AsMetadata();
 	game->SetVisible(false);
 
 	// Initialize the pathfinder with the background and collider layers
@@ -294,11 +294,11 @@ void GameScene::OnJobCompleted(FileLoader *job)
 
 	for (unsigned i = 0, len = game->Size(); i < len; ++i)
 	{
-		MetadataObject *placeHolder = static_cast<MetadataObject *>(game->GetChildAt(i));
+		auto placeHolder = static_cast<MetadataObject *>(game->GetChildAt(i));
 		//const String &type = placeHolder->GetProperty("Type");
 		//if (type == "Entity")
 		{
-			Entity* entity = clWorldManager.BuildEntity(*placeHolder, sprites);
+			auto entity = clWorldManager.BuildEntity(*placeHolder, sprites);
 			//Log("%s", entity->GetName().c_str());
 			if (entity->GetClassName() == "OptimistPlayer")
 			{
@@ -324,10 +324,10 @@ void GameScene::OnJobCompleted(FileLoader *job)
 	clCamera.SetCamera(pCamera);
 	clCamera.LookAt(pPlayer->GetSprite()->GetPosition());
 
-	MapLayerTiled *bg = pGameMap->GetLayerByName("Background")->AsTiled();
+	auto bg = pGameMap->GetLayerByName("Background")->AsTiled();
 
-	f32 hw = bg->GetWidth() * 0.5f;
-	f32 hh = bg->GetHeight() * 0.5f;
+	auto hw = bg->GetWidth() * 0.5f;
+	auto hh = bg->GetHeight() * 0.5f;
 	clCamera.SetArea(Rect4f(-hw, -hh, bg->GetWidth(), bg->GetHeight()));
 
 	sprites->SetVisible(false);
@@ -365,12 +365,13 @@ void GameScene::OnJobAborted()
 
 void GameScene::LoadMapColliders()
 {
-	MapLayerMetadata *game = pGameMap->GetLayerByName("Colliders")->AsMetadata();
+	auto game = pGameMap->GetLayerByName("Colliders")->AsMetadata();
 	game->SetVisible(false);
-	for (unsigned i = 0, len = game->Size(); i < len; ++i)
-	{
-		MetadataObject *placeHolder = static_cast<MetadataObject *>( game->GetChildAt(i));
 
+	auto len = game->Size();
+	for (auto i = 0u; i < len; ++i)
+	{
+		auto placeHolder = static_cast<MetadataObject *>( game->GetChildAt(i));
 		clPhysicsManager.CreateStaticBody(placeHolder);
 	}
 }

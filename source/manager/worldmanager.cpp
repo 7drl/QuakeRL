@@ -11,11 +11,11 @@ WorldManager::~WorldManager()
 
 Entity *WorldManager::BuildEntity(MetadataObject &metadata, SceneNode *sprites)
 {
-	const String &className = metadata.GetProperty("Class");
+	auto &className = metadata.GetProperty("Class");
 
 	Log("%s", className.c_str());
 
-	Entity *ent = EntityFactory::CreateEntity(className);
+	auto ent = EntityFactory::CreateEntity(className);
 	if (ent == NULL)
 		return NULL;
 
@@ -27,9 +27,9 @@ Entity *WorldManager::BuildEntity(MetadataObject &metadata, SceneNode *sprites)
 
 void WorldManager::Clear()
 {
-	for (EntitiesVector::iterator it = vEntities.begin(), end = vEntities.end(); it != end; ++it)
+	for (auto ent : vEntities)
 	{
-		sdDelete(*it);
+		sdDelete(ent);
 	}
 
 	vEntities.clear();
@@ -37,19 +37,19 @@ void WorldManager::Clear()
 
 void WorldManager::Update(f32 dt)
 {
-	for (EntitiesVector::iterator it = vEntities.begin(), end = vEntities.end(); it != end; ++it)
+	for (auto ent : vEntities)
 	{
-		(*it)->Update(dt);
+		ent->Update(dt);
 	}
 }
 
 Entity *WorldManager::FindEntityByClassName(const String &className)
 {
-	for (EntitiesVector::iterator it = vEntities.begin(), end = vEntities.end(); it != end; ++it)
+	for (auto ent : vEntities)
 	{
-		if ((*it)->GetClassName().compare(className) == 0)
+		if (ent->GetClassName().compare(className) == 0)
 		{
-			return *it;
+			return ent;
 		}
 	}
 
@@ -58,11 +58,11 @@ Entity *WorldManager::FindEntityByClassName(const String &className)
 
 Entity *WorldManager::FindEntityByName(const String &name)
 {
-	for (EntitiesVector::iterator it = vEntities.begin(), end = vEntities.end(); it != end; ++it)
+	for (auto ent : vEntities)
 	{
-		if ((*it)->GetName().compare(name) == 0)
+		if (ent->GetName().compare(name) == 0)
 		{
-			return *it;
+			return ent;
 		}
 	}
 
@@ -71,11 +71,11 @@ Entity *WorldManager::FindEntityByName(const String &name)
 
 void WorldManager::ActivateAllEntites(const String &name)
 {
-	for (EntitiesVector::iterator it = vEntities.begin(), end = vEntities.end(); it != end; ++it)
+	for (auto ent : vEntities)
 	{
-		if ((*it)->GetName().compare(name) == 0)
+		if (ent->GetName().compare(name) == 0)
 		{
-			(*it)->Activate();
+			ent->Activate();
 		}
 	}
 }

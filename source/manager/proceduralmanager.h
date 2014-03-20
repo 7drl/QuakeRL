@@ -7,16 +7,21 @@ class ProceduralManager
 {
 	public:
 		ProceduralManager();
-		virtual ~ProceduralManager();
-		virtual void BuildWorld(const u32 width, const u32 height, u32 dungeonObjects);
-		virtual void SetTile(u32 x, u32 y, u32 tileType);
-		virtual u32 GetTile(u32 x, u32 y);
-		virtual void SetItem(u32 x, u32 y, u32 itemType);
-		virtual u32 GetItem(u32 x, u32 y);
-		virtual void SetEnemy(u32 x, u32 y, u32 enemyType);
-		virtual u32 GetEnemy(u32 x, u32 y);
-		virtual u32 GetXSize();
-		virtual u32 GetYSize();
+		~ProceduralManager();
+
+		void BuildWorld(const u32 width, const u32 height, u32 dungeonObjects);
+
+		void SetTile(u32 x, u32 y, u32 tileType);
+		u32 GetTile(u32 x, u32 y);
+
+		void SetItem(u32 x, u32 y, u32 itemType);
+		u32 GetItem(u32 x, u32 y);
+
+		void SetEnemy(u32 x, u32 y, u32 enemyType);
+		u32 GetEnemy(u32 x, u32 y);
+
+		u32 GetXSize();
+		u32 GetYSize();
 
 		enum eTiles
 		{
@@ -61,12 +66,11 @@ class ProceduralManager
 		};
 
 	private:
+		bool MakeRoom(u32 x, u32 y, u32 xlength, u32 ylength, u32 direction);
+		bool MakeCorridor(u32 x, u32 y, u32 lenght, u32 direction);
+		bool FindFreeRoomPosition(u32 x, u32 y);
 
-		//virtual int GetRand(int min, int max);
-		virtual bool MakeRoom(u32 x, u32 y, u32 xlength, u32 ylength, u32 direction);
-		virtual bool MakeCorridor(u32 x, u32 y, u32 lenght, u32 direction);
-		virtual bool FindFreeRoomPosition(u32 x, u32 y);
-
+	private:
 		u32 *pWorldMap;
 		u32 *pEnemiesMap;
 		u32 *pItemsMap;

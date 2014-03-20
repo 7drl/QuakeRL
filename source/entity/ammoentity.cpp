@@ -7,12 +7,10 @@ ENTITY_CREATOR("Ammo", AmmoEntity);
 AmmoEntity::AmmoEntity()
 	: ItemEntity("Ammo", "Ammo")
 {
-
 }
 
 AmmoEntity::~AmmoEntity()
 {
-
 }
 
 void AmmoEntity::Load(MetadataObject &metadata, SceneNode *sprites)
@@ -38,10 +36,10 @@ void AmmoEntity::OnCollision(const CollisionEvent &event)
 	{
 		Log("On collided with weapon");
 
-		Entity *other = event.GetOtherEntity();
+		auto other = event.GetOtherEntity();
 		if (other != nullptr && other->GetClassName() == "OptimistPlayer")
 		{
-			PlayerEntity *player = static_cast<PlayerEntity *>(other);
+			auto player = static_cast<PlayerEntity *>(other);
 
 			// Disable item
 			this->pSprite->SetVisible(false);
@@ -49,7 +47,6 @@ void AmmoEntity::OnCollision(const CollisionEvent &event)
 
 			//Collect Item
 			player->OnCollect(uItemId, this->iAmount);
-
 		}
 	}
 }

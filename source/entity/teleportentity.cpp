@@ -18,7 +18,7 @@ void TeleportEntity::Load(MetadataObject &metadata, SceneNode *sprites)
 {
 	Entity::Load(metadata, sprites);
 
-	String destination = metadata.GetProperty("Destination");
+	auto &destination = metadata.GetProperty("Destination");
 	if (!destination.empty())
 	{
 		bDestination = destination.compare("true") == 0;
@@ -37,12 +37,12 @@ void TeleportEntity::OnCollision(const CollisionEvent &event)
 		{
 			Log("Teleport colidiu");
 
-			PlayerEntity *player = static_cast<PlayerEntity*>(event.GetOtherEntity());
-			Entity *target = gWorldManager->FindEntityByName(this->GetTarget().c_str());
+			auto player = static_cast<PlayerEntity*>(event.GetOtherEntity());
+			auto target = gWorldManager->FindEntityByName(this->GetTarget().c_str());
 			if (!target)
 				Log("Teleport %s without destination %s", this->GetName().c_str(), this->GetTarget().c_str());
 
-			TeleportEntity *destination = static_cast<TeleportEntity *>(target);
+			auto destination = static_cast<TeleportEntity *>(target);
 			player->Teleport(destination->clSensor.GetBodyPosition());
 		}
 	}

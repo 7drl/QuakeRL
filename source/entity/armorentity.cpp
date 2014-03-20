@@ -7,12 +7,10 @@ ENTITY_CREATOR("Armor", ArmorEntity);
 ArmorEntity::ArmorEntity()
 	: ItemEntity("Armor", "Armor")
 {
-
 }
 
 ArmorEntity::~ArmorEntity()
 {
-
 }
 
 void ArmorEntity::Load(MetadataObject &metadata, SceneNode *sprites)
@@ -37,10 +35,10 @@ void ArmorEntity::OnCollision(const CollisionEvent &event)
 	{
 		Log("On collided with armor");
 
-		Entity *other = event.GetOtherEntity();
+		auto other = event.GetOtherEntity();
 		if (other != nullptr && other->GetClassName() == "OptimistPlayer")
 		{
-			PlayerEntity *player = static_cast<PlayerEntity *>(other);
+			auto player = static_cast<PlayerEntity *>(other);
 
 			// Disable item
 			this->pSprite->SetVisible(false);
@@ -48,7 +46,6 @@ void ArmorEntity::OnCollision(const CollisionEvent &event)
 
 			//Collect Item
 			player->OnCollect(uItemId, this->iAmount);
-
 		}
 	}
 }

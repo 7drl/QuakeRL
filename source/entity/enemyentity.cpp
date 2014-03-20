@@ -82,7 +82,6 @@ void EnemyEntity::Load(MetadataObject &metadata, SceneNode *sprites)
 
 void EnemyEntity::Update(f32 dt)
 {
-
 	if (fInvicibleTime > 0)
 	{
 		fInvicibleTime -= dt;
@@ -111,8 +110,8 @@ void EnemyEntity::Update(f32 dt)
 
 	if (pTarget != nullptr)
 	{
-		b2Vec2 dir = pTarget->GetBodyPosition() - pBody->GetPosition();
-		f32 distance = dir.Normalize();
+		auto dir = pTarget->GetBodyPosition() - pBody->GetPosition();
+		auto distance = dir.Normalize();
 
 		if (distance <= 1.5f && !bPlayerLock)
 		{
@@ -144,25 +143,25 @@ void EnemyEntity::OnCollision(const CollisionEvent &event)
 	{
 		Log("ENEMY colidiu");
 
-		Entity *other = event.GetOtherEntity();
+		auto other = event.GetOtherEntity();
 		if (other != nullptr)
 		{
 			Log("Colisao com: %s", other->GetClassName().c_str());
 			if(other->GetClassName() == "OptimistPlayer")
 			{
-				PlayerEntity *player = static_cast<PlayerEntity *>(other);
+				auto player = static_cast<PlayerEntity *>(other);
 
 				// Stop player movement
 				player->StopPlayerMovement();
 
-				s32 damageToPlayer = (player->GetDefensePower() - sEnemy.iAttackPower) + (rand() % 3 + 1);
+				auto damageToPlayer = s32((player->GetDefensePower() - sEnemy.iAttackPower) + (rand() % 3 + 1));
 				if (damageToPlayer < 0)
 					damageToPlayer = 0;
 
 				//Do damage to the player
 				player->OnDamage(u32(damageToPlayer));
 
-				s32 damageEnemyBase = player->GetAttackPower() - sEnemy.iDefensePower + (rand() % 3 + 1);
+				auto damageEnemyBase = s32(player->GetAttackPower() - sEnemy.iDefensePower + (rand() % 3 + 1));
 				if (damageEnemyBase < 0)
 					damageEnemyBase = 0;
 
@@ -203,7 +202,7 @@ bool EnemyEntity::ReceiveDamage(u32 amount, ItemTypes::Weapons weapon)
 	// Set animation time
 	fInvicibleTime = 0.6f;
 
-	if((int)this->GetLife() <= 0)
+	if ((int)this->GetLife() <= 0)
 	{
 		// Add body to a list to remove
 		gPhysics->AddBodyToRemove(pBody);
@@ -255,11 +254,10 @@ void EnemyEntity::FindPathToPlayer()
 	gPathfinderManager->Findpath(pSprite->GetPosition(), pTarget->GetSprite()->GetPosition(), cPath);
 	bIsPlayerFound = false;
 
-	if(cPath.GetDirectionSteps().empty())
+	if (cPath.GetDirectionSteps().empty())
 		return;
 
-	Vector3f dir = cPath.GetDirectionSteps().top();
-
+	auto dir = cPath.GetDirectionSteps().top();
 	if (dir.getX() != 0.0f)
 	{
 		if (dir.getX() > 0.0)
@@ -276,7 +274,7 @@ void EnemyEntity::FindPathToPlayer()
 			pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y - (PIX2M * 40)), 0);
 	}
 
-	while(!cPath.GetDirectionSteps().empty())
+	while (!cPath.GetDirectionSteps().empty())
 		cPath.GetDirectionSteps().pop();
 }
 
