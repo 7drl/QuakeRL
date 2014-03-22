@@ -63,7 +63,7 @@ bool GameFlow::Initialize()
 			pSystem->AddListener(this);
 			pInput->AddKeyboardListener(this);
 
-			Viewport *viewport = cPres.GetViewportByName("MainView");
+			auto viewport = cPres.GetViewportByName("MainView");
 			pScene = viewport->GetScene();
 			pCamera = viewport->GetCamera();
 			vCameraPos = pCamera->GetPosition();
@@ -193,7 +193,7 @@ bool GameFlow::SaveSystemFlow() const
 	GameData data;
 	pSaveSystem->SetTotalSlots(4);
 
-	eCartridgeError error = pSaveSystem->Initialize(eCartridgeSize::Small);
+	auto error = pSaveSystem->Initialize(eCartridgeSize::Small);
 	if (error == eCartridgeError::None)
 		error = pSaveSystem->Prepare(GAME_ID, &data.sGamePlay, sizeof(data.sGamePlay), &data.sOptions, sizeof(data.sOptions));
 

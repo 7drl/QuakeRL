@@ -18,7 +18,7 @@ void TriggerCounter::Load(MetadataObject &metadata, SceneNode *sprites)
 {
 	Entity::Load(metadata, sprites);
 
-	String counter = metadata.GetProperty("Counter");
+	auto &counter = metadata.GetProperty("Counter");
 	if (counter.empty())
 	{
 		Log("Counter property not found for TriggerCounter");

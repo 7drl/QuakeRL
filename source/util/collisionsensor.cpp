@@ -2,7 +2,7 @@
 #include "../scene/gamescene.h"
 
 CollisionSensor::CollisionSensor()
-	: pBody(NULL)
+	: pBody(nullptr)
 {
 }
 
@@ -14,7 +14,7 @@ CollisionSensor::~CollisionSensor()
 
 void CollisionSensor::Load(ISceneObject &metadata, void *userData)
 {
-	this->Load(metadata, false, NULL, userData);
+	this->Load(metadata, false, nullptr, userData);
 }
 
 void CollisionSensor::Load(ISceneObject &metadata, bool track, b2Vec2 *customSize, void *userData)
@@ -25,5 +25,5 @@ void CollisionSensor::Load(ISceneObject &metadata, bool track, b2Vec2 *customSiz
 
 void CollisionSensor::Disable()
 {
-	pBody->GetFixtureList()->SetUserData(NULL);
+	pBody->GetFixtureList()->SetUserData(nullptr);
 }

@@ -14,7 +14,10 @@ ProceduralManager::ProceduralManager()
 	, iChanceCorridor(0)
 	, clRand()
 {
-
+	// Initialize rand component
+	time_t seed;
+	seed = time(nullptr);
+	clRand.Initialize(u32(seed));
 }
 
 ProceduralManager::~ProceduralManager()
@@ -26,9 +29,6 @@ ProceduralManager::~ProceduralManager()
 
 void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeonObjects)
 {
-	// Initialize rand component
-	clRand.Initialize();
-
 	// Initialize common values
 	iChanceRoom = 75;
 	iChanceCorridor = 25;
@@ -65,80 +65,78 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 		{
 			//Making the borders of unwalkable walls
 			if (y == 0)
-				SetTile(x, y, tileStoneWall);
-			else if (y == iYSize-1)
-				SetTile(x, y, tileStoneWall);
+				this->SetTile(x, y, tileStoneWall);
+			else if (y == iYSize - 1)
+				this->SetTile(x, y, tileStoneWall);
 			else if (x == 0)
-				SetTile(x, y, tileStoneWall);
-			else if (x == iXSize-1)
-				SetTile(x, y, tileStoneWall);
+				this->SetTile(x, y, tileStoneWall);
+			else if (x == iXSize - 1)
+				this->SetTile(x, y, tileStoneWall);
 			//Fill the rest with dirt
 			else
-				SetTile(x, y, tileBrickFloor);
+				this->SetTile(x, y, tileBrickFloor);
 				//SetTile(x, y, tileUnused);
 
 			// Initialize the enemies
-			SetEnemy(x, y, enemyNull);
+			this->SetEnemy(x, y, enemyNull);
 
 			// Initialize the items
-			SetItem(x, y, itemNull);
+			this->SetItem(x, y, itemNull);
 		}
 	}
 
 	// Create the ramdom rooms
 	// Start with making a room in the middle
-	MakeRoom(iXSize/2, iYSize/2, 8, 6, clRand.Get(0u, 3u));
+	this->MakeRoom(iXSize / 2, iYSize / 2, 8, 6, clRand.Get(0u, 3u));
 
 	// Keep count of the number of "objects" we've made
 	u32 currentFeatures = 1; //+1 for the first room we just made
 
 	// Then we sart the main loop to build the world
-	for (int countingTries = 0; countingTries < 1000; countingTries++)
+	for (s32 countingTries = 0; countingTries < 1000; countingTries++)
 	{
 		//check if we've reached our quota
 		if (currentFeatures == iObjects)
-		{
 			break;
-		}
 
 		//start with a random wall
 		u32 newx = 0;
 		u32 xmod = 0;
 		u32 newy = 0;
 		u32 ymod = 0;
-		int validTile = -1;
+		s32 validTile = -1;
 		//1000 chances to find a suitable object (room or corridor)..
 		//(yea, i know it's kinda ugly with a for-loop... -_-')
 		for (u32 testing = 0; testing < 1000; testing++)
 		{
-			newx = clRand.Get(1, iXSize-1);
-			newy = clRand.Get(1, iYSize-1);
+			newx = clRand.Get(1, iXSize - 1);
+			newy = clRand.Get(1, iYSize - 1);
 			validTile = -1;
-			if (GetTile(newx, newy) == tileStoneWall)
+			if (this->GetTile(newx, newy) == tileStoneWall)
 			{
 				//check if we can reach the place
-				if (GetTile(newx, newy+1) == tileBrickRoomFloor)
+				if (this->GetTile(newx, newy + 1) == tileBrickRoomFloor)
 				{
 					validTile = 0; //
 					xmod = 0;
-					ymod = -1;
+					ymod = -1;// BUG HERE.. u32??
 				}
-				else if (GetTile(newx-1, newy) == tileBrickRoomFloor)
+				else if (this->GetTile(newx - 1, newy) == tileBrickRoomFloor)
 				{
 					validTile = 1; //
 					xmod = +1;
 					ymod = 0;
 				}
-				else if (GetTile(newx, newy-1) == tileBrickRoomFloor)
+				else if (this->GetTile(newx, newy - 1) == tileBrickRoomFloor)
 				{
 					validTile = 2; //
 					xmod = 0;
 					ymod = +1;
 				}
-				else if (GetTile(newx+1, newy) == tileBrickRoomFloor)
+				else if (this->GetTile(newx + 1, newy) == tileBrickRoomFloor)
 				{
 					validTile = 3; //
-					xmod = -1;
+					xmod = -1;//BUG HERE.. u32??
 					ymod = 0;
 				}
 
@@ -146,43 +144,46 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 				//each other
 				if (validTile > -1)
 				{
-					if (GetTile(newx, newy+1) == tileDoor) //north
+					if (this->GetTile(newx, newy + 1) == tileDoor) //north
 						validTile = -1;
-					else if (GetTile(newx-1, newy) == tileDoor)//east
+					else if (this->GetTile(newx - 1, newy) == tileDoor)//east
 						validTile = -1;
-					else if (GetTile(newx, newy-1) == tileDoor)//south
+					else if (this->GetTile(newx, newy - 1) == tileDoor)//south
 						validTile = -1;
-					else if (GetTile(newx+1, newy) == tileDoor)//west
+					else if (this->GetTile(newx + 1, newy) == tileDoor)//west
 						validTile = -1;
 				}
 
 				//if we can, jump out of the loop and continue with the rest
-				if (validTile > -1) break;
+				if (validTile > -1)
+					break;
 			}
 		}
 		if (validTile > -1)
 		{
 			//choose what to build now at our newly found place, and at what direction
-			u32 feature = clRand.Get((u32)0, (u32)100);
-			if (feature <= iChanceRoom){ //a new room
-				if (MakeRoom((newx+xmod), (newy+ymod), 8, 6, validTile))
+			u32 feature = clRand.Get(0u, 100u);
+			if (feature <= iChanceRoom) //a new room
+			{
+				if (this->MakeRoom((newx + xmod), (newy + ymod), 8, 6, validTile))
 				{
 					currentFeatures++; //add to our quota
 
 					//then we mark the wall opening with a door
-					SetTile(newx, newy, tileDoor);
+					this->SetTile(newx, newy, tileDoor);
 
 					//clean up infront of the door so we can reach it
-					SetTile((newx+xmod), (newy+ymod), tileBrickRoomFloor);
+					this->SetTile((newx + xmod), (newy + ymod), tileBrickRoomFloor);
 				}
 			}
-			else if (feature >= iChanceRoom){ //new corridor
-				if (MakeCorridor((newx+xmod), (newy+ymod), 6, validTile))
+			else if (feature >= iChanceRoom) //new corridor
+			{
+				if (this->MakeCorridor((newx + xmod), (newy + ymod), 6, validTile))
 				{
 					//same thing here, add to the quota and a door
 					currentFeatures++;
 
-					SetTile(newx, newy, tileDoor);
+					this->SetTile(newx, newy, tileDoor);
 				}
 			}
 		}
@@ -192,8 +193,8 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 
 	// UpStairs
 	bool upStairsPlaced = false;
-	int upStairsX = 0;
-	int upStairsY = 0;
+	s32 upStairsX = 0;
+	s32 upStairsY = 0;
 
 	while (!upStairsPlaced)
 	{
@@ -202,17 +203,17 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 		upStairsX = clRand.Get(0, iXSize);
 		upStairsY = clRand.Get(0, iYSize);
 
-		if (FindFreeRoomPosition(upStairsX, upStairsY))
+		if (this->FindFreeRoomPosition(upStairsX, upStairsY))
 		{
-			SetTile(upStairsX, upStairsY, tileUpStairs);
+			this->SetTile(upStairsX, upStairsY, tileUpStairs);
 			upStairsPlaced = true;
 		}
 	}
 
 	// DownStairs
 	bool downStairsPlaced = false;
-	int downStairsX = 0;
-	int downStairsY = 0;
+	s32 downStairsX = 0;
+	s32 downStairsY = 0;
 
 	while (!downStairsPlaced)
 	{
@@ -221,9 +222,9 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 		downStairsX = clRand.Get(0, iXSize);
 		downStairsY = clRand.Get(0, iYSize);
 
-		if (FindFreeRoomPosition(downStairsX, downStairsY))
+		if (this->FindFreeRoomPosition(downStairsX, downStairsY))
 		{
-			SetTile(downStairsX, downStairsY, tileDownStairs);
+			this->SetTile(downStairsX, downStairsY, tileDownStairs);
 			downStairsPlaced = true;
 		}
 	}
@@ -245,8 +246,8 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 	{
 		xEnemyPlace = clRand.Get(0, iXSize);
 		yEnemyPlace = clRand.Get(0, iYSize);
-		tileToVerify = GetTile(xEnemyPlace, yEnemyPlace);
-		enemyToVerify = GetEnemy(xEnemyPlace, yEnemyPlace);
+		tileToVerify = this->GetTile(xEnemyPlace, yEnemyPlace);
+		enemyToVerify = this->GetEnemy(xEnemyPlace, yEnemyPlace);
 
 		// We need to verify if is not a wall or a door and there is empty
 		if (	tileToVerify != tileUpStairs &&
@@ -254,7 +255,7 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 				tileToVerify != tileStoneWall &&
 				enemyToVerify == enemyNull)
 		{
-			SetEnemy(xEnemyPlace, yEnemyPlace, clRand.Get((u32)enemyGrunt, (u32)enemyKnight));
+			this->SetEnemy(xEnemyPlace, yEnemyPlace, clRand.Get(u32(enemyGrunt), u32(enemyKnight)));
 			quantityEnemies--;
 		}
 	}
@@ -264,9 +265,9 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 	{
 		xItemPlace	= clRand.Get(0, iXSize);
 		yItemPlace	= clRand.Get(0, iYSize);
-		tileToVerify	= GetTile(xItemPlace, yItemPlace);
-		enemyToVerify	= GetEnemy(xItemPlace, yItemPlace);
-		itemToVerify	= GetItem(xItemPlace, yItemPlace);
+		tileToVerify	= this->GetTile(xItemPlace, yItemPlace);
+		enemyToVerify	= this->GetEnemy(xItemPlace, yItemPlace);
+		itemToVerify	= this->GetItem(xItemPlace, yItemPlace);
 
 		// We need to verify if is not a wall or a door and there is empty
 		if (	tileToVerify != tileUpStairs &&
@@ -277,7 +278,7 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 				enemyToVerify == enemyNull &&
 				itemToVerify == itemNull)
 		{
-			SetItem(xItemPlace, yItemPlace, clRand.Get((u32)itemHealth, (u32)itemWeaponShockgun));
+			this->SetItem(xItemPlace, yItemPlace, clRand.Get(u32(itemHealth), u32(itemWeaponShockgun)));
 			quantityItems--;
 		}
 	}
@@ -335,107 +336,139 @@ bool ProceduralManager::MakeRoom(u32 x, u32 y, u32 xlength, u32 ylength, u32 dir
 	u32 wall = tileStoneWall;
 
 	// Choose the way it's pointing at
-	int dir = 0;
-	if (direction > 0 && direction < 4) dir = direction;
+	s32 dir = 0;
+	if (direction > 0 && direction < 4)
+		dir = direction;
 
-	switch(dir)
+	switch (dir)
 	{
-		case 0:
-		//north
+		case 0: //north
+		{
 			//Check if there's enough space left for it
 			for (u32 ytemp = y; ytemp > (y-ylen); ytemp--)
 			{
-				if (ytemp > iYSize) return false;
-				for (u32 xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++)
+				if (ytemp > iYSize)
+					return false;
+
+				for (u32 xtemp = (x - xlen / 2); xtemp < (x + (xlen + 1) / 2); xtemp++)
 				{
-					if (xtemp > iXSize) return false;
-					if (GetTile(xtemp, ytemp) != tileBrickFloor) return false; //no space left...
+					if (xtemp > iXSize)
+						return false;
+
+					if (this->GetTile(xtemp, ytemp) != tileBrickFloor)
+						return false; //no space left...
 				}
 			}
 
 			//we're still here, build
-			for (u32 ytemp = y; ytemp > (y-ylen); ytemp--)
+			for (u32 ytemp = y; ytemp > (y - ylen); ytemp--)
 			{
-				for (u32 xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++)
+				for (u32 xtemp = (x - xlen / 2); xtemp < (x + (xlen + 1) / 2); xtemp++)
 				{
 					//start with the walls
-					if (xtemp == (x-xlen/2)) SetTile(xtemp, ytemp, wall);
-					else if (xtemp == (x+(xlen-1)/2)) SetTile(xtemp, ytemp, wall);
-					else if (ytemp == y) SetTile(xtemp, ytemp, wall);
-					else if (ytemp == (y-ylen+1)) SetTile(xtemp, ytemp, wall);
+					if (xtemp == (x - xlen / 2)) this->SetTile(xtemp, ytemp, wall);
+					else if (xtemp == (x + (xlen - 1) / 2)) this->SetTile(xtemp, ytemp, wall);
+					else if (ytemp == y) this->SetTile(xtemp, ytemp, wall);
+					else if (ytemp == (y - ylen + 1)) this->SetTile(xtemp, ytemp, wall);
 					//and then fill with the floor
-					else SetTile(xtemp, ytemp, floor);
+					else this->SetTile(xtemp, ytemp, floor);
 				}
 			}
-			break;
-		case 1:
-		//east
-			for (u32 ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++)
+		}
+		break;
+
+		case 1: //east
+		{
+			for (u32 ytemp = (y - ylen / 2); ytemp < (y + (ylen + 1) / 2); ytemp++)
 			{
-				if (ytemp > iYSize) return false;
-				for (u32 xtemp = x; xtemp < (x+xlen); xtemp++)
+				if (ytemp > iYSize)
+					return false;
+
+				for (u32 xtemp = x; xtemp < (x + xlen); xtemp++)
 				{
-					if (xtemp > iXSize) return false;
-					if (GetTile(xtemp, ytemp) != tileBrickFloor) return false;
+					if (xtemp > iXSize)
+						return false;
+
+					if (this->GetTile(xtemp, ytemp) != tileBrickFloor)
+						return false;
 				}
 			}
 
-			for (u32 ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
-				for (u32 xtemp = x; xtemp < (x+xlen); xtemp++){
-
-					if (xtemp == x) SetTile(xtemp, ytemp, wall);
-					else if (xtemp == (x+xlen-1)) SetTile(xtemp, ytemp, wall);
-					else if (ytemp == (y-ylen/2)) SetTile(xtemp, ytemp, wall);
-					else if (ytemp == (y+(ylen-1)/2)) SetTile(xtemp, ytemp, wall);
-
-					else SetTile(xtemp, ytemp, floor);
+			for (u32 ytemp = (y - ylen / 2); ytemp < (y + (ylen + 1) / 2); ytemp++)
+			{
+				for (u32 xtemp = x; xtemp < (x + xlen); xtemp++)
+				{
+					if (xtemp == x) this->SetTile(xtemp, ytemp, wall);
+					else if (xtemp == (x + xlen - 1)) this->SetTile(xtemp, ytemp, wall);
+					else if (ytemp == (y - ylen / 2)) this->SetTile(xtemp, ytemp, wall);
+					else if (ytemp == (y + (ylen - 1) / 2)) this->SetTile(xtemp, ytemp, wall);
+					else this->SetTile(xtemp, ytemp, floor);
 				}
 			}
-			break;
-		case 2:
-		//south
-			for (u32 ytemp = y; ytemp < (y+ylen); ytemp++){
-				if (ytemp > iYSize) return false;
-				for (u32 xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++){
-					if (xtemp > iXSize) return false;
-					if (GetTile(xtemp, ytemp) != tileBrickFloor) return false;
-				}
-			}
+		}
+		break;
 
-			for (u32 ytemp = y; ytemp < (y+ylen); ytemp++){
-				for (u32 xtemp = (x-xlen/2); xtemp < (x+(xlen+1)/2); xtemp++){
+		case 2: //south
+		{
+			for (u32 ytemp = y; ytemp < (y + ylen); ytemp++)
+			{
+				if (ytemp > iYSize)
+					return false;
 
-					if (xtemp == (x-xlen/2)) SetTile(xtemp, ytemp, wall);
-					else if (xtemp == (x+(xlen-1)/2)) SetTile(xtemp, ytemp, wall);
-					else if (ytemp == y) SetTile(xtemp, ytemp, wall);
-					else if (ytemp == (y+ylen-1)) SetTile(xtemp, ytemp, wall);
+				for (u32 xtemp = (x - xlen / 2); xtemp < (x + (xlen + 1) / 2); xtemp++)
+				{
+					if (xtemp > iXSize)
+						return false;
 
-					else SetTile(xtemp, ytemp, floor);
-				}
-			}
-			break;
-		case 3:
-		//west
-			for (u32 ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
-				if (ytemp > iYSize) return false;
-				for (u32 xtemp = x; xtemp > (x-xlen); xtemp--){
-					if (xtemp > iXSize) return false;
-					if (GetTile(xtemp, ytemp) != tileBrickFloor) return false;
+					if (this->GetTile(xtemp, ytemp) != tileBrickFloor)
+						return false;
 				}
 			}
 
-			for (u32 ytemp = (y-ylen/2); ytemp < (y+(ylen+1)/2); ytemp++){
-				for (u32 xtemp = x; xtemp > (x-xlen); xtemp--){
-
-					if (xtemp == x) SetTile(xtemp, ytemp, wall);
-					else if (xtemp == (x-xlen+1)) SetTile(xtemp, ytemp, wall);
-					else if (ytemp == (y-ylen/2)) SetTile(xtemp, ytemp, wall);
-					else if (ytemp == (y+(ylen-1)/2)) SetTile(xtemp, ytemp, wall);
-
-					else SetTile(xtemp, ytemp, floor);
+			for (u32 ytemp = y; ytemp < (y+ylen); ytemp++)
+			{
+				for (u32 xtemp = (x - xlen / 2); xtemp < (x + (xlen + 1) / 2); xtemp++)
+				{
+					if (xtemp == (x - xlen / 2)) this->SetTile(xtemp, ytemp, wall);
+					else if (xtemp == (x + (xlen - 1) / 2)) this->SetTile(xtemp, ytemp, wall);
+					else if (ytemp == y) this->SetTile(xtemp, ytemp, wall);
+					else if (ytemp == (y + ylen - 1)) this->SetTile(xtemp, ytemp, wall);
+					else this->SetTile(xtemp, ytemp, floor);
 				}
 			}
-			break;
+		}
+		break;
+
+		case 3: //west
+		{
+			for (u32 ytemp = (y - ylen / 2); ytemp < (y + (ylen + 1) / 2); ytemp++)
+			{
+				if (ytemp > iYSize)
+					return false;
+
+				for (u32 xtemp = x; xtemp > (x - xlen); xtemp--)
+				{
+					if (xtemp > iXSize)
+						return false;
+
+					if (this->GetTile(xtemp, ytemp) != tileBrickFloor)
+						return false;
+				}
+			}
+
+			for (u32 ytemp = (y - ylen / 2); ytemp < (y + (ylen + 1) / 2); ytemp++)
+			{
+				for (u32 xtemp = x; xtemp > (x - xlen); xtemp--)
+				{
+					if (xtemp == x) this->SetTile(xtemp, ytemp, wall);
+					else if (xtemp == (x - xlen + 1)) this->SetTile(xtemp, ytemp, wall);
+					else if (ytemp == (y - ylen / 2)) this->SetTile(xtemp, ytemp, wall);
+					else if (ytemp == (y + (ylen - 1) / 2)) this->SetTile(xtemp, ytemp, wall);
+					else this->SetTile(xtemp, ytemp, floor);
+				}
+			}
+		}
+		break;
 	}
 
 	//yay, all done
@@ -447,78 +480,92 @@ bool ProceduralManager::MakeCorridor(u32 x, u32 y, u32 lenght, u32 direction)
 	u32 len = clRand.Get(2, lenght);
 	u32 floor = tileCorridor;
 	u32 dir = 0;
-	if(direction > 0 && direction < 4) dir = direction;
+
+	if (direction > 0 && direction < 4)
+		dir = direction;
 
 	u32 xtemp = 0;
 	u32 ytemp = 0;
-
-	switch(dir)
+	switch (dir)
 	{
 		case 0:
 		{
-			if(x > iXSize) return false;
-			else xtemp = x;
+			if (x > iXSize)
+				return false;
 
-			for(ytemp = y; ytemp > (y-len); ytemp--)
+			xtemp = x;
+			for (ytemp = y; ytemp > (y-len); ytemp--)
 			{
-				if(ytemp > iYSize) return false;
-				if(GetTile(xtemp, ytemp) != tileBrickFloor) return false;
+				if (ytemp > iYSize)
+					return false;
+
+				if (this->GetTile(xtemp, ytemp) != tileBrickFloor)
+					return false;
 			}
 
-			for(ytemp = y; ytemp > (y - len); ytemp--)
-			{
-				SetTile(xtemp, ytemp, floor);
-			}
-			break;
-
+			for (ytemp = y; ytemp > (y - len); ytemp--)
+				this->SetTile(xtemp, ytemp, floor);
 		}
+		break;
+
 		case 1:
 		{
-			if(y > iYSize) return false;
-			else ytemp = y;
+			if (y > iYSize)
+				return false;
 
-			for(xtemp = x; xtemp < (x + len); xtemp++)
+			ytemp = y;
+			for (xtemp = x; xtemp < (x + len); xtemp++)
 			{
-				if(xtemp > iXSize) return false;
-				if(GetTile(xtemp, ytemp) != tileBrickFloor) return false;
+				if (xtemp > iXSize)
+					return false;
+
+				if (this->GetTile(xtemp, ytemp) != tileBrickFloor)
+					return false;
 			}
 
-			for(xtemp = x; xtemp < (x + len); xtemp++)
-			{
-				SetTile(xtemp, ytemp, floor);
-			}
-			break;
+			for (xtemp = x; xtemp < (x + len); xtemp++)
+				this->SetTile(xtemp, ytemp, floor);
 		}
+		break;
+
 		case 2:
 		{
-			if(x > iXSize) return false;
-			else xtemp = x;
+			if (x > iXSize)
+				return false;
 
-			for(ytemp = y; ytemp < (y + len); ytemp++)
+			xtemp = x;
+			for (ytemp = y; ytemp < (y + len); ytemp++)
 			{
-				if(ytemp > iYSize) return false;
-				if(GetTile(xtemp, ytemp) != tileBrickFloor) return false;
+				if (ytemp > iYSize)
+					return false;
+
+				if (this->GetTile(xtemp, ytemp) != tileBrickFloor)
+					return false;
 			}
-			for (ytemp = y; ytemp < (y+len); ytemp++){
-				SetTile(xtemp, ytemp, floor);
-			}
-		break;
+			for (ytemp = y; ytemp < (y+len); ytemp++)
+				this->SetTile(xtemp, ytemp, floor);
 		}
+		break;
+
 		case 3:
 		{
-			if (ytemp > iYSize) return false;
-			else ytemp = y;
+			if (ytemp > iYSize)
+				return false;
 
-			for (xtemp = x; xtemp > (x-len); xtemp--){
-				if (xtemp > iXSize) return false;
-				if (GetTile(xtemp, ytemp) != tileBrickFloor) return false;
+			ytemp = y;
+			for (xtemp = x; xtemp > (x - len); xtemp--)
+			{
+				if (xtemp > iXSize)
+					return false;
+
+				if (this->GetTile(xtemp, ytemp) != tileBrickFloor)
+					return false;
 			}
 
-			for (xtemp = x; xtemp > (x-len); xtemp--){
-				SetTile(xtemp, ytemp, floor);
-			}
-			break;
+			for (xtemp = x; xtemp > (x - len); xtemp--)
+				this->SetTile(xtemp, ytemp, floor);
 		}
+		break;
 	}
 	//woot, we're still here! let's tell the other guys we're done!!
 	return true;
@@ -526,12 +573,5 @@ bool ProceduralManager::MakeCorridor(u32 x, u32 y, u32 lenght, u32 direction)
 
 bool ProceduralManager::FindFreeRoomPosition(u32 x, u32 y)
 {
-	if (GetTile(x, y) == tileBrickRoomFloor || GetTile(x, y) == tileBrickFloor)
-	{
-		return true;
-	}
-	else
-	{
-		return false;
-	}
+	return (this->GetTile(x, y) == tileBrickRoomFloor || this->GetTile(x, y) == tileBrickFloor);
 }

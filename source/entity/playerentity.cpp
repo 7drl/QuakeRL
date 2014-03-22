@@ -33,6 +33,15 @@ PlayerEntity::PlayerEntity()
 	, pEnemyTarget(nullptr)
 	, bCanMove(true)
 {
+	bWeponsGotten[0] = false;
+	bWeponsGotten[1] = true;
+	bWeponsGotten[2] = true;
+	bWeponsGotten[3] = false;
+	bWeponsGotten[4] = false;
+	bWeponsGotten[5] = false;
+	bWeponsGotten[6] = false;
+	bWeponsGotten[7] = false;
+	bWeponsGotten[8] = false;
 }
 
 PlayerEntity::PlayerEntity(const char *className, const char *spriteName)
@@ -124,7 +133,7 @@ void PlayerEntity::Update(f32 dt)
 
 	// UGLY - This is used to by pass a problem with colliders
 	auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-	Vector3f curPos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX)), -10);
+	auto curPos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX)), -10);
 	auto tileId = map->GetTileAt(curPos);
 
 	if (tileId == ProceduralManager::eTiles::tileDownStairs)
@@ -141,7 +150,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 	if ((k == eKey::Up || k == eKey::W) && iCurrentState != Jump)
 	{
 		auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-		Vector3f movePos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) - 40), -10);
+		auto movePos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) - 40), -10);
 		auto tileId = map->GetTileAt(movePos);
 
 		if (tileId != ProceduralManager::eTiles::tileStoneWall) // Wall
@@ -167,7 +176,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 	if (k == eKey::Left || k == eKey::A)
 	{
 		auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-		Vector3f movePos = Vector3f(ceil((pBody->GetTransform().p.x * M2PIX) - 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
+		auto movePos = Vector3f(ceil((pBody->GetTransform().p.x * M2PIX) - 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
 		auto tileId = map->GetTileAt(movePos);
 
 		if (tileId != ProceduralManager::eTiles::tileStoneWall) // Wall
@@ -193,7 +202,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 	if (k == eKey::Right || k == eKey::D)
 	{
 		auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-		Vector3f movePos = Vector3f(ceil((pBody->GetTransform().p.x * M2PIX) + 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
+		auto movePos = Vector3f(ceil((pBody->GetTransform().p.x * M2PIX) + 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
 		auto tileId = map->GetTileAt(movePos);
 
 		if (tileId != ProceduralManager::eTiles::tileStoneWall) // Wall
@@ -219,7 +228,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 	if (k == eKey::Down || k == eKey::S)
 	{
 		auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-		Vector3f movePos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) + 40 ), -10);
+		auto movePos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) + 40 ), -10);
 		auto tileId = map->GetTileAt(movePos);
 
 		if (tileId != ProceduralManager::eTiles::tileStoneWall) // Wall
@@ -309,7 +318,7 @@ bool PlayerEntity::OnInputKeyboardRelease(const EventInputKeyboard *ev)
 {
 	Key k = ev->GetKey();
 
-	b2Vec2 vel = pBody->GetLinearVelocity();
+	auto vel = pBody->GetLinearVelocity();
 	vel.x = 0;
 	vel.y = 0;
 
@@ -380,9 +389,9 @@ void PlayerEntity::SetWeapon(ItemTypes::Weapons weapon)
 {
 	eWeapon = weapon;
 
-	if(GetWeapon() == ItemTypes::Rifle || GetWeapon() == ItemTypes::Shotgun) gGui->SetAmmoSelected(uQuantityAmmoShells);
-	else if(GetWeapon() == ItemTypes::Nailgun || GetWeapon() == ItemTypes::HeavyNailgun) gGui->SetAmmoSelected(uQuantityAmmoNails);
-	else if(GetWeapon() == ItemTypes::GrenadeLauncher || GetWeapon() == ItemTypes::RocketLauncher) gGui->SetAmmoSelected(uQuantityAmmoRockets);
+	if (GetWeapon() == ItemTypes::Rifle || GetWeapon() == ItemTypes::Shotgun) gGui->SetAmmoSelected(uQuantityAmmoShells);
+	else if (GetWeapon() == ItemTypes::Nailgun || GetWeapon() == ItemTypes::HeavyNailgun) gGui->SetAmmoSelected(uQuantityAmmoNails);
+	else if (GetWeapon() == ItemTypes::GrenadeLauncher || GetWeapon() == ItemTypes::RocketLauncher) gGui->SetAmmoSelected(uQuantityAmmoRockets);
 	else gGui->SetAmmoSelected(uQuantityAmmoShock);
 
 	gGui->OnChangeWeapon(weapon, bWeponsGotten);
@@ -398,14 +407,14 @@ void PlayerEntity::SetWeaponGot(ItemTypes::Weapons weapon)
 	bWeponsGotten[weapon] = true;
 }
 
-bool* PlayerEntity::GetWeaponGot()
+bool *PlayerEntity::GetWeaponGot()
 {
 	return bWeponsGotten;
 }
 
 void PlayerEntity::StopPlayerMovement()
 {
-	b2Vec2 vel = pBody->GetLinearVelocity();
+	auto vel = pBody->GetLinearVelocity();
 	vel.x = 0;
 	vel.y = 0;
 
@@ -496,10 +505,12 @@ u32 PlayerEntity::GetLifeTotal() const
 {
 	return sPlayer.iLifeTotal;
 }
+
 void PlayerEntity::SetLifeTotal(const u32 lifeTotal)
 {
 	sPlayer.iLifeTotal = lifeTotal;
 }
+
 void PlayerEntity::RemoveLifeTotal()
 {
 	sPlayer.iLifeTotal--;
@@ -509,11 +520,13 @@ u32 PlayerEntity::GetStamina() const
 {
 	return sPlayer.iStamina;
 }
+
 void PlayerEntity::SetStamina(const u32 stamina)
 {
 	sPlayer.iStamina = stamina;
 	//gGui->SetStamina(stamina, this->sPlayer.iStaminaTotal);
 }
+
 void PlayerEntity::RemoveStamina()
 {
 	sPlayer.iStamina--;
@@ -523,10 +536,12 @@ u32 PlayerEntity::GetStaminaTotal() const
 {
 	return sPlayer.iStaminaTotal;
 }
+
 void PlayerEntity::SetStaminaTotal(const u32 staminaTotal)
 {
 	sPlayer.iStaminaTotal = staminaTotal;
 }
+
 void PlayerEntity::RemoveStaminaTotal()
 {
 	sPlayer.iStaminaTotal--;
@@ -573,13 +588,15 @@ bool PlayerEntity::OnDamage(u32 amount)
 	if(this->GetArmor() <= 0)
 	{
 		// Receive the damage
-		u32 life = this->GetLife() - amount;
+		auto life = this->GetLife() - amount;
 
 		// Change avatar based on life
 		gGui->OnDamageAvatar(life);
 
-		if ((int)life > 1)
+		if (life > 1)
+		{
 			this->SetLife(life);
+		}
 		else
 		{
 			gSoundManager->Play(SND_DEATH);
@@ -588,7 +605,7 @@ bool PlayerEntity::OnDamage(u32 amount)
 	}
 	else
 	{
-		u32 armor = this->GetArmor() - amount;
+		auto armor = this->GetArmor() - amount;
 		this->SetArmor(armor);
 	}
 
@@ -597,7 +614,7 @@ bool PlayerEntity::OnDamage(u32 amount)
 
 void PlayerEntity::OnCollect(u32 item, u32 amount)
 {
-	if(item == ItemTypes::Weapons::Rifle)
+	if (item == ItemTypes::Weapons::Rifle)
 	{
 		// Play sound
 		gSoundManager->Play(SND_PICKUP_GUN);
@@ -609,11 +626,11 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		SetWeapon(ItemTypes::Weapons::Rifle);
 		gGui->SetAmmoShells(uQuantityAmmoShells);
 
-		if(GetWeapon() == ItemTypes::Rifle)
+		if (GetWeapon() == ItemTypes::Rifle)
 			gGui->SetAmmoSelected(uQuantityAmmoShells);
 	}
 
-	if(item == ItemTypes::Weapons::Shotgun)
+	if (item == ItemTypes::Weapons::Shotgun)
 	{
 		// Play sound
 		gSoundManager->Play(SND_PICKUP_GUN);
@@ -625,11 +642,11 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		SetWeapon(ItemTypes::Weapons::Shotgun);
 		gGui->SetAmmoShells(uQuantityAmmoShells);
 
-		if(GetWeapon() == ItemTypes::Shotgun)
+		if (GetWeapon() == ItemTypes::Shotgun)
 			gGui->SetAmmoSelected(uQuantityAmmoShells);
 	}
 
-	if(item == ItemTypes::Weapons::Nailgun)
+	if (item == ItemTypes::Weapons::Nailgun)
 	{
 		// Play sound
 		gSoundManager->Play(SND_PICKUP_GUN);
@@ -641,11 +658,11 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		SetWeapon(ItemTypes::Weapons::Nailgun);
 		gGui->SetAmmoNails(uQuantityAmmoNails);
 
-		if(GetWeapon() == ItemTypes::Nailgun)
+		if (GetWeapon() == ItemTypes::Nailgun)
 			gGui->SetAmmoSelected(uQuantityAmmoNails);
 	}
 
-	if(item == ItemTypes::Weapons::HeavyNailgun)
+	if (item == ItemTypes::Weapons::HeavyNailgun)
 	{
 		// Play sound
 		gSoundManager->Play(SND_PICKUP_GUN);
@@ -657,11 +674,11 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		SetWeapon(ItemTypes::Weapons::HeavyNailgun);
 		gGui->SetAmmoNails(uQuantityAmmoNails);
 
-		if(GetWeapon() == ItemTypes::HeavyNailgun)
+		if (GetWeapon() == ItemTypes::HeavyNailgun)
 			gGui->SetAmmoSelected(uQuantityAmmoNails);
 	}
 
-	if(item == ItemTypes::Weapons::GrenadeLauncher)
+	if (item == ItemTypes::Weapons::GrenadeLauncher)
 	{
 		// Play sound
 		gSoundManager->Play(SND_PICKUP_GUN);
@@ -673,11 +690,11 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		SetWeapon(ItemTypes::Weapons::GrenadeLauncher);
 		gGui->SetAmmoRockets(uQuantityAmmoRockets);
 
-		if(GetWeapon() == ItemTypes::GrenadeLauncher)
+		if (GetWeapon() == ItemTypes::GrenadeLauncher)
 			gGui->SetAmmoSelected(uQuantityAmmoRockets);
 	}
 
-	if(item == ItemTypes::Weapons::RocketLauncher)
+	if (item == ItemTypes::Weapons::RocketLauncher)
 	{
 		// Play sound
 		gSoundManager->Play(SND_PICKUP_GUN);
@@ -689,11 +706,11 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		SetWeapon(ItemTypes::Weapons::RocketLauncher);
 		gGui->SetAmmoRockets(uQuantityAmmoRockets);
 
-		if(GetWeapon() == ItemTypes::RocketLauncher)
+		if (GetWeapon() == ItemTypes::RocketLauncher)
 			gGui->SetAmmoSelected(uQuantityAmmoRockets);
 	}
 
-	if(item == ItemTypes::Weapons::Shockgun)
+	if (item == ItemTypes::Weapons::Shockgun)
 	{
 		// Play sound
 		gSoundManager->Play(SND_PICKUP_GUN);
@@ -705,21 +722,21 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		SetWeapon(ItemTypes::Weapons::Shockgun);
 		gGui->SetAmmoCells(uQuantityAmmoShock);
 
-		if(GetWeapon() == ItemTypes::Shockgun)
+		if (GetWeapon() == ItemTypes::Shockgun)
 			gGui->SetAmmoSelected(uQuantityAmmoShock);
 	}
 
-	if(item == ItemTypes::HealthPotion)
+	if (item == ItemTypes::HealthPotion)
 	{
 		// Play sound
 		gSoundManager->Play(SND_PICKUP_HEALTH);
 
-		u32 life = GetLife() + amount;
+		auto life = GetLife() + amount;
 		SetLife(life <= 100 ? life : 100);
 		gGui->OnDamageAvatar(life);
 	}
 
-	if(item == ItemTypes::LightArmor)
+	if (item == ItemTypes::LightArmor)
 	{
 		// Play sound
 		gSoundManager->Play(SND_PICKUP_ARMOR);
@@ -728,7 +745,7 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		gGui->OnGetArmor(amount);
 	}
 
-	if(item == ItemTypes::MediumArmor)
+	if (item == ItemTypes::MediumArmor)
 	{
 		// Play sound
 		gSoundManager->Play(SND_PICKUP_ARMOR);
@@ -737,7 +754,7 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		gGui->OnGetArmor(amount);
 	}
 
-	if(item == ItemTypes::HeavyArmor)
+	if (item == ItemTypes::HeavyArmor)
 	{
 		// Play sound
 		gSoundManager->Play(SND_PICKUP_ARMOR);
@@ -746,7 +763,7 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		gGui->OnGetArmor(amount);
 	}
 
-	if(item == ItemTypes::ShellsAmmo)
+	if (item == ItemTypes::ShellsAmmo)
 	{
 		// Play sound
 		gSoundManager->Play(SND_PICKUP_AMMO);
@@ -754,11 +771,11 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		uQuantityAmmoShells += amount;
 		gGui->SetAmmoShells(uQuantityAmmoShells);
 
-		if(GetWeapon() == ItemTypes::Rifle || GetWeapon() == ItemTypes::Shotgun)
+		if (GetWeapon() == ItemTypes::Rifle || GetWeapon() == ItemTypes::Shotgun)
 			gGui->SetAmmoSelected(uQuantityAmmoShells);
 	}
 
-	if(item == ItemTypes::NailsAmmo)
+	if (item == ItemTypes::NailsAmmo)
 	{
 		// Play sound
 		gSoundManager->Play(SND_PICKUP_AMMO);
@@ -770,7 +787,7 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 			gGui->SetAmmoSelected(uQuantityAmmoNails);
 	}
 
-	if(item == ItemTypes::RocketsAmmo)
+	if (item == ItemTypes::RocketsAmmo)
 	{
 		// Play sound
 		gSoundManager->Play(SND_PICKUP_AMMO);
@@ -783,7 +800,7 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 			gGui->SetAmmoSelected(uQuantityAmmoRockets);
 	}
 
-	if(item == ItemTypes::ShockAmmo)
+	if (item == ItemTypes::ShockAmmo)
 	{
 		// Play sound
 		gSoundManager->Play(SND_PICKUP_AMMO);
@@ -873,71 +890,65 @@ void PlayerEntity::LoadPlayerDamageSound()
 
 bool PlayerEntity::DecreaseAmmo()
 {
-	if(GetWeapon() == ItemTypes::Rifle || GetWeapon() == ItemTypes::Shotgun)
+	if (GetWeapon() == ItemTypes::Rifle || GetWeapon() == ItemTypes::Shotgun)
 	{
-		if(uQuantityAmmoShells)
+		if (uQuantityAmmoShells)
 		{
 			uQuantityAmmoShells--;
 			gGui->SetAmmoShells(uQuantityAmmoShells);
 			gGui->SetAmmoSelected(uQuantityAmmoShells);
 			return true;
 		}
-		else
-			return false;
+		return false;
 	}
-	else if(GetWeapon() == ItemTypes::Nailgun || GetWeapon() == ItemTypes::HeavyNailgun)
+	else if (GetWeapon() == ItemTypes::Nailgun || GetWeapon() == ItemTypes::HeavyNailgun)
 	{
-		if(uQuantityAmmoNails)
+		if (uQuantityAmmoNails)
 		{
 			uQuantityAmmoNails--;
 			gGui->SetAmmoNails(uQuantityAmmoNails);
 			gGui->SetAmmoSelected(uQuantityAmmoNails);
 			return true;
 		}
-		else
-			return false;
+		return false;
 	}
-	else if(GetWeapon() == ItemTypes::GrenadeLauncher
-			|| GetWeapon() == ItemTypes::RocketLauncher)
+	else if (GetWeapon() == ItemTypes::GrenadeLauncher || GetWeapon() == ItemTypes::RocketLauncher)
 	{
-		if(uQuantityAmmoRockets)
+		if (uQuantityAmmoRockets)
 		{
 			uQuantityAmmoRockets--;
 			gGui->SetAmmoRockets(uQuantityAmmoRockets);
 			gGui->SetAmmoSelected(uQuantityAmmoRockets);
 			return true;
 		}
-		else
-			return false;
+		return false;
 	}
-	else if(GetWeapon() == ItemTypes::Shockgun)
+	else if (GetWeapon() == ItemTypes::Shockgun)
 	{
-		if(uQuantityAmmoShock)
+		if (uQuantityAmmoShock)
 		{
 			uQuantityAmmoShock--;
 			gGui->SetAmmoCells(uQuantityAmmoShock);
 			gGui->SetAmmoSelected(uQuantityAmmoShock);
 			return true;
 		}
-		else
-			return false;
+		return false;
 	}
 	// Axe damage
-	else
-		return true;
+	return true;
 }
 
 u32 PlayerEntity::CalculateDamage()
 {
-	if(GetWeapon() == ItemTypes::Rifle)
+	if (GetWeapon() == ItemTypes::Rifle)
 	{
 		return 2;
 	}
-	else if(GetWeapon() == ItemTypes::Shotgun)
+	else if (GetWeapon() == ItemTypes::Shotgun)
 	{
 		return 3;
 	}
-	else if(GetWeapon() == ItemTypes::Nailgun)
+	else if (GetWeapon() == ItemTypes::Nailgun)
 	{
 		return 4;
 	}
@@ -945,7 +956,7 @@ u32 PlayerEntity::CalculateDamage()
 	{
 		return 5;
 	}
-	else if(GetWeapon() == ItemTypes::GrenadeLauncher)
+	else if (GetWeapon() == ItemTypes::GrenadeLauncher)
 	{
 		return 8;
 	}
@@ -953,32 +964,27 @@ u32 PlayerEntity::CalculateDamage()
 	{
 		return 8;
 	}
-	else if(GetWeapon() == ItemTypes::Shockgun)
+	else if (GetWeapon() == ItemTypes::Shockgun)
 	{
 		return 9;
 	}
 	// Axe damage
-	else
-		return 1;
+	return 1;
 }
 
 void PlayerEntity::OnCollision(const CollisionEvent &event)
 {
 	if (event.GetType() == CollisionEventType::OnEnter)
 	{
-		Entity *other = event.GetOtherEntity();
+		auto other = event.GetOtherEntity();
 		if (other != nullptr && other->GetClassName() == "Trigger")
-		{
 			gGameScene->ChangeLevel();
-		}
 	}
 
 	if (event.GetType() == CollisionEventType::OnLeave)
 	{
-		Entity *other = event.GetOtherEntity();
+		auto other = event.GetOtherEntity();
 		if (other != nullptr && other->GetClassName() == "Trigger")
-		{
 			gGameScene->ChangeLevel();
-		}
 	}
 }

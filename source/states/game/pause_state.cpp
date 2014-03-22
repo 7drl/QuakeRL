@@ -15,7 +15,8 @@ void PauseState::OnStart(void *data)
 	Log("Entering Pause State");
 	gGui->LoadStackedGUI("gui/views/gamepause.rml");
 	pSoundSystem->Mute();
-	GameScene *g = static_cast<GameScene *>(data);
+
+	auto g = static_cast<GameScene *>(data);
 	g->Pause();
 }
 

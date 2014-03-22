@@ -9,7 +9,7 @@
 #define M2PIX		(1.0f / PIX2M)
 
 PhysicsManager::PhysicsManager()
-	: pWorld(NULL)
+	: pWorld(nullptr)
 	, fTimeLeft(0.0f)
 {
 	pWorld = sdNew(b2World(b2Vec2(0.0f, 0.0f)));
@@ -25,7 +25,7 @@ PhysicsManager::~PhysicsManager()
 
 void PhysicsManager::Update(f32 dt)
 {
-	const f32 timeStep = 1/60.0f;
+	const f32 timeStep = 1 / 60.0f;
 	fTimeLeft += dt;
 
 	while (fTimeLeft >= timeStep)
@@ -35,13 +35,13 @@ void PhysicsManager::Update(f32 dt)
 		pWorld->ClearForces();
 	}
 
-	for (b2Body *b = pWorld->GetBodyList(); b; b = b->GetNext())
+	for (auto b = pWorld->GetBodyList(); b; b = b->GetNext())
 	{
-		ISceneObject *obj = (ISceneObject *)b->GetUserData();
-		if (obj != NULL)
+		auto obj = (ISceneObject *)b->GetUserData();
+		if (obj != nullptr)
 		{
-			b2Vec2 p = b->GetPosition();
-			f32 a = b->GetAngle() * RAD2DEG;
+			auto p = b->GetPosition();
+			auto a = b->GetAngle() * RAD2DEG;
 			obj->SetPosition(p.x * M2PIX, p.y * M2PIX);
 			obj->SetRotation(a);
 		}
@@ -49,7 +49,7 @@ void PhysicsManager::Update(f32 dt)
 
 	while (!lstEvents.empty())
 	{
-		CollisionEvent event = *lstEvents.begin();
+		auto event = *lstEvents.begin();
 		lstEvents.pop_front();
 		event.GetTarget().OnCollision(event);
 	}
@@ -57,13 +57,11 @@ void PhysicsManager::Update(f32 dt)
 
 void PhysicsManager::ClearWorld()
 {
-	for (b2Body *b = pWorld->GetBodyList(); b; b = b->GetNext())
+	for (auto b = pWorld->GetBodyList(); b; b = b->GetNext())
 	{
-		ISceneObject *obj = (ISceneObject *)b->GetUserData();
-		if (obj != NULL)
-		{
+		auto obj = (ISceneObject *)b->GetUserData();
+		if (obj != nullptr)
 			pWorld->DestroyBody(b);
-		}
 	}
 }
 
@@ -87,24 +85,20 @@ void PhysicsManager::RemoveBodies()
 b2Body *PhysicsManager::CreateBody(ISceneObject *obj, b2Vec2 *customSize)
 {
 	if (!obj)
-		return NULL;
+		return nullptr;
 
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(obj->GetX() * PIX2M, obj->GetY() * PIX2M);
 	bodyDef.angle = 0;
 	bodyDef.userData = obj;
-	b2Body *b = pWorld->CreateBody(&bodyDef);
+	auto b = pWorld->CreateBody(&bodyDef);
 
 	b2PolygonShape boxShape;
 	if (customSize)
-	{
 		boxShape.SetAsBox(customSize->x * 0.5f * PIX2M, customSize->y * 0.5f * PIX2M);
-	}
 	else
-	{
 		boxShape.SetAsBox(obj->GetWidth() * 0.5f * PIX2M, obj->GetHeight() * 0.5f * PIX2M);
-	}
 
 	b2FixtureDef fixDef;
 	fixDef.shape = &boxShape;
@@ -119,24 +113,20 @@ b2Body *PhysicsManager::CreateBody(ISceneObject *obj, b2Vec2 *customSize)
 b2Body *PhysicsManager::CreateKinematicBody(ISceneObject *obj, b2Vec2 *customSize)
 {
 	if (!obj)
-		return NULL;
+		return nullptr;
 
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_kinematicBody;
 	bodyDef.position.Set(obj->GetX() * PIX2M, obj->GetY() * PIX2M);
 	bodyDef.angle = 0;
 	bodyDef.userData = obj;
-	b2Body *b = pWorld->CreateBody(&bodyDef);
+	auto b = pWorld->CreateBody(&bodyDef);
 
 	b2PolygonShape boxShape;
 	if (customSize)
-	{
 		boxShape.SetAsBox(customSize->x * 0.5f * PIX2M, customSize->y * 0.5f * PIX2M);
-	}
 	else
-	{
 		boxShape.SetAsBox(obj->GetWidth() * 0.5f * PIX2M, obj->GetHeight() * 0.5f * PIX2M);
-	}
 
 	b2FixtureDef fixDef;
 	fixDef.shape = &boxShape;
@@ -160,7 +150,7 @@ void PhysicsManager::DestroyBody(b2Body *body)
 b2Body *PhysicsManager::CreateStaticBody(ISceneObject *obj, BodyType type, bool track, b2Vec2 *customSize)
 {
 	if (!obj)
-		return NULL;
+		return nullptr;
 
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_staticBody;
@@ -169,18 +159,14 @@ b2Body *PhysicsManager::CreateStaticBody(ISceneObject *obj, BodyType type, bool 
 	// Aqui estou compensando o x e y com metade da largura e altura.
 	bodyDef.position.Set((obj->GetX() + (obj->GetWidth() * 0.5f)) * PIX2M, (obj->GetY() + (obj->GetHeight() * 0.5f)) * PIX2M);
 	bodyDef.angle = 0.0f;
-	bodyDef.userData = track ? obj : NULL;
-	b2Body *b = pWorld->CreateBody(&bodyDef);
+	bodyDef.userData = track ? obj : nullptr;
+	auto b = pWorld->CreateBody(&bodyDef);
 
 	b2PolygonShape boxShape;
 	if (customSize)
-	{
 		boxShape.SetAsBox(customSize->x * 0.5f * PIX2M, customSize->y * 0.5f * PIX2M);
-	}
 	else
-	{
 		boxShape.SetAsBox(obj->GetWidth() * 0.5f * PIX2M, obj->GetHeight() * 0.5f * PIX2M);
-	}
 
 	b2FixtureDef fixDef;
 	fixDef.shape = &boxShape;
@@ -204,10 +190,10 @@ void PhysicsManager::AddContact(b2Fixture *fixture, b2Body *body, b2Fixture *oth
 		it = mapCollisions.insert(it, std::make_pair(body, CollisionCounterMap()));
 	}
 
-	CollisionCounterMap &counter = it->second;
+	auto &counter = it->second;
 
 	//Now check if the body in the cache is colliding with the other body
-	CollisionCounterMap::iterator counterIt = counter.lower_bound(other);
+	auto counterIt = counter.lower_bound(other);
 	if ((counterIt != counter.end()) && !(counter.key_comp()(body, counterIt->first)))
 	{
 		//Already exists, increment counter
@@ -228,14 +214,14 @@ void PhysicsManager::AddContact(b2Fixture *fixture, b2Body *body, b2Fixture *oth
 
 void PhysicsManager::RemoveContact(b2Fixture *fixture, b2Body *body, b2Fixture *otherFixture, b2Body *other)
 {
-	CollisionCacheMap::iterator it = mapCollisions.find(body);
+	auto it = mapCollisions.find(body);
 	if (it == mapCollisions.end())
 	{
 		Log("[PhysicsManager::RemoveContact] Warning: Body already removed");
 		return;
 	}
 
-	CollisionCounterMap::iterator counterIt = it->second.find(other);
+	auto counterIt = it->second.find(other);
 	if (counterIt == it->second.end())
 	{
 		Log("[PhysicsManager::RemoveContact] Warning: Other already removed");
@@ -263,9 +249,9 @@ void PhysicsManager::ClearContacts(b2Body *body)
 {
 	mapCollisions.erase(body);
 
-	for (CollisionCacheMap::iterator it = mapCollisions.begin(), end = mapCollisions.end(); it != end; )
+	for (auto it = mapCollisions.begin(), end = mapCollisions.end(); it != end; )
 	{
-		CollisionCacheMap::iterator original = it++;
+		auto original = it++;
 
 		original->second.erase(body);
 		if (original->second.empty())
@@ -274,54 +260,44 @@ void PhysicsManager::ClearContacts(b2Body *body)
 
 	//
 	//Clear events
-	CollisionEventList::iterator next;
-	for (CollisionEventList::iterator it = lstEvents.begin(), end = lstEvents.end();it != end;it = next)
+	auto it = lstEvents.begin(), end = lstEvents.end();
+	decltype(it) next;
+	for (; it != end; it = next)
 	{
 		next = it++;
-
 		if (&it->GetTargetBody() == body || &it->GetOtherBody() == body)
-		{
 			lstEvents.erase(it);
-		}
 	}
 }
 
 void PhysicsManager::BeginContact(b2Contact *contact)
 {
-	b2Fixture *fixtureA = contact->GetFixtureA();
-	b2Fixture *fixtureB = contact->GetFixtureB();
+	auto fixtureA = contact->GetFixtureA();
+	auto fixtureB = contact->GetFixtureB();
 
-	b2Body *a = fixtureA->GetBody();
-	b2Body *b = fixtureB->GetBody();
+	auto a = fixtureA->GetBody();
+	auto b = fixtureB->GetBody();
 
 	if (fixtureA->GetUserData())
-	{
 		this->AddContact(fixtureA, a, fixtureB, b);
-	}
 
 	if (fixtureB->GetUserData())
-	{
 		this->AddContact(fixtureB, b, fixtureA, a);
-	}
 }
 
 void PhysicsManager::EndContact(b2Contact *contact)
 {
-	b2Fixture *fixtureA = contact->GetFixtureA();
-	b2Fixture *fixtureB = contact->GetFixtureB();
+	auto fixtureA = contact->GetFixtureA();
+	auto fixtureB = contact->GetFixtureB();
 
-	b2Body *a = fixtureA->GetBody();
-	b2Body *b = fixtureB->GetBody();
+	auto a = fixtureA->GetBody();
+	auto b = fixtureB->GetBody();
 
 	if (fixtureA->GetUserData())
-	{
 		this->RemoveContact(fixtureA, a, fixtureB, b);
-	}
 
 	if (fixtureB->GetUserData())
-	{
 		this->RemoveContact(fixtureB, b, fixtureA, a);
-	}
 }
 
 class MyRayCastCallback: public b2RayCastCallback

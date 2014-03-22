@@ -2,18 +2,16 @@
 #include "entityfactory.h"
 #include "../scene/gamescene.h"
 
-ENTITY_CREATOR("Weapon", WeaponEntity);
+ENTITY_CREATOR("Weapon", WeaponEntity)
 
 WeaponEntity::WeaponEntity()
 	: ItemEntity("Weapon", "Weapon")
 	, uWeaponId(0)
 {
-
 }
 
 WeaponEntity::~WeaponEntity()
 {
-
 }
 
 void WeaponEntity::Load(MetadataObject &metadata, SceneNode *sprites)
@@ -40,10 +38,10 @@ void WeaponEntity::OnCollision(const CollisionEvent &event)
 	{
 		Log("On collided with weapon");
 
-		Entity *other = event.GetOtherEntity();
+		auto other = event.GetOtherEntity();
 		if (other != nullptr && other->GetClassName() == "OptimistPlayer")
 		{
-			PlayerEntity *player = static_cast<PlayerEntity *>(other);
+			auto player = static_cast<PlayerEntity *>(other);
 
 			// Disable item
 			this->pSprite->SetVisible(false);
