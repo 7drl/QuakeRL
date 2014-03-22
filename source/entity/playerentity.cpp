@@ -64,6 +64,15 @@ PlayerEntity::PlayerEntity(const char *className, const char *spriteName)
 	, pEnemyTarget(nullptr)
 	, bCanMove(true)
 {
+	bWeponsGotten[0] = false;
+	bWeponsGotten[1] = true;
+	bWeponsGotten[2] = true;
+	bWeponsGotten[3] = false;
+	bWeponsGotten[4] = false;
+	bWeponsGotten[5] = false;
+	bWeponsGotten[6] = false;
+	bWeponsGotten[7] = false;
+	bWeponsGotten[8] = false;
 }
 
 PlayerEntity::~PlayerEntity()
@@ -387,14 +396,50 @@ ItemTypes::Consumables PlayerEntity::GetItem() const
 
 void PlayerEntity::SetWeapon(ItemTypes::Weapons weapon)
 {
-	eWeapon = weapon;
 
-	if (GetWeapon() == ItemTypes::Rifle || GetWeapon() == ItemTypes::Shotgun) gGui->SetAmmoSelected(uQuantityAmmoShells);
-	else if (GetWeapon() == ItemTypes::Nailgun || GetWeapon() == ItemTypes::HeavyNailgun) gGui->SetAmmoSelected(uQuantityAmmoNails);
-	else if (GetWeapon() == ItemTypes::GrenadeLauncher || GetWeapon() == ItemTypes::RocketLauncher) gGui->SetAmmoSelected(uQuantityAmmoRockets);
-	else gGui->SetAmmoSelected(uQuantityAmmoShock);
+	if (weapon == ItemTypes::Rifle && bWeponsGotten[ItemTypes::Weapons::Rifle])
+	{
+		eWeapon = weapon;
+		gGui->SetAmmoSelected(uQuantityAmmoShells);
+		gGui->OnChangeWeapon(weapon, bWeponsGotten);
+	}
+	else if (weapon == ItemTypes::Shotgun && bWeponsGotten[ItemTypes::Weapons::Shotgun])
+	{
+		eWeapon = weapon;
+		gGui->SetAmmoSelected(uQuantityAmmoShells);
+		gGui->OnChangeWeapon(weapon, bWeponsGotten);
+	}
+	else if (weapon == ItemTypes::Nailgun && bWeponsGotten[ItemTypes::Weapons::Nailgun])
+	{
+		eWeapon = weapon;
+		gGui->SetAmmoSelected(uQuantityAmmoNails);
+		gGui->OnChangeWeapon(weapon, bWeponsGotten);
+	}
+	else if (weapon == ItemTypes::HeavyNailgun && bWeponsGotten[ItemTypes::Weapons::HeavyNailgun])
+	{
+		eWeapon = weapon;
+		gGui->SetAmmoSelected(uQuantityAmmoNails);
+		gGui->OnChangeWeapon(weapon, bWeponsGotten);
+	}
+	else if (weapon == ItemTypes::GrenadeLauncher && bWeponsGotten[ItemTypes::Weapons::GrenadeLauncher])
+	{
+		eWeapon = weapon;
+		gGui->SetAmmoSelected(uQuantityAmmoRockets);
+		gGui->OnChangeWeapon(weapon, bWeponsGotten);
+	}
+	else if (weapon == ItemTypes::RocketLauncher && bWeponsGotten[ItemTypes::Weapons::RocketLauncher])
+	{
+		eWeapon = weapon;
+		gGui->SetAmmoSelected(uQuantityAmmoRockets);
+		gGui->OnChangeWeapon(weapon, bWeponsGotten);
+	}
+	else if((weapon == ItemTypes::Shockgun && bWeponsGotten[ItemTypes::Weapons::Shockgun]))
+	{
+		eWeapon = weapon;
+		gGui->SetAmmoSelected(uQuantityAmmoShock);
+		gGui->OnChangeWeapon(weapon, bWeponsGotten);
+	}
 
-	gGui->OnChangeWeapon(weapon, bWeponsGotten);
 }
 
 ItemTypes::Weapons PlayerEntity::GetWeapon() const
