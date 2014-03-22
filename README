@@ -13,12 +13,14 @@ Marlus Cadanus da Costa
 Murilo Cadanus da Costa
 
 Windows Installation
-
 Simple unzip the files and double click on quakerl.exe, have fun!
-
+Download link: https://www.dropbox.com/s/5nfe9rtglbc8g83/QuakeRL.zip
 In case que game complains about OpenAL DLLs, please run oalinst.exe (included in Windows package)
 
+MacOSX (10.7+)
+Simple unzip the file and execute the .app file
+Download link: http://7drl.org/wp-content/uploads/2014/03/quakerl.zip
+
 Linux (Ubuntu 64bits)
-
 Simple unzip the files and execute quakerl.linux.bin64, have fun!
-
+Download link: http://7drl.org/wp-content/uploads/2014/03/Quakerl-linux-64.tar.gz
