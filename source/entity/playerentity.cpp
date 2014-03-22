@@ -767,7 +767,7 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		gGui->SetAmmoNails(uQuantityAmmoNails);
 
 		if(GetWeapon() == ItemTypes::Nailgun || GetWeapon() == ItemTypes::HeavyNailgun)
-			gGui->SetAmmoSelected(uQuantityAmmoShells);
+			gGui->SetAmmoSelected(uQuantityAmmoNails);
 	}
 
 	if(item == ItemTypes::RocketsAmmo)
@@ -780,7 +780,7 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 
 		if(GetWeapon() == ItemTypes::GrenadeLauncher
 				|| GetWeapon() == ItemTypes::RocketLauncher)
-			gGui->SetAmmoSelected(uQuantityAmmoShells);
+			gGui->SetAmmoSelected(uQuantityAmmoRockets);
 	}
 
 	if(item == ItemTypes::ShockAmmo)
@@ -792,7 +792,7 @@ void PlayerEntity::OnCollect(u32 item, u32 amount)
 		gGui->SetAmmoCells(uQuantityAmmoShock);
 
 		if(GetWeapon() == ItemTypes::Shockgun)
-			gGui->SetAmmoSelected(uQuantityAmmoShells);
+			gGui->SetAmmoSelected(uQuantityAmmoShock);
 	}
 }
 
@@ -891,7 +891,7 @@ bool PlayerEntity::DecreaseAmmo()
 		{
 			uQuantityAmmoNails--;
 			gGui->SetAmmoNails(uQuantityAmmoNails);
-			gGui->SetAmmoSelected(uQuantityAmmoShells);
+			gGui->SetAmmoSelected(uQuantityAmmoNails);
 			return true;
 		}
 		else
@@ -904,7 +904,7 @@ bool PlayerEntity::DecreaseAmmo()
 		{
 			uQuantityAmmoRockets--;
 			gGui->SetAmmoRockets(uQuantityAmmoRockets);
-			gGui->SetAmmoSelected(uQuantityAmmoShells);
+			gGui->SetAmmoSelected(uQuantityAmmoRockets);
 			return true;
 		}
 		else
@@ -916,7 +916,7 @@ bool PlayerEntity::DecreaseAmmo()
 		{
 			uQuantityAmmoShock--;
 			gGui->SetAmmoCells(uQuantityAmmoShock);
-			gGui->SetAmmoSelected(uQuantityAmmoShells);
+			gGui->SetAmmoSelected(uQuantityAmmoShock);
 			return true;
 		}
 		else
