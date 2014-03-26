@@ -266,6 +266,8 @@ void GameScene::OnJobCompleted(FileLoader *job)
 	String mapName = clWorldManager.GenerateProceduralMap();
 	Log("Name of map generated: %s", mapName.c_str());
 
+	clWorldManager.GenerateProceduralMap2(pResourceManager);
+
 	Reader r(job->pFile);
 	cScene.Load(r);
 	Log("Scene Name: %s len %d", cScene.sName.c_str(), cScene.Size());
