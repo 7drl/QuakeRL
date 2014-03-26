@@ -284,6 +284,10 @@ void GameScene::OnJobCompleted(FileLoader *job)
 	auto sprites = (SceneNode *)cScene.GetChildByName("Sprites");
 	pGameMap = (GameMap *)cScene.GetChildByName("Map");
 
+	Writer writer;
+	pGameMap->Write(writer);
+	writer.Save("test.json");
+
 	strNextLevel = pGameMap->GetProperty("NextLevel");
 
 	auto game = pGameMap->GetLayerByName("Game")->AsMetadata();

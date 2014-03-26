@@ -812,6 +812,6 @@ String WorldManager::GenerateProceduralMap()
 
 	if (writer.Save(mapFileName))
 		return mapFileName;
-	else
-		return "Error create map";
+
+	return "Error trying to create map"; // fix error handling
 }

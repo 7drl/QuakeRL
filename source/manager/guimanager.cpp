@@ -193,7 +193,7 @@ bool GuiManager::InitializeGUI()
 	fonts[3] = "fonts/Delicious-BoldItalic.otf";
 	fonts[4] = "fonts/dpquake_.ttf";
 
-	for (auto i = 0; i < sizeof(fonts) / sizeof(Rocket::Core::String); i++)
+	for (u32 i = 0; i < sizeof(fonts) / sizeof(Rocket::Core::String); i++)
 		Rocket::Core::FontDatabase::LoadFontFace(fonts[i]);
 
 	Rocket::Debugger::Initialise(pContext);
@@ -232,7 +232,7 @@ void GuiManager::OnGuiEvent(Rocket::Core::Event &ev, const Rocket::Core::String 
 	UNUSED(ev)
 	Rocket::Core::StringList commands;
 	Rocket::Core::StringUtilities::ExpandString(commands, script, ';');
-	for (auto i = 0; i < commands.size(); ++i)
+	for (u32 i = 0; i < commands.size(); ++i)
 	{
 		Rocket::Core::StringList values;
 		Rocket::Core::StringUtilities::ExpandString(values, commands[i], ' ');
