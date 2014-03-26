@@ -455,8 +455,6 @@ void GuiManager::SetAmmoShells(u32 quantity)
 	char x[100];
 	snprintf(x, 100, "%d", quantity);
 	pElementAmmoShells->SetInnerRML(Rocket::Core::String(x));
-
-	SetAmmoSelected(quantity);
 }
 
 void GuiManager::SetAmmoNails(u32 quantity)
