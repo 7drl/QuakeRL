@@ -3,7 +3,6 @@
 #include "../scene/gamescene.h"
 #include "../util/sounds.h"
 #include "../manager/guimanager.h"
-#include "MathUtil.h"
 
 #define PIX2M		0.01f
 #define M2PIX		(1.0f / PIX2M)
@@ -258,17 +257,17 @@ void EnemyEntity::FindPathToPlayer()
 		return;
 
 	auto dir = cPath.GetDirectionSteps().top();
-	if (dir.getX() != 0.0f)
+	if (dir.x != 0.0f)
 	{
-		if (dir.getX() > 0.0)
+		if (dir.x > 0.0)
 			pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x + (PIX2M * 40), pBody->GetTransform().p.y), 0);
 		else
 			pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x - (PIX2M * 40), pBody->GetTransform().p.y), 0);
 	}
 
-	if (dir.getY() != 0.0f)
+	if (dir.y != 0.0f)
 	{
-		if (dir.getY() > 0.0f)
+		if (dir.y > 0.0f)
 			pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y + (PIX2M * 40)), 0);
 		else
 			pBody->SetTransform(b2Vec2(pBody->GetTransform().p.x, pBody->GetTransform().p.y - (PIX2M * 40)), 0);

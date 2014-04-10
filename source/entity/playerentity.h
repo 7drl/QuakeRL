@@ -59,7 +59,7 @@ class PlayerEntity: public SpriteEntity,
 
 		void OnCollision(const CollisionEvent &event);
 
-		Vector3f GetPosition();
+		vec3 GetPosition();
 		Sprite *GetSprite() const;
 		b2Vec2 GetBodyPosition() const;
 
@@ -93,16 +93,16 @@ class PlayerEntity: public SpriteEntity,
 		u32 GetGold() const;
 		void SetGold(u32);
 
-		u32 GetLife() const;
-		void SetLife(u32);
+		s32 GetLife() const;
+		void SetLife(s32);
 		void RemoveLife();
 
-		u32 GetArmor() const;
-		void SetArmor(u32);
+		s32 GetArmor() const;
+		void SetArmor(s32);
 		void RemoveArmor();
 
-		u32 GetLifeTotal() const;
-		void SetLifeTotal(u32);
+		s32 GetLifeTotal() const;
+		void SetLifeTotal(s32);
 		void RemoveLifeTotal();
 
 		u32 GetStamina() const;
@@ -136,12 +136,12 @@ class PlayerEntity: public SpriteEntity,
 			u32 iAttackPower;
 			u32 iDefensePower;
 			u32 iGold;
-			u32 iLife;
-			u32 iLifeTotal;
+			s32 iLife;
+			s32 iLifeTotal;
 			u32 iStamina;
 			u32 iStaminaTotal;
 			u32 iKey;
-			u32 iArmor;
+			s32 iArmor;
 			bool bGameOver;
 		} sPlayer;
 
@@ -151,7 +151,7 @@ class PlayerEntity: public SpriteEntity,
 	protected:
 		b2Body *pBody;
 		b2Vec2 vLastPlayerPos;
-		Vector3f vPlayerVectorDirection;
+		vec3 vPlayerVectorDirection;
 
 		ItemTypes::Consumables eItem;
 		ItemTypes::Weapons eWeapon;

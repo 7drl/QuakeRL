@@ -18,7 +18,7 @@ class PathfinderManager
 
 		void Init(MapLayerTiled *mapBackground);
 		void Update(f32 dt);
-		Path &Findpath(const Vector3f &start, const Vector3f &end, Path &path);
+		Path &Findpath(const vec3 &start, const vec3 &end, Path &path);
 
 	private:
 		IPathfinder *pPathfinder;

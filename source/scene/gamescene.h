@@ -43,7 +43,7 @@ class GameScene : public IEventInputKeyboardListener,
 		void Pause();
 		void Resume();
 
-		void FogReveal(const Vector3f &pos, u32 radius);
+		void FogReveal(const vec3 &pos, u32 radius);
 
 		void OnJobCompleted(FileLoader *job);
 		void OnJobAborted();
@@ -117,9 +117,9 @@ class GameScene : public IEventInputKeyboardListener,
 		Image *pGameOverImg;
 
 		// Lerp camera
-		Vector3f	vCameraFrom;
-		Vector3f	vCameraCurrent;
-		Vector3f	vCameraTo;
+		vec3		vCameraFrom;
+		vec3		vCameraCurrent;
+		vec3		vCameraTo;
 		f32			fElapsed;
 		bool		bRequiredKeys[3];
 		bool		bMoveCamera;

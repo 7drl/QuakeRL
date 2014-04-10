@@ -85,7 +85,7 @@ class GameFlow : public IGameApp,
 
 		String sSceneFile;
 
-		Vector3f vCameraPos;
+		vec3 vCameraPos;
 };
 
 inline Camera *GameFlow::GetCamera() const

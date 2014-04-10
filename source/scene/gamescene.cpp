@@ -116,13 +116,13 @@ void GameScene::UseKey(u32 key)
 		this->ChangeLevel();
 }
 
-void GameScene::FogReveal(const Vector3f &pos, u32 radius)
+void GameScene::FogReveal(const vec3 &pos, u32 radius)
 {
 	if (!pFog)
 		return;
 
-	f32 px = pos.getX() - 20;
-	f32 py = pos.getY() - 20;
+	f32 px = pos.x - 20;
+	f32 py = pos.y - 20;
 	s32 sx = static_cast<s32>((px / iTileSize) + iTileSize / 2) - 4;
 	s32 sy = static_cast<s32>((py / iTileSize) + iTileSize / 2) - 4;
 	s32 r = s32(radius);
@@ -185,7 +185,7 @@ bool GameScene::Update(f32 dt)
 	if (gGameData->sGamePlay.bIsGameOver == true)
 	{
 		pGameOverImg->SetVisible(true);
-		pGameOverImg->SetPosition(pCamera->GetPosition() - Vector3f(-512.0f, -384.0f, 0.0f));
+		pGameOverImg->SetPosition(pCamera->GetPosition() - vec3(-512.0f, -384.0f, 0.0f));
 
 		pPlayer->GetSprite()->SetVisible(false);
 		cFlow.OnEvent(&cOnGameOver, this);

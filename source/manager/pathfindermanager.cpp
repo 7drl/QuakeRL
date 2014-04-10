@@ -23,7 +23,7 @@ void PathfinderManager::Update(f32 dt)
 	UNUSED(dt);
 }
 
-Path &PathfinderManager::Findpath(const Vector3f &start, const Vector3f &end, Path &path)
+Path &PathfinderManager::Findpath(const vec3 &start, const vec3 &end, Path &path)
 {
 	return pPathfinder->FindPath(start, end, path);
 }

@@ -97,7 +97,7 @@ void PlayerEntity::Load(MetadataObject &metadata, SceneNode *sprites)
 	vPlayerVectorDirection = VECTOR_ZERO;
 }
 
-Vector3f PlayerEntity::GetPosition()
+vec3 PlayerEntity::GetPosition()
 {
 	return pSprite->GetPosition();
 }
@@ -142,7 +142,7 @@ void PlayerEntity::Update(f32 dt)
 
 	// UGLY - This is used to by pass a problem with colliders
 	auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-	auto curPos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX)), -10);
+	auto curPos = vec3(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX)), -10);
 	auto tileId = map->GetTileAt(curPos);
 
 	if (tileId == ProceduralManager::eTiles::tileDownStairs)
@@ -159,7 +159,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 	if ((k == eKey::Up || k == eKey::W) && iCurrentState != Jump)
 	{
 		auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-		auto movePos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) - 40), -10);
+		auto movePos = vec3(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) - 40), -10);
 		auto tileId = map->GetTileAt(movePos);
 
 		if (tileId != ProceduralManager::eTiles::tileStoneWall) // Wall
@@ -185,7 +185,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 	if (k == eKey::Left || k == eKey::A)
 	{
 		auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-		auto movePos = Vector3f(ceil((pBody->GetTransform().p.x * M2PIX) - 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
+		auto movePos = vec3(ceil((pBody->GetTransform().p.x * M2PIX) - 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
 		auto tileId = map->GetTileAt(movePos);
 
 		if (tileId != ProceduralManager::eTiles::tileStoneWall) // Wall
@@ -211,7 +211,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 	if (k == eKey::Right || k == eKey::D)
 	{
 		auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-		auto movePos = Vector3f(ceil((pBody->GetTransform().p.x * M2PIX) + 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
+		auto movePos = vec3(ceil((pBody->GetTransform().p.x * M2PIX) + 40), ceil(pBody->GetTransform().p.y * M2PIX), -10);
 		auto tileId = map->GetTileAt(movePos);
 
 		if (tileId != ProceduralManager::eTiles::tileStoneWall) // Wall
@@ -237,7 +237,7 @@ bool PlayerEntity::OnInputKeyboardPress(const EventInputKeyboard *ev)
 	if (k == eKey::Down || k == eKey::S)
 	{
 		auto map = gGameScene->GetGameMap().GetLayerByName("Background")->AsTiled();
-		auto movePos = Vector3f(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) + 40 ), -10);
+		auto movePos = vec3(ceil(pBody->GetTransform().p.x * M2PIX), ceil((pBody->GetTransform().p.y * M2PIX) + 40 ), -10);
 		auto tileId = map->GetTileAt(movePos);
 
 		if (tileId != ProceduralManager::eTiles::tileStoneWall) // Wall
@@ -516,11 +516,11 @@ void PlayerEntity::SetGold(const u32 gold)
 	//gGui->SetGold(gold);
 }
 
-u32 PlayerEntity::GetLife() const
+s32 PlayerEntity::GetLife() const
 {
 	return sPlayer.iLife;
 }
-void PlayerEntity::SetLife(const u32 life)
+void PlayerEntity::SetLife(const s32 life)
 {
 	sPlayer.iLife = life;
 	gGui->SetLife(life);
@@ -530,12 +530,12 @@ void PlayerEntity::RemoveLife()
 	sPlayer.iLife--;
 }
 
-u32 PlayerEntity::GetArmor() const
+s32 PlayerEntity::GetArmor() const
 {
 	return sPlayer.iArmor;
 }
 
-void PlayerEntity::SetArmor(u32 armor)
+void PlayerEntity::SetArmor(s32 armor)
 {
 	sPlayer.iArmor = armor;
 	gGui->SetArmor(armor);
@@ -546,12 +546,12 @@ void PlayerEntity::RemoveArmor()
 	sPlayer.iArmor--;
 }
 
-u32 PlayerEntity::GetLifeTotal() const
+s32 PlayerEntity::GetLifeTotal() const
 {
 	return sPlayer.iLifeTotal;
 }
 
-void PlayerEntity::SetLifeTotal(const u32 lifeTotal)
+void PlayerEntity::SetLifeTotal(const s32 lifeTotal)
 {
 	sPlayer.iLifeTotal = lifeTotal;
 }
