@@ -14,6 +14,7 @@ class WorldManager
 
 		Entity *BuildEntity(MetadataObject &metadata, SceneNode *sprites);
 		String GenerateProceduralMap();
+		GameMap *GenerateProceduralMap2(ResourceManager *res);
 
 		void Clear();
 		void Update(f32 dt);

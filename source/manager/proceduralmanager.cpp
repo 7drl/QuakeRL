@@ -159,6 +159,7 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 					break;
 			}
 		}
+
 		if (validTile > -1)
 		{
 			//choose what to build now at our newly found place, and at what direction
@@ -282,7 +283,6 @@ void ProceduralManager::BuildWorld(const u32 width, const u32 height, u32 dungeo
 			quantityItems--;
 		}
 	}
-
 }
 
 void ProceduralManager::SetTile(u32 x, u32 y, u32 tileType)
@@ -345,7 +345,7 @@ bool ProceduralManager::MakeRoom(u32 x, u32 y, u32 xlength, u32 ylength, u32 dir
 		case 0: //north
 		{
 			//Check if there's enough space left for it
-			for (u32 ytemp = y; ytemp > (y-ylen); ytemp--)
+			for (u32 ytemp = y; ytemp > (y - ylen); ytemp--)
 			{
 				if (ytemp > iYSize)
 					return false;

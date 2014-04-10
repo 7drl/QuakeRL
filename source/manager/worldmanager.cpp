@@ -80,6 +80,81 @@ void WorldManager::ActivateAllEntites(const String &name)
 	}
 }
 
+GameMap *WorldManager::GenerateProceduralMap2(ResourceManager *res)
+{
+	auto map= sdNew(GameMap);
+	map->sName = "Map";
+	map->SetZ(200.f);
+	map->SetTileSize({40, 40});
+	map->SetMapSize({30, 30});
+
+	auto tex = (ITexture *)res->Get("textures/quakerl_tileset.png", ITexture::GetTypeId());
+
+	auto ts = sdNew(TileSet);
+	ts->sName = "ground_tileset";
+	ts->SetTileSize({40, 40});
+	ts->SetTexture(tex);
+	map->AddTileSet(ts);
+
+	map->SetProperty("NextLevel", "pathfind.scene");
+
+	u32 bgData[] = {3, 3, 3, 1, 1, 3, 3, 2, 2, 3};
+
+	auto bg = sdNew(MapLayerTiled);
+	bg->sName = "Background";
+	bg->SetMapSize({30, 30});
+	bg->SetTileData(bgData, countof(bgData));
+	map->AddLayer(bg);
+
+	auto col = sdNew(MapLayerMetadata);
+	col->sName = "Colliders";
+	col->SetMapSize({30, 30});
+
+	{
+		auto obj = sdNew(MetadataObject);
+		obj->SetHeight(30);
+		obj->SetWidth(40);
+		obj->SetX(10);
+		obj->SetY(20);
+		col->Add(obj);
+	}
+	map->AddLayer(col);
+
+	auto go = sdNew(MapLayerMetadata);
+	go->sName = "Game";
+	go->SetMapSize({30, 30});
+
+	{
+		auto obj = sdNew(MetadataObject);
+		obj->SetHeight(30);
+		obj->SetWidth(40);
+		obj->SetX(10);
+		obj->SetY(20);
+		obj->sName = "OptimistPlayer";
+		obj->SetProperty("Class", "OptimistPlayer");
+		go->Add(obj);
+	}
+
+	{
+		auto obj = sdNew(MetadataObject);
+		obj->SetHeight(30);
+		obj->SetWidth(40);
+		obj->SetX(10);
+		obj->SetY(20);
+		obj->sName = "NextLevel";
+		obj->SetProperty("Class", "Trigger");
+		obj->SetProperty("Once");
+		go->Add(obj);
+	}
+	map->AddLayer(go);
+
+	Writer w;
+	map->Write(w);
+	w.Save("dump.json");
+
+	return map;
+}
+
 String WorldManager::GenerateProceduralMap()
 {
 	// Build the map
@@ -812,6 +887,6 @@ String WorldManager::GenerateProceduralMap()
 
 	if (writer.Save(mapFileName))
 		return mapFileName;
-	else
-		return "Error create map";
+
+	return "Error trying to create map"; // fix error handling
 }
